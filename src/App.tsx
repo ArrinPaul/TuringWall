@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { useGameStore } from './store/gameStore';
 import { useIdleReturn } from './hooks/idle';
-import { playTone } from './audio/tone';
+import { playTone, isSoundMuted, toggleSoundMuted } from './audio/tone';
 import { AttractScreen } from './components/AttractScreen';
 import { PlayingScreen } from './components/PlayingScreen';
 import { RevealedPanel } from './components/RevealedPanel';
@@ -27,6 +27,25 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
     showStats,
     returnToAttract,
   } = store();
+
+  const [muted, setMuted] = useState(isSoundMuted());
+
+  const handleToggleMute = () => {
+    const nextVal = toggleSoundMuted();
+    setMuted(nextVal);
+  };
+
+  // Keyboard shortcut for Mute [M]
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'm' || e.key === 'M') {
+        e.preventDefault();
+        handleToggleMute();
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   // Kiosk auto-reset: Return to attract screen on 45s of user inactivity
   useIdleReturn(screen !== 'attract', () => {
@@ -53,7 +72,19 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
   }, [guessSeq, lastGuessCorrect, milestoneHit]);
 
   return (
-    <main className="w-full h-full min-h-screen bg-slate-950 text-slate-100 flex flex-col items-center justify-center">
+    <main className="w-full h-full min-h-screen bg-slate-950 text-slate-100 flex flex-col items-center justify-center relative">
+      {/* Floating Sound Control Button */}
+      <button
+        type="button"
+        onClick={handleToggleMute}
+        aria-label={muted ? 'Unmute sound' : 'Mute sound'}
+        className="fixed top-4 right-4 z-50 p-2.5 rounded-full bg-slate-900/80 border border-slate-700/80 text-slate-300 hover:text-white hover:bg-slate-800 backdrop-blur-sm transition-all text-sm flex items-center space-x-1.5 cursor-pointer shadow-lg"
+        title="Toggle sound (M)"
+      >
+        <span>{muted ? '🔇' : '🔊'}</span>
+        <span className="hidden sm:inline text-xs font-mono text-slate-400">[M]</span>
+      </button>
+
       <AnimatePresence mode="wait">
         {screen === 'attract' && (
           <AttractScreen key="attract" onStart={startRound} />

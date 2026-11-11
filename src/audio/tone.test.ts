@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest';
-import { playTone } from './tone';
+import { playTone, isSoundMuted, setSoundMuted, toggleSoundMuted } from './tone';
 
 describe('playTone', () => {
   afterEach(() => {
@@ -48,5 +48,13 @@ describe('playTone', () => {
     // @ts-expect-error simulating a browser/environment with no Web Audio support
     delete window.AudioContext;
     expect(() => playTone('incorrect')).not.toThrow();
+  });
+
+  it('supports muting and unmuting', () => {
+    setSoundMuted(true);
+    expect(isSoundMuted()).toBe(true);
+    expect(() => playTone('correct')).not.toThrow();
+    toggleSoundMuted();
+    expect(isSoundMuted()).toBe(false);
   });
 });

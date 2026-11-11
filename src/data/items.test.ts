@@ -2,13 +2,12 @@ import { describe, it, expect } from 'vitest';
 import { ITEMS } from './items';
 
 describe('ITEMS', () => {
-  it('has 18-20 items with unique ids and both kinds represented', () => {
-    expect(ITEMS.length).toBeGreaterThanOrEqual(18);
-    expect(ITEMS.length).toBeLessThanOrEqual(20);
+  it('has 30+ items with unique ids and both kinds represented', () => {
+    expect(ITEMS.length).toBeGreaterThanOrEqual(30);
     const ids = new Set(ITEMS.map((i) => i.id));
     expect(ids.size).toBe(ITEMS.length);
     expect(ITEMS.some((i) => i.kind === 'image')).toBe(true);
-    expect(ITEMS.filter((i) => i.kind === 'image').length).toBeGreaterThanOrEqual(4);
+    expect(ITEMS.filter((i) => i.kind === 'image').length).toBeGreaterThanOrEqual(6);
   });
 
   it('every item has a non-empty explanation and well-formed kind-specific fields', () => {

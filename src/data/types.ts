@@ -4,6 +4,7 @@ export interface BaseItem {
   id: string;
   isAI: boolean;
   explanation: string;
+  category?: string;
 }
 
 export interface TextItem extends BaseItem {

@@ -5,6 +5,8 @@ import sunsetLandscapeUrl from '../assets/placeholders/sunset-landscape.svg';
 import cyberPortraitUrl from '../assets/placeholders/cyber-portrait.svg';
 import coffeeCupUrl from '../assets/placeholders/coffee-cup.svg';
 import robotCatUrl from '../assets/placeholders/robot-cat.svg';
+import cyberCityUrl from '../assets/placeholders/cyber-city.svg';
+import origamiCraneUrl from '../assets/placeholders/origami-crane.svg';
 
 export const ITEMS: Item[] = [
   // 1. Text items ported from v1
@@ -14,6 +16,7 @@ export const ITEMS: Item[] = [
     text: 'Got your text, be there in 10!',
     isAI: false,
     explanation: 'Real texts are messy and casual — this is just a quick human reply.',
+    category: 'Chat',
   },
   {
     id: 'poem-rain',
@@ -21,6 +24,7 @@ export const ITEMS: Item[] = [
     text: 'Raindrops hum a quiet tune, dancing lightly past the moon.',
     isAI: true,
     explanation: 'AI poetry often leans on pretty but generic imagery like this — smooth, but says nothing specific.',
+    category: 'Poetry',
   },
   {
     id: 'birthday-wish',
@@ -28,6 +32,7 @@ export const ITEMS: Item[] = [
     text: 'happy bday!! cant believe ur 18 already lol',
     isAI: false,
     explanation: 'The typos and slang are a strong human tell — AI text is usually cleaner than this.',
+    category: 'Chat',
   },
   {
     id: 'product-description',
@@ -35,6 +40,7 @@ export const ITEMS: Item[] = [
     text: 'Elevate your daily routine with this premium, thoughtfully designed accessory built for modern living.',
     isAI: true,
     explanation: 'Vague buzzwords like "elevate" and "thoughtfully designed" with no real detail are a classic AI-marketing-copy pattern.',
+    category: 'Marketing',
   },
   {
     id: 'diary-entry',
@@ -42,6 +48,7 @@ export const ITEMS: Item[] = [
     text: "Didn't sleep well, dreamt about the exam again. Hope today goes okay.",
     isAI: false,
     explanation: 'Specific, slightly rambling personal detail like this is hard for AI to fake convincingly.',
+    category: 'Journal',
   },
   {
     id: 'motivational-quote',
@@ -49,6 +56,7 @@ export const ITEMS: Item[] = [
     text: 'Every challenge you face is an opportunity in disguise, waiting to unlock your true potential.',
     isAI: true,
     explanation: 'This is a textbook AI-generated "inspirational quote" — broad, universally applicable, and a little hollow.',
+    category: 'Inspiration',
   },
   {
     id: 'long-complaint',
@@ -56,15 +64,17 @@ export const ITEMS: Item[] = [
     text: "Honestly the wifi here has been down since morning, I tried restarting the router twice, called support and they just said 'please wait 24 hours' which is not helpful when I have an assignment due tonight.",
     isAI: false,
     explanation: 'The rambling cause-and-effect venting with a specific, petty frustration reads as genuinely human.',
+    category: 'Complaint',
   },
 
-  // 2. Additional curated text items
+  // 2. Curated batch
   {
     id: 'essay-intro',
     kind: 'text',
     text: 'Since the dawn of human civilization, communication has served as the paramount catalyst for societal evolution.',
     isAI: true,
     explanation: 'Grand rhetorical clichés like "Since the dawn of civilization" are notorious hallmarks of AI essays.',
+    category: 'Essay',
   },
   {
     id: 'group-chat',
@@ -72,6 +82,7 @@ export const ITEMS: Item[] = [
     text: 'bro did anyone actually understand question 4 on the math sheet??',
     isAI: false,
     explanation: 'Unfiltered informal phrasing and genuine confusion are natural tells of human group chat messages.',
+    category: 'School',
   },
   {
     id: 'study-tip',
@@ -79,6 +90,7 @@ export const ITEMS: Item[] = [
     text: 'To maximize cognitive retention, systematically calibrate your ambient acoustic atmosphere with binaural rhythms.',
     isAI: true,
     explanation: 'Over-engineered pseudoscientific vocabulary for a simple study tip is classic AI puffery.',
+    category: 'Advice',
   },
   {
     id: 'hallway-reminder',
@@ -86,6 +98,7 @@ export const ITEMS: Item[] = [
     text: 'bring your chemistry lab manual today or sir is going to send you out',
     isAI: false,
     explanation: 'Grounded real-world school context and straightforward, unvarnished warnings are distinctly human.',
+    category: 'School',
   },
   {
     id: 'coding-comment',
@@ -93,6 +106,7 @@ export const ITEMS: Item[] = [
     text: '// Note: temporary patch for the race condition, do not touch unless you want everything to crash',
     isAI: false,
     explanation: 'Candid developer humor and weary warnings are quintessentially human.',
+    category: 'Code',
   },
   {
     id: 'recipe-intro',
@@ -100,6 +114,7 @@ export const ITEMS: Item[] = [
     text: 'This delightful culinary journey weaves together aromatic spices to awaken your senses and nourish the soul.',
     isAI: true,
     explanation: 'Flowery, melodramatic introductions for simple recipes are typical LLM padding.',
+    category: 'Food',
   },
   {
     id: 'late-excuse',
@@ -107,9 +122,132 @@ export const ITEMS: Item[] = [
     text: 'my alarm went off but my phone fell behind the bed and i woke up at 8:45 sorry',
     isAI: false,
     explanation: 'Messy real-life accidents with believable specifics are unmistakably human.',
+    category: 'Excuse',
   },
 
-  // 3. Image items with SVG placeholders
+  // 3. New expanded questions
+  {
+    id: 'git-commit',
+    kind: 'text',
+    text: 'git commit -m "fixed bug on line 42, please do not ask why it works"',
+    isAI: false,
+    explanation: 'Developer exhaustion and unvarnished honesty in commit messages are distinctly human.',
+    category: 'Code',
+  },
+  {
+    id: 'code-doc',
+    kind: 'text',
+    text: '/** Facilitates seamless asynchronous bidirectional event aggregation across distributed nodes with zero overhead. */',
+    isAI: true,
+    explanation: 'Buzzwords like "seamless" and impossible claims like "zero overhead" are classic LLM docstring tells.',
+    category: 'Code',
+  },
+  {
+    id: 'song-lyrics',
+    kind: 'text',
+    text: 'And my heartbeat is an empty room, echo in the dark waiting for you.',
+    isAI: false,
+    explanation: 'Grounded melancholy with a specific physical acoustic metaphor written by a human songwriter.',
+    category: 'Music',
+  },
+  {
+    id: 'lyrics-ai',
+    kind: 'text',
+    text: 'Neon dreams in a digital stream, we are flying high on a cosmic beam.',
+    isAI: true,
+    explanation: 'Surface-level rhyming clichés ("stream/beam", "neon/cosmic") with zero genuine emotional core.',
+    category: 'Music',
+  },
+  {
+    id: 'social-thread',
+    kind: 'text',
+    text: 'my cat just stared at a blank wall for 45 minutes and then sneezed on my laptop screen',
+    isAI: false,
+    explanation: 'Bizarre, mundane, and specific pet behavior that reads unmistakably authentic.',
+    category: 'Social',
+  },
+  {
+    id: 'motivational-post',
+    kind: 'text',
+    text: 'Embrace the symphony of your struggles, for within each discordant note lies the cadence of future greatness.',
+    isAI: true,
+    explanation: 'Pretentious musical metaphors applied to daily struggle is textbook AI LinkedIn-style copy.',
+    category: 'Social',
+  },
+  {
+    id: 'food-critique',
+    kind: 'text',
+    text: 'The noodles were way too salty honestly, but the chili oil actually saved the entire dish.',
+    isAI: false,
+    explanation: 'Honest, balanced human review with casual colloquial nuance.',
+    category: 'Review',
+  },
+  {
+    id: 'food-ai',
+    kind: 'text',
+    text: 'A transcendent culinary masterstroke where exquisite umami notes dance in immaculate harmony.',
+    isAI: true,
+    explanation: 'Extreme hyperbole and repetitive praise words ("transcendent", "immaculate") are clear AI tells.',
+    category: 'Review',
+  },
+  {
+    id: 'student-excuse-2',
+    kind: 'text',
+    text: 'sorry i couldnt submit the pdf my power went off and the hotspot keeps disconnecting every 2 mins',
+    isAI: false,
+    explanation: 'Specific, relatable technical helplessness that students genuinely face.',
+    category: 'Excuse',
+  },
+  {
+    id: 'student-ai-excuse',
+    kind: 'text',
+    text: 'Due to unforeseen circumstantial electrical grid instability, my terminal suffered an abrupt outage.',
+    isAI: true,
+    explanation: 'No high school student speaks like a Victorian electrical engineer when asking for an extension.',
+    category: 'Excuse',
+  },
+  {
+    id: 'email-human',
+    kind: 'text',
+    text: 'hey quick question about tomorrow — are we meeting in lab 3 or the main hall?',
+    isAI: false,
+    explanation: 'Direct, informal, efficient human student communication.',
+    category: 'Email',
+  },
+  {
+    id: 'email-ai',
+    kind: 'text',
+    text: 'I trust this correspondence finds your esteemed person in robust health and radiant spirits.',
+    isAI: true,
+    explanation: 'Overly archaic greeting formulas that LLMs default to when attempting formal politeness.',
+    category: 'Email',
+  },
+  {
+    id: 'history-fact',
+    kind: 'text',
+    text: 'Napoleon was actually slightly above average French height for his era; British wartime cartoons invented the short myth.',
+    isAI: false,
+    explanation: 'Historical nuance with specific cultural context and conversational tone.',
+    category: 'History',
+  },
+  {
+    id: 'history-ai',
+    kind: 'text',
+    text: 'Throughout the grand tapestry of human chronicles, monumental leaders have continually reshaped destiny.',
+    isAI: true,
+    explanation: '"Grand tapestry of human chronicles" is one of the most recognizable generative AI essay tropes.',
+    category: 'Essay',
+  },
+  {
+    id: 'philosophy-human',
+    kind: 'text',
+    text: 'The weirdest part about growing up is realizing that adults were just making it up as they went along.',
+    isAI: false,
+    explanation: 'Vulnerable, grounded emotional realization expressed in colloquial terms.',
+    category: 'Life',
+  },
+
+  // 4. Image items with SVG placeholders
   {
     id: 'img-abstract',
     kind: 'image',
@@ -118,6 +256,7 @@ export const ITEMS: Item[] = [
     isAI: true,
     explanation: 'Hyper-symmetrical gradients and formulaic geometric composition typical of synthetic art generators.',
     isPlaceholder: true,
+    category: 'Art',
   },
   {
     id: 'img-sunset',
@@ -127,6 +266,7 @@ export const ITEMS: Item[] = [
     isAI: false,
     explanation: 'Layered silhouettes with intentional asymmetry and hand-placed horizons made by a human artist.',
     isPlaceholder: true,
+    category: 'Art',
   },
   {
     id: 'img-cyber',
@@ -136,6 +276,7 @@ export const ITEMS: Item[] = [
     isAI: true,
     explanation: 'Generic high-contrast neon glows and cyber aesthetic commonly synthesized from prompt keywords.',
     isPlaceholder: true,
+    category: 'Art',
   },
   {
     id: 'img-coffee',
@@ -145,6 +286,7 @@ export const ITEMS: Item[] = [
     isAI: false,
     explanation: 'A charming minimalist vector illustration drawn by a human designer capturing morning warmth.',
     isPlaceholder: true,
+    category: 'Art',
   },
   {
     id: 'img-robot',
@@ -154,5 +296,26 @@ export const ITEMS: Item[] = [
     isAI: true,
     explanation: 'Sterile sci-fi textures and hybrid animal-robot concepts generated by prompt tokens.',
     isPlaceholder: true,
+    category: 'Art',
+  },
+  {
+    id: 'img-cybercity',
+    kind: 'image',
+    src: cyberCityUrl,
+    caption: 'Synthetic Metropolis Skyline',
+    isAI: true,
+    explanation: 'Formulaic neon outlines and repetitive geometric grid architecture typical of generative prompts.',
+    isPlaceholder: true,
+    category: 'Art',
+  },
+  {
+    id: 'img-crane',
+    kind: 'image',
+    src: origamiCraneUrl,
+    caption: 'Folded Paper Crane Study',
+    isAI: false,
+    explanation: 'Carefully observed physical creases and paper light-bounce illustrated by a human vector artist.',
+    isPlaceholder: true,
+    category: 'Art',
   },
 ];

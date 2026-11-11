@@ -1,5 +1,19 @@
 let audioCtx: AudioContext | null = null;
 let lastAudioContextClass: unknown = null;
+let soundMuted = false;
+
+export function isSoundMuted(): boolean {
+  return soundMuted;
+}
+
+export function setSoundMuted(muted: boolean): void {
+  soundMuted = muted;
+}
+
+export function toggleSoundMuted(): boolean {
+  soundMuted = !soundMuted;
+  return soundMuted;
+}
 
 function getAudioContext(): AudioContext | null {
   if (typeof window === 'undefined') {
@@ -35,6 +49,9 @@ function getAudioContext(): AudioContext | null {
 
 export function playTone(kind: 'correct' | 'incorrect'): void {
   try {
+    if (soundMuted) {
+      return;
+    }
     const ctx = getAudioContext();
     if (!ctx) {
       return;
