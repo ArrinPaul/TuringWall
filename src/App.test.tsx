@@ -16,13 +16,13 @@ describe('App', () => {
 
   it('tapping attract starts a round and shows an item', () => {
     render(<App store={createGameStore(fixtureItems, () => 0)} />);
-    fireEvent.pointerDown(screen.getByTestId('attract-root'));
+    fireEvent.click(screen.getByTestId('attract-root'));
     expect(screen.getByText(/quote a|quote b/i)).toBeInTheDocument();
   });
 
   it('guessing shows the reveal panel with the matching verdict', () => {
     render(<App store={createGameStore(fixtureItems, () => 0)} />);
-    fireEvent.pointerDown(screen.getByTestId('attract-root'));
+    fireEvent.click(screen.getByTestId('attract-root'));
     fireEvent.click(screen.getByText('Human'));
     expect(screen.getByText(/correct/i)).toBeInTheDocument();
   });
@@ -30,7 +30,7 @@ describe('App', () => {
   it('a rapid double-click on a guess button only registers one guess', () => {
     const store = createGameStore(fixtureItems, () => 0);
     render(<App store={store} />);
-    fireEvent.pointerDown(screen.getByTestId('attract-root'));
+    fireEvent.click(screen.getByTestId('attract-root'));
     const humanBtn = screen.getByText('Human');
     fireEvent.click(humanBtn);
     fireEvent.click(humanBtn);
@@ -50,7 +50,7 @@ describe('App', () => {
       },
     ];
     render(<App store={createGameStore(imageItems, () => 0)} />);
-    fireEvent.pointerDown(screen.getByTestId('attract-root'));
+    fireEvent.click(screen.getByTestId('attract-root'));
     fireEvent.error(screen.getByRole('img'));
     expect(screen.getByText(/image unavailable/i)).toBeInTheDocument();
   });
@@ -61,7 +61,7 @@ describe('App', () => {
 
     it('returns to attract after 45s of no interaction', () => {
       render(<App store={createGameStore(fixtureItems, () => 0)} />);
-      fireEvent.pointerDown(screen.getByTestId('attract-root'));
+      fireEvent.click(screen.getByTestId('attract-root'));
       act(() => {
         vi.advanceTimersByTime(46000);
       });
@@ -70,7 +70,7 @@ describe('App', () => {
 
     it('does not return to attract if an interaction resets the timer first', () => {
       render(<App store={createGameStore(fixtureItems, () => 0)} />);
-      fireEvent.pointerDown(screen.getByTestId('attract-root'));
+      fireEvent.click(screen.getByTestId('attract-root'));
       act(() => {
         vi.advanceTimersByTime(30000);
       });

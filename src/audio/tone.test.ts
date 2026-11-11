@@ -35,7 +35,11 @@ describe('playTone', () => {
       resume: vi.fn(),
     };
     // @ts-expect-error test stub
-    window.AudioContext = vi.fn(() => ctx);
+    window.AudioContext = class {
+      constructor() {
+        return ctx as any;
+      }
+    } as any;
     expect(() => playTone('correct')).not.toThrow();
     expect(oscillator.start).toHaveBeenCalled();
   });

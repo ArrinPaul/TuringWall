@@ -9,7 +9,6 @@ export const AttractScreen: React.FC<AttractScreenProps> = ({ onStart }) => {
   return (
     <div
       data-testid="attract-root"
-      onPointerDown={onStart}
       onClick={onStart}
       className="flex flex-col items-center justify-center min-h-screen w-full bg-slate-950 text-slate-100 p-8 cursor-pointer select-none text-center relative overflow-hidden"
     >
@@ -40,7 +39,7 @@ export const AttractScreen: React.FC<AttractScreenProps> = ({ onStart }) => {
           Tap Anywhere to Play
         </div>
 
-        <div className="text-slate-500 text-sm tracking-wide">
+        <div className="text-slate-400 text-sm tracking-wide font-medium">
           10-round challenges • Instant feedback • Streak celebrations
         </div>
       </motion.div>

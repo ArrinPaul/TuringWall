@@ -43,8 +43,8 @@ export const PlayingScreen: React.FC<PlayingScreenProps> = ({ item, onGuess, sta
       </div>
 
       {/* Main content display area */}
-      <div className="flex-1 flex flex-col items-center justify-center max-w-3xl w-full mx-auto my-8">
-        <div className="w-full bg-slate-900/90 border border-slate-800 rounded-3xl p-8 md:p-12 shadow-2xl backdrop-blur-sm min-h-[260px] flex flex-col items-center justify-center text-center">
+      <div className="flex-1 flex flex-col items-center justify-center max-w-3xl w-full mx-auto my-6">
+        <div className="w-full bg-slate-900/90 border border-slate-800 rounded-3xl p-6 md:p-10 shadow-2xl backdrop-blur-sm min-h-[220px] flex flex-col items-center justify-center text-center">
           {item.kind === 'text' ? (
             <p className="text-2xl md:text-3xl font-medium leading-relaxed text-slate-100 tracking-wide">
               "{item.text}"
@@ -52,12 +52,12 @@ export const PlayingScreen: React.FC<PlayingScreenProps> = ({ item, onGuess, sta
           ) : (
             <div className="w-full flex flex-col items-center">
               {imageError ? (
-                <div className="w-full max-w-md h-64 bg-slate-800/80 border-2 border-dashed border-slate-700 rounded-2xl flex flex-col items-center justify-center p-6 text-slate-400">
+                <div className="w-full max-w-md h-48 md:h-56 bg-slate-800/80 border-2 border-dashed border-slate-700 rounded-2xl flex flex-col items-center justify-center p-6 text-slate-300">
                   <span className="text-lg font-semibold text-rose-400 mb-2">Image unavailable</span>
                   <span className="text-sm text-slate-400">{item.caption}</span>
                 </div>
               ) : (
-                <div className="w-full max-w-md h-64 rounded-2xl overflow-hidden shadow-lg border border-slate-700 bg-slate-950 flex items-center justify-center">
+                <div className="w-full max-w-md h-48 md:h-56 rounded-2xl overflow-hidden shadow-lg border border-slate-700 bg-slate-950 flex items-center justify-center">
                   <img
                     src={item.src}
                     alt={item.caption}
@@ -66,13 +66,13 @@ export const PlayingScreen: React.FC<PlayingScreenProps> = ({ item, onGuess, sta
                   />
                 </div>
               )}
-              <p className="mt-4 text-slate-400 text-sm md:text-base font-medium italic">
+              <p className="mt-3 text-slate-300 text-sm md:text-base font-medium italic">
                 {item.caption}
               </p>
             </div>
           )}
         </div>
-        <p className="text-slate-500 text-sm mt-4 font-medium">Was this created by a human or AI?</p>
+        <p className="text-slate-400 text-sm mt-3 font-medium">Was this created by a human or AI?</p>
       </div>
 
       {/* Large Touch/Click Guess Buttons */}

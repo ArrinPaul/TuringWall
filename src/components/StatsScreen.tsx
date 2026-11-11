@@ -44,33 +44,33 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({ stats, onPlayAgain }) 
             <span className="text-4xl md:text-5xl font-extrabold text-emerald-400 mt-2">
               {stats.score}
             </span>
-            <span className="text-xs text-slate-500 mt-1">correct answers</span>
+            <span className="text-xs text-slate-400 mt-1">correct answers</span>
           </div>
 
           <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col items-center">
-            <span className="text-slate-400 text-sm font-medium">Accuracy</span>
+            <span className="text-slate-300 text-sm font-medium">Accuracy</span>
             <span className="text-4xl md:text-5xl font-extrabold text-indigo-400 mt-2">
               {accuracy}%
             </span>
-            <span className="text-xs text-slate-500 mt-1">
+            <span className="text-xs text-slate-400 mt-1">
               {stats.correctCount} / {stats.roundsPlayed} rounds
             </span>
           </div>
 
           <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col items-center">
-            <span className="text-slate-400 text-sm font-medium">Best Streak</span>
+            <span className="text-slate-300 text-sm font-medium">Best Streak</span>
             <span className="text-4xl md:text-5xl font-extrabold text-amber-400 mt-2">
               {stats.bestStreak}
             </span>
-            <span className="text-xs text-slate-500 mt-1">consecutive correct</span>
+            <span className="text-xs text-slate-400 mt-1">consecutive correct</span>
           </div>
 
           <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 flex flex-col items-center">
-            <span className="text-slate-400 text-sm font-medium">Rounds</span>
+            <span className="text-slate-300 text-sm font-medium">Rounds</span>
             <span className="text-4xl md:text-5xl font-extrabold text-cyan-400 mt-2">
               {stats.roundsPlayed}
             </span>
-            <span className="text-xs text-slate-500 mt-1">total played</span>
+            <span className="text-xs text-slate-400 mt-1">total played</span>
           </div>
         </div>
 

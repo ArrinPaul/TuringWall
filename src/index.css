@@ -7,5 +7,13 @@
     padding: 0;
     user-select: none;
     -webkit-user-select: none;
+    touch-action: manipulation;
+    overscroll-behavior: none;
+    -webkit-touch-callout: none;
+  }
+
+  img {
+    -webkit-user-drag: none;
+    user-drag: none;
   }
 }
