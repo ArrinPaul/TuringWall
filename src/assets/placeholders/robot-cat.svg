@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
+  <rect width="400" height="300" fill="#0f172a" rx="12"/>
+  <!-- Cat Ears -->
+  <polygon points="140,110 160,60 185,100" fill="#3b82f6" />
+  <polygon points="215,100 240,60 260,110" fill="#3b82f6" />
+  <!-- Head -->
+  <circle cx="200" cy="140" r="55" fill="#1e293b" stroke="#60a5fa" stroke-width="4" />
+  <!-- Visor / Eyes -->
+  <ellipse cx="200" cy="135" rx="35" ry="12" fill="#0284c7" />
+  <line x1="180" y1="135" x2="192" y2="135" stroke="#38bdf8" stroke-width="3" />
+  <line x1="208" y1="135" x2="220" y2="135" stroke="#38bdf8" stroke-width="3" />
+  <text x="200" y="270" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="14">Futuristic Feline Companion</text>
+</svg>
