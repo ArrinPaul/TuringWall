@@ -14,40 +14,40 @@ export function useIdleReturn(
   const onIdleRef = useRef(onIdle);
   onIdleRef.current = onIdle;
 
-  const lastInteractionRef = useRef(Date.now());
-  const triggeredRef = useRef(false);
-
   useEffect(() => {
     if (!active) {
-      triggeredRef.current = false;
       return;
     }
 
-    lastInteractionRef.current = Date.now();
-    triggeredRef.current = false;
+    let timerId: ReturnType<typeof setTimeout> | null = null;
+
+    const resetTimer = () => {
+      if (timerId !== null) {
+        clearTimeout(timerId);
+      }
+      timerId = setTimeout(() => {
+        onIdleRef.current();
+      }, timeoutMs);
+    };
+
+    // Start timer on becoming active
+    resetTimer();
 
     const handleInteraction = () => {
-      lastInteractionRef.current = Date.now();
-      triggeredRef.current = false;
+      resetTimer();
     };
 
     window.addEventListener('pointerdown', handleInteraction);
     window.addEventListener('keydown', handleInteraction);
     window.addEventListener('click', handleInteraction);
 
-    const intervalId = window.setInterval(() => {
-      const now = Date.now();
-      if (!triggeredRef.current && isIdle(lastInteractionRef.current, now, timeoutMs)) {
-        triggeredRef.current = true;
-        onIdleRef.current();
-      }
-    }, 1000);
-
     return () => {
+      if (timerId !== null) {
+        clearTimeout(timerId);
+      }
       window.removeEventListener('pointerdown', handleInteraction);
       window.removeEventListener('keydown', handleInteraction);
       window.removeEventListener('click', handleInteraction);
-      window.clearInterval(intervalId);
     };
   }, [active, timeoutMs]);
 }
