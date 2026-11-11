@@ -12,7 +12,10 @@ export function useIdleReturn(
   timeoutMs: number = IDLE_TIMEOUT_MS
 ): void {
   const onIdleRef = useRef(onIdle);
-  onIdleRef.current = onIdle;
+
+  useEffect(() => {
+    onIdleRef.current = onIdle;
+  }, [onIdle]);
 
   useEffect(() => {
     if (!active) {
