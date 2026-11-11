@@ -1,31 +1,13 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Real or AI?</title>
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
-  <main class="stage">
-    <h1 class="title">Real or AI?</h1>
-    <p class="quote" id="quote-text"></p>
-
-    <div class="guess-buttons" id="guess-buttons">
-      <button class="guess-btn human" id="btn-human" type="button">Human</button>
-      <button class="guess-btn ai" id="btn-ai" type="button">AI-made</button>
-    </div>
-
-    <section class="reveal" id="reveal-panel" hidden>
-      <p class="verdict" id="verdict-text"></p>
-      <p class="explanation" id="explanation-text"></p>
-      <button class="next-btn" id="btn-next" type="button">Next</button>
-    </section>
-  </main>
-
-  <script src="src/items.js"></script>
-  <script src="src/deck.js"></script>
-  <script src="src/game.js"></script>
-  <script src="src/app.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>real-or-ai-wall</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
 </html>
