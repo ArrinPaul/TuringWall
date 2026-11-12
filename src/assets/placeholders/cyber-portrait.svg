@@ -1,8 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="100%" height="100%">
-  <rect width="400" height="300" fill="#020617" rx="12"/>
-  <circle cx="200" cy="120" r="45" fill="#1e293b" stroke="#06b6d4" stroke-width="3" />
-  <path d="M140,240 C140,185 260,185 260,240" fill="none" stroke="#a855f7" stroke-width="4" />
-  <line x1="175" y1="115" x2="195" y2="115" stroke="#22d3ee" stroke-width="3" />
-  <line x1="205" y1="115" x2="225" y2="115" stroke="#22d3ee" stroke-width="3" />
-  <text x="200" y="275" text-anchor="middle" fill="#94a3b8" font-family="sans-serif" font-size="14">Cybernetic Silhouette</text>
-</svg>

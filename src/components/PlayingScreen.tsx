@@ -125,6 +125,9 @@ export const PlayingScreen: React.FC<PlayingScreenProps> = ({ item, onGuess, sta
               <p className="mt-3 text-muted text-sm md:text-base font-mono italic">
                 {item.caption}
               </p>
+              {item.credit && (
+                <p className="mt-1 text-muted text-[10px] font-mono opacity-70">{item.credit}</p>
+              )}
             </div>
           )}
         </div>

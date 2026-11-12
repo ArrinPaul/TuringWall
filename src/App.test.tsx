@@ -61,7 +61,6 @@ describe('App', () => {
         isAI: true,
         explanation: 'x',
         concept: 'test concept',
-        isPlaceholder: true,
         difficulty: 'easy' as const,
       },
     ];

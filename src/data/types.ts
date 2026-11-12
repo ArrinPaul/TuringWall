@@ -33,7 +33,8 @@ export interface ImageItem extends BaseItem {
   kind: 'image';
   src: string;
   caption: string;
-  isPlaceholder: boolean;
+  /** Attribution text, shown on reveal, only when the source license requires it (e.g. CC BY-SA). */
+  credit?: string;
 }
 
 export type Item = TextItem | ImageItem;
