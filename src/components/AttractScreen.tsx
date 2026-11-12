@@ -87,7 +87,7 @@ export const AttractScreen: React.FC<AttractScreenProps> = ({ onStart }) => {
         </div>
 
         <div className="text-muted text-xs md:text-sm font-mono border-t border-panel-line pt-6">
-          56 pieces &middot; 4 difficulty tiers &middot; streak tracking
+          104 pieces &middot; 4 difficulty tiers &middot; streak tracking
         </div>
 
         {ticker && (

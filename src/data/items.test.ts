@@ -3,18 +3,18 @@ import { ITEMS } from './items';
 import { DIFFICULTIES } from './types';
 
 describe('ITEMS', () => {
-  it('has 30+ items with unique ids and both kinds represented', () => {
-    expect(ITEMS.length).toBeGreaterThanOrEqual(30);
+  it('has 100+ items with unique ids and both kinds represented', () => {
+    expect(ITEMS.length).toBeGreaterThanOrEqual(100);
     const ids = new Set(ITEMS.map((i) => i.id));
     expect(ids.size).toBe(ITEMS.length);
     expect(ITEMS.some((i) => i.kind === 'image')).toBe(true);
     expect(ITEMS.filter((i) => i.kind === 'image').length).toBeGreaterThanOrEqual(6);
   });
 
-  it('has every difficulty tier populated with a real playable pool', () => {
+  it('has every difficulty tier deep enough that a 10-round session never repeats', () => {
     for (const tier of DIFFICULTIES) {
       const count = ITEMS.filter((i) => i.difficulty === tier).length;
-      expect(count).toBeGreaterThanOrEqual(6);
+      expect(count).toBeGreaterThanOrEqual(20);
     }
   });
 

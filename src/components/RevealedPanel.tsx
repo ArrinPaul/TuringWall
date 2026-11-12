@@ -102,6 +102,7 @@ export const RevealedPanel: React.FC<RevealedPanelProps> = ({
 
           {/* Verdict */}
           <div
+            data-testid="verdict"
             className={`px-5 py-1.5 font-mono text-lg md:text-xl uppercase tracking-wide mb-4 border ${
               correct ? 'text-good border-good/40' : 'text-bad border-bad/40'
             }`}

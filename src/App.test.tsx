@@ -38,7 +38,7 @@ describe('App', () => {
     render(<App store={createGameStore(fixtureItems, () => 0)} />);
     startEasyRound();
     fireEvent.click(screen.getByText('Human'));
-    expect(screen.getByText(/correct/i)).toBeInTheDocument();
+    expect(screen.getByTestId('verdict')).toHaveTextContent(/correct/i);
   });
 
   it('a rapid double-click on a guess button only registers one guess', () => {
