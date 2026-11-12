@@ -1,4 +1,32 @@
 @import "tailwindcss";
+@import "@fontsource/fraunces/latin-600.css";
+@import "@fontsource/fraunces/latin-700.css";
+@import "@fontsource/ibm-plex-sans/latin-400.css";
+@import "@fontsource/ibm-plex-sans/latin-500.css";
+@import "@fontsource/ibm-plex-sans/latin-600.css";
+@import "@fontsource/ibm-plex-mono/latin-400.css";
+@import "@fontsource/ibm-plex-mono/latin-500.css";
+
+@theme {
+  /* A warm, near-black "lab notebook" palette — deliberately not the default
+     slate/indigo dark-SaaS look. One accent (signal/brass) does the work a
+     gradient usually would; good/bad are semantic, not the brand accent. */
+  --color-ink: #15110d;
+  --color-panel: #221b14;
+  --color-panel-line: #3c3022;
+  --color-paper: #f4ede1;
+  --color-muted: #a99880;
+  --color-signal: #d6933c;
+  --color-signal-dim: #ad7329;
+  --color-good: #7f9a5e;
+  --color-good-dim: #27351e;
+  --color-bad: #b85a3d;
+  --color-bad-dim: #3a241c;
+
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
 
 @layer base {
   html, body, #root {
@@ -10,6 +38,7 @@
     touch-action: manipulation;
     overscroll-behavior: none;
     -webkit-touch-callout: none;
+    background-color: var(--color-ink);
   }
 
   img {

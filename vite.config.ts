@@ -1,42 +1,14 @@
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
 import tailwindcss from '@tailwindcss/vite';
-import { VitePWA } from 'vite-plugin-pwa';
 
+// Offline support uses a hand-written public/sw.js instead of vite-plugin-pwa's
+// build-time generateSW step: on this machine, a Windows Application Control
+// policy blocks the native rollup binary that step needs on its second
+// invocation (reproducible, not transient). A cache-on-fetch service worker
+// gives the same "offline after first load" outcome without that build step.
 export default defineConfig({
-  plugins: [
-    react(),
-    tailwindcss() as any,
-    VitePWA({
-      registerType: 'autoUpdate',
-      manifest: {
-        name: 'Real or AI?',
-        short_name: 'RealOrAI',
-        description: 'Interactive kiosk game: Real or AI?',
-        start_url: '/',
-        theme_color: '#0f172a',
-        background_color: '#0f172a',
-        display: 'standalone',
-        icons: [
-          {
-            src: 'icon-192.svg',
-            sizes: '192x192',
-            type: 'image/svg+xml',
-            purpose: 'any maskable',
-          },
-          {
-            src: 'icon-512.svg',
-            sizes: '512x512',
-            type: 'image/svg+xml',
-            purpose: 'any maskable',
-          },
-        ],
-      },
-      workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,ico,json}'],
-      },
-    }) as any,
-  ],
+  plugins: [react(), tailwindcss() as any],
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/setupTests.ts'],

@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { ITEMS } from './items';
+import { DIFFICULTIES } from './types';
 
 describe('ITEMS', () => {
   it('has 30+ items with unique ids and both kinds represented', () => {
@@ -10,9 +11,18 @@ describe('ITEMS', () => {
     expect(ITEMS.filter((i) => i.kind === 'image').length).toBeGreaterThanOrEqual(6);
   });
 
-  it('every item has a non-empty explanation and well-formed kind-specific fields', () => {
+  it('has every difficulty tier populated with a real playable pool', () => {
+    for (const tier of DIFFICULTIES) {
+      const count = ITEMS.filter((i) => i.difficulty === tier).length;
+      expect(count).toBeGreaterThanOrEqual(6);
+    }
+  });
+
+  it('every item has a non-empty explanation, concept tag, valid difficulty, and well-formed kind-specific fields', () => {
     for (const item of ITEMS) {
       expect(item.explanation.length).toBeGreaterThan(0);
+      expect(item.concept.length).toBeGreaterThan(0);
+      expect(DIFFICULTIES).toContain(item.difficulty);
       expect(typeof item.isAI).toBe('boolean');
       if (item.kind === 'text') {
         expect(item.text.length).toBeGreaterThan(0);

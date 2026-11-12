@@ -5,6 +5,7 @@ import { useGameStore } from './store/gameStore';
 import { useIdleReturn } from './hooks/idle';
 import { playTone, isSoundMuted, toggleSoundMuted } from './audio/tone';
 import { AttractScreen } from './components/AttractScreen';
+import { SelectScreen } from './components/SelectScreen';
 import { PlayingScreen } from './components/PlayingScreen';
 import { RevealedPanel } from './components/RevealedPanel';
 import { StatsScreen } from './components/StatsScreen';
@@ -16,11 +17,13 @@ interface AppProps {
 export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
   const {
     screen,
+    difficulty,
     current,
     stats,
     lastGuessCorrect,
     milestoneHit,
     guessSeq,
+    goToSelect,
     startRound,
     guess,
     next,
@@ -72,22 +75,26 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
   }, [guessSeq, lastGuessCorrect, milestoneHit]);
 
   return (
-    <main className="w-full h-full min-h-screen bg-slate-950 text-slate-100 flex flex-col items-center justify-center relative">
+    <main className="w-full h-full min-h-screen bg-ink text-paper font-body flex flex-col items-center justify-center relative">
       {/* Floating Sound Control Button */}
       <button
         type="button"
         onClick={handleToggleMute}
         aria-label={muted ? 'Unmute sound' : 'Mute sound'}
-        className="fixed top-4 right-4 z-50 p-2.5 rounded-full bg-slate-900/80 border border-slate-700/80 text-slate-300 hover:text-white hover:bg-slate-800 backdrop-blur-sm transition-all text-sm flex items-center space-x-1.5 cursor-pointer shadow-lg"
+        className="fixed top-4 right-4 z-50 px-3 py-2 bg-panel border border-panel-line text-muted hover:text-paper transition-colors text-xs font-mono uppercase tracking-wider flex items-center space-x-1.5 cursor-pointer"
         title="Toggle sound (M)"
       >
-        <span>{muted ? '🔇' : '🔊'}</span>
-        <span className="hidden sm:inline text-xs font-mono text-slate-400">[M]</span>
+        <span>Sound {muted ? 'off' : 'on'}</span>
+        <span className="hidden sm:inline text-muted">[M]</span>
       </button>
 
       <AnimatePresence mode="wait">
         {screen === 'attract' && (
-          <AttractScreen key="attract" onStart={startRound} />
+          <AttractScreen key="attract" onStart={goToSelect} />
+        )}
+
+        {screen === 'select' && (
+          <SelectScreen key="select" onSelect={startRound} />
         )}
 
         {screen === 'playing' && current && (
@@ -96,6 +103,7 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
             item={current}
             onGuess={guess}
             stats={stats}
+            difficulty={difficulty}
           />
         )}
 
@@ -115,7 +123,7 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
           <StatsScreen
             key="stats"
             stats={stats}
-            onPlayAgain={startRound}
+            onPlayAgain={goToSelect}
           />
         )}
       </AnimatePresence>

@@ -1,19 +1,21 @@
 import { create, type UseBoundStore, type StoreApi } from 'zustand';
-import type { Item } from '../data/types';
+import type { Item, Difficulty } from '../data/types';
 import { ITEMS } from '../data/items';
 import { createDeck, type Deck } from '../game/deck';
-import { createStats, applyGuess, hitMilestone, type Stats } from '../game/scoring';
+import { createStats, applyGuess, hitMilestone, DIFFICULTY_POINTS, type Stats } from '../game/scoring';
 
-export type Screen = 'attract' | 'playing' | 'revealed' | 'stats';
+export type Screen = 'attract' | 'select' | 'playing' | 'revealed' | 'stats';
 
 export interface GameState {
   screen: Screen;
+  difficulty: Difficulty | null;
   current: Item | null;
   stats: Stats;
   lastGuessCorrect: boolean | null;
   milestoneHit: boolean;
   guessSeq: number;
-  startRound: () => void;
+  goToSelect: () => void;
+  startRound: (difficulty: Difficulty) => void;
   guess: (guess: 'human' | 'ai') => void;
   next: () => void;
   showStats: () => void;
@@ -28,17 +30,24 @@ export function createGameStore(
 
   return create<GameState>((set, get) => ({
     screen: 'attract',
+    difficulty: null,
     current: null,
     stats: createStats(),
     lastGuessCorrect: null,
     milestoneHit: false,
     guessSeq: 0,
 
-    startRound: () => {
-      deck = createDeck(items, rng);
+    goToSelect: () => {
+      set({ screen: 'select' });
+    },
+
+    startRound: (difficulty: Difficulty) => {
+      const pool = items.filter((i) => i.difficulty === difficulty);
+      deck = createDeck(pool.length > 0 ? pool : items, rng);
       const firstItem = deck.next();
       set({
         screen: 'playing',
+        difficulty,
         current: firstItem,
         stats: createStats(),
         lastGuessCorrect: null,
@@ -54,7 +63,8 @@ export function createGameStore(
 
       const correct = (g === 'ai') === state.current.isAI;
       const prevStreak = state.stats.streak;
-      const nextStats = applyGuess(state.stats, correct);
+      const points = state.difficulty ? DIFFICULTY_POINTS[state.difficulty] : 1;
+      const nextStats = applyGuess(state.stats, correct, points);
       const isMilestone = hitMilestone(prevStreak, nextStats.streak);
 
       set({
@@ -81,7 +91,8 @@ export function createGameStore(
       }
 
       if (!deck) {
-        deck = createDeck(items, rng);
+        const pool = state.difficulty ? items.filter((i) => i.difficulty === state.difficulty) : items;
+        deck = createDeck(pool.length > 0 ? pool : items, rng);
       }
       const nextItem = deck.next();
 
@@ -97,8 +108,10 @@ export function createGameStore(
     },
 
     returnToAttract: () => {
+      deck = null;
       set({
         screen: 'attract',
+        difficulty: null,
         current: null,
         stats: createStats(),
         lastGuessCorrect: null,
