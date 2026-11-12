@@ -17,12 +17,14 @@ interface AppProps {
 export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
   const {
     screen,
+    playerName,
     difficulty,
     current,
     stats,
     lastGuessCorrect,
     milestoneHit,
     guessSeq,
+    setPlayerName,
     goToSelect,
     startRound,
     guess,
@@ -94,7 +96,7 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
         )}
 
         {screen === 'select' && (
-          <SelectScreen key="select" onSelect={startRound} />
+          <SelectScreen key="select" name={playerName} onNameChange={setPlayerName} onSelect={startRound} />
         )}
 
         {screen === 'playing' && current && (

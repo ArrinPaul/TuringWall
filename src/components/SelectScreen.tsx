@@ -4,6 +4,8 @@ import type { Difficulty } from '../data/types';
 import { DIFFICULTY_POINTS } from '../game/scoring';
 
 interface SelectScreenProps {
+  name: string;
+  onNameChange: (name: string) => void;
   onSelect: (difficulty: Difficulty) => void;
 }
 
@@ -14,7 +16,7 @@ const TIERS: { id: Difficulty; label: string; blurb: string }[] = [
   { id: 'pro', label: 'Pro', blurb: 'Genuinely close calls. Good luck.' },
 ];
 
-export const SelectScreen: React.FC<SelectScreenProps> = ({ onSelect }) => {
+export const SelectScreen: React.FC<SelectScreenProps> = ({ name, onNameChange, onSelect }) => {
   return (
     <motion.div
       data-testid="select-root"
@@ -27,9 +29,23 @@ export const SelectScreen: React.FC<SelectScreenProps> = ({ onSelect }) => {
       <span className="text-signal font-mono uppercase text-xs md:text-sm tracking-[0.2em]">
         Choose a tier
       </span>
-      <h1 className="font-display text-3xl md:text-5xl text-paper mt-1 mb-8">
+      <h1 className="font-display text-3xl md:text-5xl text-paper mt-1 mb-6">
         How hard do you want this?
       </h1>
+
+      <label className="w-full max-w-sm mb-8 text-left">
+        <span className="block font-mono text-muted text-xs uppercase tracking-wider mb-1.5">
+          Name for the leaderboard (optional)
+        </span>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => onNameChange(e.target.value.slice(0, 24))}
+          placeholder="Anonymous"
+          maxLength={24}
+          className="w-full bg-panel border border-panel-line px-4 py-3 text-paper font-body text-lg placeholder:text-muted focus:outline-none focus:border-signal"
+        />
+      </label>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full max-w-2xl">
         {TIERS.map((tier) => (

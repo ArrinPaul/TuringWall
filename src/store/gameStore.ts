@@ -2,18 +2,21 @@ import { create, type UseBoundStore, type StoreApi } from 'zustand';
 import type { Item, Difficulty } from '../data/types';
 import { ITEMS } from '../data/items';
 import { createDeck, type Deck } from '../game/deck';
-import { createStats, applyGuess, hitMilestone, DIFFICULTY_POINTS, type Stats } from '../game/scoring';
+import { createStats, applyGuess, hitMilestone, accuracyPercent, DIFFICULTY_POINTS, type Stats } from '../game/scoring';
+import { addEntry } from '../leaderboard/leaderboard';
 
 export type Screen = 'attract' | 'select' | 'playing' | 'revealed' | 'stats';
 
 export interface GameState {
   screen: Screen;
+  playerName: string;
   difficulty: Difficulty | null;
   current: Item | null;
   stats: Stats;
   lastGuessCorrect: boolean | null;
   milestoneHit: boolean;
   guessSeq: number;
+  setPlayerName: (name: string) => void;
   goToSelect: () => void;
   startRound: (difficulty: Difficulty) => void;
   guess: (guess: 'human' | 'ai') => void;
@@ -30,12 +33,17 @@ export function createGameStore(
 
   return create<GameState>((set, get) => ({
     screen: 'attract',
+    playerName: '',
     difficulty: null,
     current: null,
     stats: createStats(),
     lastGuessCorrect: null,
     milestoneHit: false,
     guessSeq: 0,
+
+    setPlayerName: (name: string) => {
+      set({ playerName: name });
+    },
 
     goToSelect: () => {
       set({ screen: 'select' });
@@ -83,6 +91,16 @@ export function createGameStore(
       }
 
       if (state.stats.roundsPlayed > 0 && state.stats.roundsPlayed % 10 === 0) {
+        if (state.difficulty) {
+          addEntry({
+            name: state.playerName.trim() || 'Anonymous',
+            difficulty: state.difficulty,
+            score: state.stats.score,
+            accuracy: accuracyPercent(state.stats),
+            bestStreak: state.stats.bestStreak,
+            timestamp: Date.now(),
+          });
+        }
         set({
           screen: 'stats',
           milestoneHit: false,
@@ -111,6 +129,7 @@ export function createGameStore(
       deck = null;
       set({
         screen: 'attract',
+        playerName: '',
         difficulty: null,
         current: null,
         stats: createStats(),

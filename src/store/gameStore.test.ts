@@ -1,5 +1,6 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { createGameStore } from './gameStore';
+import { loadLeaderboard } from '../leaderboard/leaderboard';
 
 const fixtureItems = [
   { id: 'a', kind: 'text' as const, text: 'A', isAI: false, explanation: 'x', concept: 'c', difficulty: 'easy' as const },
@@ -8,6 +9,10 @@ const fixtureItems = [
 ];
 
 describe('gameStore', () => {
+  beforeEach(() => {
+    localStorage.clear();
+  });
+
   it('starts on the attract screen', () => {
     const store = createGameStore(fixtureItems);
     expect(store.getState().screen).toBe('attract');
@@ -73,11 +78,41 @@ describe('gameStore', () => {
     expect(store.getState().screen).toBe('stats');
   });
 
-  it('returnToAttract resets the screen to attract and clears the difficulty', () => {
+  it('completing a 10-round session records a leaderboard entry under the player name', () => {
+    const store = createGameStore(fixtureItems, () => 0);
+    store.getState().setPlayerName('Rin');
+    store.getState().startRound('easy');
+    for (let i = 0; i < 10; i++) {
+      const current = store.getState().current!;
+      store.getState().guess(current.isAI ? 'ai' : 'human');
+      store.getState().next();
+    }
+    const board = loadLeaderboard();
+    expect(board).toHaveLength(1);
+    expect(board[0].name).toBe('Rin');
+    expect(board[0].difficulty).toBe('easy');
+    // All 10 guesses are correct (guessing each item's real isAI), easy tier = 1 point each.
+    expect(board[0].score).toBe(10);
+  });
+
+  it('falls back to "Anonymous" when no name was entered', () => {
+    const store = createGameStore(fixtureItems, () => 0);
+    store.getState().startRound('easy');
+    for (let i = 0; i < 10; i++) {
+      const current = store.getState().current!;
+      store.getState().guess(current.isAI ? 'ai' : 'human');
+      store.getState().next();
+    }
+    expect(loadLeaderboard()[0].name).toBe('Anonymous');
+  });
+
+  it('returnToAttract resets the screen to attract, clears the difficulty, and clears the player name', () => {
     const store = createGameStore(fixtureItems);
+    store.getState().setPlayerName('Rin');
     store.getState().startRound('easy');
     store.getState().returnToAttract();
     expect(store.getState().screen).toBe('attract');
     expect(store.getState().difficulty).toBeNull();
+    expect(store.getState().playerName).toBe('');
   });
 });

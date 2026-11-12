@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { accuracyPercent, getRank, type Stats } from '../game/scoring';
+import { loadLeaderboard, topEntries, downloadLeaderboardAsText } from '../leaderboard/leaderboard';
 
 interface StatsScreenProps {
   stats: Stats;
@@ -10,6 +11,10 @@ interface StatsScreenProps {
 export const StatsScreen: React.FC<StatsScreenProps> = ({ stats, onPlayAgain }) => {
   const accuracy = accuracyPercent(stats);
   const rank = getRank(accuracy);
+  // Snapshot on mount: the store already recorded this session's entry
+  // before routing to this screen, so the board below includes it.
+  const [board] = useState(() => loadLeaderboard());
+  const top = topEntries(board, 5);
 
   // Keyboard shortcut to Play Again
   useEffect(() => {
@@ -77,6 +82,33 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({ stats, onPlayAgain }) 
             <span className="text-xs text-muted mt-1">total played</span>
           </div>
         </div>
+
+        {/* Leaderboard */}
+        {top.length > 0 && (
+          <div className="w-full max-w-md bg-panel border border-panel-line p-5 text-left font-mono">
+            <div className="flex items-center justify-between mb-3">
+              <span className="text-signal text-xs uppercase tracking-wider">Today&apos;s leaderboard</span>
+              <button
+                type="button"
+                onClick={() => downloadLeaderboardAsText(board)}
+                className="text-muted hover:text-paper text-xs uppercase tracking-wider border border-panel-line px-2 py-1 cursor-pointer transition-colors"
+              >
+                Export .txt
+              </button>
+            </div>
+            <ol className="space-y-1.5 text-sm">
+              {top.map((entry, i) => (
+                <li key={`${entry.name}-${entry.timestamp}`} className="flex items-center justify-between text-paper">
+                  <span className="truncate">
+                    <span className="text-muted">{i + 1}.</span> {entry.name}{' '}
+                    <span className="text-muted uppercase text-xs">({entry.difficulty})</span>
+                  </span>
+                  <span className="text-signal shrink-0 ml-3">{entry.score}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        )}
 
         {/* For parents & counselors — plain educational framing, no branding */}
         <div className="w-full max-w-md bg-panel border border-panel-line border-l-4 border-l-signal p-5 text-left">
