@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { loadLeaderboard, todaysEntries } from '../leaderboard/leaderboard';
 import { SignalAvatar } from './SignalAvatar';
 import { pickLine } from '../character/signal';
+import { FieldGuide } from './FieldGuide';
+import { allConcepts } from '../character/fieldGuide';
 
 interface AttractScreenProps {
   onStart: () => void;
@@ -10,6 +12,8 @@ interface AttractScreenProps {
 
 export const AttractScreen: React.FC<AttractScreenProps> = ({ onStart }) => {
   const [introLine] = useState(() => pickLine('neutral'));
+  const [showGuide, setShowGuide] = useState(false);
+  const conceptCount = allConcepts().length;
   const [ticker] = useState(() => {
     const todays = todaysEntries(loadLeaderboard());
     if (todays.length === 0) return null;
@@ -95,7 +99,30 @@ export const AttractScreen: React.FC<AttractScreenProps> = ({ onStart }) => {
             {ticker.sessions} session{ticker.sessions === 1 ? '' : 's'} played today &middot; {ticker.avgAccuracy}% average accuracy
           </div>
         )}
+
+        <div className="max-w-md border-t border-panel-line pt-5 space-y-3">
+          <p className="text-muted text-xs md:text-sm leading-relaxed">
+            Every round trains real pattern recognition &mdash; the same close reading used to study
+            how language models and generative systems actually behave.
+          </p>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              setShowGuide(true);
+            }}
+            className="px-4 py-2 bg-panel border border-panel-line text-muted hover:text-paper transition-colors font-mono text-xs uppercase tracking-wider cursor-pointer"
+          >
+            Field guide &middot; {conceptCount} tells
+          </button>
+        </div>
       </motion.div>
+
+      {showGuide && (
+        <div onClick={(e) => e.stopPropagation()}>
+          <FieldGuide onClose={() => setShowGuide(false)} />
+        </div>
+      )}
     </div>
   );
 };

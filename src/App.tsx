@@ -26,6 +26,7 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
     lastGuessCorrect,
     milestoneHit,
     guessSeq,
+    conceptsSeen,
     setPlayerName,
     setRoundsTarget,
     goToSelect,
@@ -138,6 +139,7 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
             key="stats"
             stats={stats}
             difficulty={difficulty}
+            conceptsSeen={conceptsSeen}
             onPlayAgain={goToSelect}
             onStartRound={startRound}
           />

@@ -21,6 +21,8 @@ export interface GameState {
   lastGuessCorrect: boolean | null;
   milestoneHit: boolean;
   guessSeq: number;
+  /** Unique concept tags encountered this session, in first-seen order — the session's "syllabus". */
+  conceptsSeen: string[];
   setPlayerName: (name: string) => void;
   setRoundsTarget: (n: number) => void;
   goToSelect: () => void;
@@ -54,6 +56,7 @@ export function createGameStore(
     lastGuessCorrect: null,
     milestoneHit: false,
     guessSeq: 0,
+    conceptsSeen: [],
 
     setPlayerName: (name: string) => {
       set({ playerName: name });
@@ -77,6 +80,7 @@ export function createGameStore(
         stats: createStats(),
         lastGuessCorrect: null,
         milestoneHit: false,
+        conceptsSeen: [],
       });
     },
 
@@ -93,6 +97,7 @@ export function createGameStore(
       const points = DIFFICULTY_POINTS[state.current.difficulty];
       const nextStats = applyGuess(state.stats, correct, points);
       const isMilestone = hitMilestone(prevStreak, nextStats.streak);
+      const concept = state.current.concept;
 
       set({
         stats: nextStats,
@@ -100,6 +105,9 @@ export function createGameStore(
         milestoneHit: isMilestone,
         guessSeq: state.guessSeq + 1,
         screen: 'revealed',
+        conceptsSeen: state.conceptsSeen.includes(concept)
+          ? state.conceptsSeen
+          : [...state.conceptsSeen, concept],
       });
     },
 
@@ -158,6 +166,7 @@ export function createGameStore(
         stats: createStats(),
         lastGuessCorrect: null,
         milestoneHit: false,
+        conceptsSeen: [],
       });
     },
   }));

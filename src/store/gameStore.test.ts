@@ -3,9 +3,9 @@ import { createGameStore } from './gameStore';
 import { loadLeaderboard } from '../leaderboard/leaderboard';
 
 const fixtureItems = [
-  { id: 'a', kind: 'text' as const, text: 'A', isAI: false, explanation: 'x', concept: 'c', difficulty: 'easy' as const },
-  { id: 'b', kind: 'text' as const, text: 'B', isAI: true, explanation: 'x', concept: 'c', difficulty: 'easy' as const },
-  { id: 'c', kind: 'text' as const, text: 'C', isAI: true, explanation: 'x', concept: 'c', difficulty: 'pro' as const },
+  { id: 'a', kind: 'text' as const, text: 'A', isAI: false, explanation: 'x', concept: 'concept-a', difficulty: 'easy' as const },
+  { id: 'b', kind: 'text' as const, text: 'B', isAI: true, explanation: 'x', concept: 'concept-b', difficulty: 'easy' as const },
+  { id: 'c', kind: 'text' as const, text: 'C', isAI: true, explanation: 'x', concept: 'concept-a', difficulty: 'pro' as const },
 ];
 
 describe('gameStore', () => {
@@ -165,5 +165,42 @@ describe('gameStore', () => {
       store.getState().next();
     }
     expect(store.getState().clearedModes).toEqual(['easy']);
+  });
+
+  it('conceptsSeen accumulates unique concepts across guesses, in first-seen order, with no duplicates', () => {
+    const store = createGameStore(fixtureItems, () => 0);
+    store.getState().startRound('easy'); // pool: 'a' (concept-a), 'b' (concept-b)
+    expect(store.getState().conceptsSeen).toEqual([]);
+
+    let current = store.getState().current!;
+    store.getState().guess(current.isAI ? 'ai' : 'human');
+    expect(store.getState().conceptsSeen).toEqual([current.concept]);
+
+    store.getState().next();
+    current = store.getState().current!;
+    store.getState().guess(current.isAI ? 'ai' : 'human');
+    expect(store.getState().conceptsSeen.sort()).toEqual(['concept-a', 'concept-b']);
+
+    // Third guess exhausts and reshuffles the 2-item pool, so the concept repeats — must not duplicate.
+    store.getState().next();
+    current = store.getState().current!;
+    store.getState().guess(current.isAI ? 'ai' : 'human');
+    expect(store.getState().conceptsSeen.sort()).toEqual(['concept-a', 'concept-b']);
+  });
+
+  it('conceptsSeen resets on a new round and on returnToAttract', () => {
+    const store = createGameStore(fixtureItems, () => 0);
+    store.getState().startRound('easy');
+    const current = store.getState().current!;
+    store.getState().guess(current.isAI ? 'ai' : 'human');
+    expect(store.getState().conceptsSeen.length).toBe(1);
+
+    store.getState().startRound('easy');
+    expect(store.getState().conceptsSeen).toEqual([]);
+
+    const current2 = store.getState().current!;
+    store.getState().guess(current2.isAI ? 'ai' : 'human');
+    store.getState().returnToAttract();
+    expect(store.getState().conceptsSeen).toEqual([]);
   });
 });

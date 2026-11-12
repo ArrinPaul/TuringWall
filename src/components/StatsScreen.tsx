@@ -9,11 +9,12 @@ import { closingLine, type SignalMood } from '../character/signal';
 interface StatsScreenProps {
   stats: Stats;
   difficulty: SessionMode | null;
+  conceptsSeen: string[];
   onPlayAgain: () => void;
   onStartRound: (mode: SessionMode) => void;
 }
 
-export const StatsScreen: React.FC<StatsScreenProps> = ({ stats, difficulty, onPlayAgain, onStartRound }) => {
+export const StatsScreen: React.FC<StatsScreenProps> = ({ stats, difficulty, conceptsSeen, onPlayAgain, onStartRound }) => {
   const accuracy = accuracyPercent(stats);
   const rank = getRank(accuracy);
   // Snapshot on mount: the store already recorded this session's entry
@@ -143,6 +144,25 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({ stats, difficulty, onP
                 </li>
               ))}
             </ol>
+          </div>
+        )}
+
+        {/* Concrete recap — the actual concepts practiced, not a vague claim */}
+        {conceptsSeen.length > 0 && (
+          <div className="w-full max-w-md bg-panel border border-panel-line p-5 text-left">
+            <span className="block font-mono text-signal text-xs uppercase tracking-wider mb-2">
+              Today you practiced spotting
+            </span>
+            <div className="flex flex-wrap gap-1.5">
+              {conceptsSeen.map((concept) => (
+                <span
+                  key={concept}
+                  className="px-2.5 py-1 bg-ink border border-panel-line text-paper font-mono text-xs"
+                >
+                  {concept}
+                </span>
+              ))}
+            </div>
           </div>
         )}
 
