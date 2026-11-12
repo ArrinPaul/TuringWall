@@ -2,6 +2,8 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import type { Item } from '../data/types';
 import type { Stats } from '../game/scoring';
+import { SignalAvatar } from './SignalAvatar';
+import { pickLine, moodForGuess } from '../character/signal';
 
 interface RevealedPanelProps {
   correct: boolean;
@@ -22,6 +24,8 @@ export const RevealedPanel: React.FC<RevealedPanelProps> = ({
 }) => {
   const [thumbError, setThumbError] = useState(false);
   const [navigating, setNavigating] = useState(false);
+  const mood = moodForGuess(correct, stats.streak);
+  const [line] = useState(() => pickLine(mood));
 
   const handleNext = useCallback(() => {
     if (navigating) return;
@@ -90,6 +94,12 @@ export const RevealedPanel: React.FC<RevealedPanelProps> = ({
               : 'bg-bad-dim border-panel-line border-l-bad'
           }`}
         >
+          {/* Signal's reaction */}
+          <div className="flex items-center gap-3 mb-4">
+            <SignalAvatar mood={mood} size={40} />
+            <p className="font-display italic text-sm md:text-base text-paper text-left">&ldquo;{line}&rdquo;</p>
+          </div>
+
           {/* Verdict */}
           <div
             className={`px-5 py-1.5 font-mono text-lg md:text-xl uppercase tracking-wide mb-4 border ${

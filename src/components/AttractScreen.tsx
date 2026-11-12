@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { loadLeaderboard, todaysEntries } from '../leaderboard/leaderboard';
+import { SignalAvatar } from './SignalAvatar';
+import { pickLine } from '../character/signal';
 
 interface AttractScreenProps {
   onStart: () => void;
 }
 
 export const AttractScreen: React.FC<AttractScreenProps> = ({ onStart }) => {
+  const [introLine] = useState(() => pickLine('neutral'));
   const [ticker] = useState(() => {
     const todays = todaysEntries(loadLeaderboard());
     if (todays.length === 0) return null;
@@ -58,9 +61,11 @@ export const AttractScreen: React.FC<AttractScreenProps> = ({ onStart }) => {
         exit={{ opacity: 0, y: -8 }}
         transition={{ duration: 0.2 }}
       >
-        <div className="inline-flex items-center space-x-2 text-signal font-mono text-xs md:text-sm uppercase tracking-[0.2em]">
-          <span className="w-1.5 h-1.5 bg-signal inline-block" />
-          <span>Detection challenge</span>
+        <SignalAvatar mood="neutral" size={72} />
+
+        <div className="flex flex-col items-center space-y-1.5">
+          <span className="text-signal font-mono text-xs uppercase tracking-[0.2em]">Signal</span>
+          <p className="font-display italic text-lg md:text-xl text-paper max-w-sm">&ldquo;{introLine}&rdquo;</p>
         </div>
 
         <h1 className="font-display font-700 text-6xl md:text-8xl text-paper leading-none">

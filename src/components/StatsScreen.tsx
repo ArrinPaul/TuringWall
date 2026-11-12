@@ -3,6 +3,8 @@ import { motion } from 'framer-motion';
 import { accuracyPercent, getRank, type Stats } from '../game/scoring';
 import { loadLeaderboard, topEntries, todaysEntries, roomStanding, downloadLeaderboardAsText } from '../leaderboard/leaderboard';
 import { nextTierUp, type SessionMode } from '../data/types';
+import { SignalAvatar } from './SignalAvatar';
+import { closingLine, type SignalMood } from '../character/signal';
 
 interface StatsScreenProps {
   stats: Stats;
@@ -22,6 +24,7 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({ stats, difficulty, onP
   const standing = difficulty ? roomStanding(todays, difficulty, stats.score) : null;
   const nextTier = difficulty && difficulty !== 'mixed' ? nextTierUp(difficulty) : null;
   const showNudge = nextTier && accuracy >= 85;
+  const closingMood: SignalMood = accuracy >= 90 ? 'smug' : accuracy >= 50 ? 'correct' : 'incorrect';
 
   // Keyboard shortcut to Play Again
   useEffect(() => {
@@ -45,6 +48,8 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({ stats, difficulty, onP
     >
       <div className="max-w-xl w-full mx-auto flex flex-col items-center space-y-6">
         <div>
+          <SignalAvatar mood={closingMood} size={56} className="mx-auto mb-3" />
+
           <span className="text-signal font-mono uppercase text-xs md:text-sm tracking-[0.2em]">
             Session summary
           </span>
@@ -58,6 +63,10 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({ stats, difficulty, onP
 
           <p className="text-muted mt-3 max-w-md mx-auto text-sm md:text-base leading-relaxed font-body">
             {rank.note}
+          </p>
+
+          <p className="font-display italic text-paper mt-2 max-w-md mx-auto text-sm md:text-base">
+            &ldquo;{closingLine(rank.title)}&rdquo;
           </p>
 
           {standing && (

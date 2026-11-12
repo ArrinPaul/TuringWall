@@ -3,6 +3,7 @@ import { motion } from 'framer-motion';
 import type { Item, SessionMode } from '../data/types';
 import type { Stats } from '../game/scoring';
 import { getStreakLabel } from '../game/scoring';
+import { SignalAvatar } from './SignalAvatar';
 
 interface PlayingScreenProps {
   item: Item;
@@ -127,7 +128,10 @@ export const PlayingScreen: React.FC<PlayingScreenProps> = ({ item, onGuess, sta
             </div>
           )}
         </div>
-        <p className="text-muted text-xs md:text-sm mt-3 font-mono">Was this created by a human or AI?</p>
+        <div className="flex items-center gap-2 mt-3">
+          <SignalAvatar mood="thinking" size={28} />
+          <p className="text-muted text-xs md:text-sm font-mono">Was this created by a human or AI?</p>
+        </div>
       </div>
 
       {/* Guess buttons */}
