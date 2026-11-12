@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { withEntry, topEntries, formatAsText, loadLeaderboard, addEntry, type LeaderboardEntry } from './leaderboard';
+import { withEntry, topEntries, todaysEntries, roomStanding, formatAsText, loadLeaderboard, addEntry, type LeaderboardEntry } from './leaderboard';
 
 function makeEntry(overrides: Partial<LeaderboardEntry> = {}): LeaderboardEntry {
   return {
@@ -45,6 +45,34 @@ describe('formatAsText', () => {
     expect(lines[1]).toContain('Rin');
     expect(lines[1]).toContain('easy');
     expect(lines[1]).toContain('80%');
+  });
+});
+
+describe('todaysEntries', () => {
+  it('keeps only entries from the same calendar day as `now`', () => {
+    const now = new Date(2026, 10, 12, 15, 0, 0).getTime();
+    const sameDay = new Date(2026, 10, 12, 9, 0, 0).getTime();
+    const yesterday = new Date(2026, 10, 11, 23, 59, 0).getTime();
+    const entries = [
+      makeEntry({ name: 'today', timestamp: sameDay }),
+      makeEntry({ name: 'yesterday', timestamp: yesterday }),
+    ];
+    expect(todaysEntries(entries, now).map((e) => e.name)).toEqual(['today']);
+  });
+});
+
+describe('roomStanding', () => {
+  it('counts only same-mode entries, and how many this score beats', () => {
+    const entries = [
+      makeEntry({ difficulty: 'easy', score: 3 }),
+      makeEntry({ difficulty: 'easy', score: 7 }),
+      makeEntry({ difficulty: 'hard', score: 20 }),
+    ];
+    expect(roomStanding(entries, 'easy', 5)).toEqual({ beaten: 1, total: 2 });
+  });
+
+  it('returns zero/zero when nobody has played that mode today', () => {
+    expect(roomStanding([], 'pro', 10)).toEqual({ beaten: 0, total: 0 });
   });
 });
 

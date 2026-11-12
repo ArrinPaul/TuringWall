@@ -1,8 +1,8 @@
-import type { Difficulty } from '../data/types';
+import type { SessionMode } from '../data/types';
 
 export interface LeaderboardEntry {
   name: string;
-  difficulty: Difficulty;
+  difficulty: SessionMode;
   score: number;
   accuracy: number;
   bestStreak: number;
@@ -20,6 +20,36 @@ export function withEntry(entries: LeaderboardEntry[], entry: LeaderboardEntry):
 /** Pure: the top n entries from an already-sorted list. */
 export function topEntries(entries: LeaderboardEntry[], n: number): LeaderboardEntry[] {
   return entries.slice(0, n);
+}
+
+/** Pure: entries whose timestamp falls on the same calendar day as `now` (local time). */
+export function todaysEntries(entries: LeaderboardEntry[], now: number = Date.now()): LeaderboardEntry[] {
+  const today = new Date(now);
+  return entries.filter((e) => {
+    const d = new Date(e.timestamp);
+    return (
+      d.getFullYear() === today.getFullYear() &&
+      d.getMonth() === today.getMonth() &&
+      d.getDate() === today.getDate()
+    );
+  });
+}
+
+export interface RoomStanding {
+  /** How many same-mode sessions today scored strictly less than `score`. */
+  beaten: number;
+  /** How many same-mode sessions were played today, this one included. */
+  total: number;
+}
+
+/**
+ * Pure: among today's sessions in the same mode, how this score stacks up.
+ * `entries` should already be today-only (see `todaysEntries`) and include this session's own entry.
+ */
+export function roomStanding(entries: LeaderboardEntry[], mode: SessionMode, score: number): RoomStanding {
+  const sameMode = entries.filter((e) => e.difficulty === mode);
+  const beaten = sameMode.filter((e) => e.score < score).length;
+  return { beaten, total: sameMode.length };
 }
 
 /** Pure: renders the leaderboard as a plain-text table, openable in any text editor. */

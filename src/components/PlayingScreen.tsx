@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
-import type { Item, Difficulty } from '../data/types';
+import type { Item, SessionMode } from '../data/types';
 import type { Stats } from '../game/scoring';
 import { getStreakLabel } from '../game/scoring';
 
@@ -8,10 +8,13 @@ interface PlayingScreenProps {
   item: Item;
   onGuess: (g: 'human' | 'ai') => void;
   stats?: Stats;
-  difficulty?: Difficulty | null;
+  difficulty?: SessionMode | null;
+  roundsTarget?: number;
 }
 
-export const PlayingScreen: React.FC<PlayingScreenProps> = ({ item, onGuess, stats, difficulty }) => {
+const DOTS_GRID_CLASS: Record<number, string> = { 5: 'grid-cols-5', 10: 'grid-cols-10' };
+
+export const PlayingScreen: React.FC<PlayingScreenProps> = ({ item, onGuess, stats, difficulty, roundsTarget = 10 }) => {
   const [imageError, setImageError] = useState(false);
   const [guessed, setGuessed] = useState(false);
 
@@ -37,7 +40,7 @@ export const PlayingScreen: React.FC<PlayingScreenProps> = ({ item, onGuess, sta
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [guessed, handleGuess]);
 
-  const currentRoundInBatch = ((stats?.roundsPlayed ?? 0) % 10) + 1;
+  const currentRoundInBatch = ((stats?.roundsPlayed ?? 0) % roundsTarget) + 1;
   const currentStreak = stats?.streak ?? 0;
   const streakLabel = getStreakLabel(currentStreak);
 
@@ -54,7 +57,7 @@ export const PlayingScreen: React.FC<PlayingScreenProps> = ({ item, onGuess, sta
         <div className="flex items-center justify-between text-muted text-sm md:text-base">
           <div className="flex items-center space-x-3">
             <span>
-              Round <span className="text-paper font-500">{currentRoundInBatch}</span> / 10
+              Round <span className="text-paper font-500">{currentRoundInBatch}</span> / {roundsTarget}
             </span>
             {difficulty && (
               <span className="px-2.5 py-0.5 bg-panel border border-signal/40 text-signal text-xs uppercase tracking-wider">
@@ -83,9 +86,9 @@ export const PlayingScreen: React.FC<PlayingScreenProps> = ({ item, onGuess, sta
           </div>
         </div>
 
-        {/* 10-step session progress */}
-        <div className="grid grid-cols-10 gap-1.5 pt-1 w-full">
-          {Array.from({ length: 10 }).map((_, idx) => (
+        {/* Session progress */}
+        <div className={`grid ${DOTS_GRID_CLASS[roundsTarget] ?? 'grid-cols-10'} gap-1.5 pt-1 w-full`}>
+          {Array.from({ length: roundsTarget }).map((_, idx) => (
             <div
               key={idx}
               className={`h-1 ${idx < currentRoundInBatch ? 'bg-signal' : 'bg-panel-line'}`}

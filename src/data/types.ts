@@ -4,6 +4,15 @@ export type Difficulty = 'easy' | 'medium' | 'hard' | 'pro';
 
 export const DIFFICULTIES: Difficulty[] = ['easy', 'medium', 'hard', 'pro'];
 
+/** A played session is one of the four fixed tiers, or 'mixed' (drawn from all of them). */
+export type SessionMode = Difficulty | 'mixed';
+
+/** The tier immediately above `d`, or null if `d` is already the top tier. */
+export function nextTierUp(d: Difficulty): Difficulty | null {
+  const i = DIFFICULTIES.indexOf(d);
+  return i >= 0 && i < DIFFICULTIES.length - 1 ? DIFFICULTIES[i + 1] : null;
+}
+
 export interface BaseItem {
   id: string;
   isAI: boolean;

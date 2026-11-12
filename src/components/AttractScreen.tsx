@@ -1,11 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
+import { loadLeaderboard, todaysEntries } from '../leaderboard/leaderboard';
 
 interface AttractScreenProps {
   onStart: () => void;
 }
 
 export const AttractScreen: React.FC<AttractScreenProps> = ({ onStart }) => {
+  const [ticker] = useState(() => {
+    const todays = todaysEntries(loadLeaderboard());
+    if (todays.length === 0) return null;
+    const avgAccuracy = Math.round(todays.reduce((sum, e) => sum + e.accuracy, 0) / todays.length);
+    return { sessions: todays.length, avgAccuracy };
+  });
+
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.code === 'Space' || e.code === 'Enter') {
@@ -74,8 +82,14 @@ export const AttractScreen: React.FC<AttractScreenProps> = ({ onStart }) => {
         </div>
 
         <div className="text-muted text-xs md:text-sm font-mono border-t border-panel-line pt-6">
-          36 pieces &middot; 10-round session &middot; streak tracking
+          56 pieces &middot; 4 difficulty tiers &middot; streak tracking
         </div>
+
+        {ticker && (
+          <div className="text-signal text-xs md:text-sm font-mono uppercase tracking-wider">
+            {ticker.sessions} session{ticker.sessions === 1 ? '' : 's'} played today &middot; {ticker.avgAccuracy}% average accuracy
+          </div>
+        )}
       </motion.div>
     </div>
   );

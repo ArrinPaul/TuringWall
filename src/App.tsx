@@ -19,12 +19,15 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
     screen,
     playerName,
     difficulty,
+    roundsTarget,
+    clearedModes,
     current,
     stats,
     lastGuessCorrect,
     milestoneHit,
     guessSeq,
     setPlayerName,
+    setRoundsTarget,
     goToSelect,
     startRound,
     guess,
@@ -96,7 +99,15 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
         )}
 
         {screen === 'select' && (
-          <SelectScreen key="select" name={playerName} onNameChange={setPlayerName} onSelect={startRound} />
+          <SelectScreen
+            key="select"
+            name={playerName}
+            onNameChange={setPlayerName}
+            roundsTarget={roundsTarget}
+            onRoundsChange={setRoundsTarget}
+            clearedModes={clearedModes}
+            onSelect={startRound}
+          />
         )}
 
         {screen === 'playing' && current && (
@@ -106,6 +117,7 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
             onGuess={guess}
             stats={stats}
             difficulty={difficulty}
+            roundsTarget={roundsTarget}
           />
         )}
 
@@ -125,7 +137,9 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
           <StatsScreen
             key="stats"
             stats={stats}
+            difficulty={difficulty}
             onPlayAgain={goToSelect}
+            onStartRound={startRound}
           />
         )}
       </AnimatePresence>

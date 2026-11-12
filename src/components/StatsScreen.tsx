@@ -1,20 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { accuracyPercent, getRank, type Stats } from '../game/scoring';
-import { loadLeaderboard, topEntries, downloadLeaderboardAsText } from '../leaderboard/leaderboard';
+import { loadLeaderboard, topEntries, todaysEntries, roomStanding, downloadLeaderboardAsText } from '../leaderboard/leaderboard';
+import { nextTierUp, type SessionMode } from '../data/types';
 
 interface StatsScreenProps {
   stats: Stats;
+  difficulty: SessionMode | null;
   onPlayAgain: () => void;
+  onStartRound: (mode: SessionMode) => void;
 }
 
-export const StatsScreen: React.FC<StatsScreenProps> = ({ stats, onPlayAgain }) => {
+export const StatsScreen: React.FC<StatsScreenProps> = ({ stats, difficulty, onPlayAgain, onStartRound }) => {
   const accuracy = accuracyPercent(stats);
   const rank = getRank(accuracy);
   // Snapshot on mount: the store already recorded this session's entry
   // before routing to this screen, so the board below includes it.
   const [board] = useState(() => loadLeaderboard());
-  const top = topEntries(board, 5);
+  const todays = todaysEntries(board);
+  const top = topEntries(todays, 5);
+  const standing = difficulty ? roomStanding(todays, difficulty, stats.score) : null;
+  const nextTier = difficulty && difficulty !== 'mixed' ? nextTierUp(difficulty) : null;
+  const showNudge = nextTier && accuracy >= 85;
 
   // Keyboard shortcut to Play Again
   useEffect(() => {
@@ -52,6 +59,14 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({ stats, onPlayAgain }) 
           <p className="text-muted mt-3 max-w-md mx-auto text-sm md:text-base leading-relaxed font-body">
             {rank.note}
           </p>
+
+          {standing && (
+            <p className="text-paper mt-2 max-w-md mx-auto text-sm md:text-base font-mono">
+              {standing.total <= 1
+                ? `You're the first to play ${difficulty} today.`
+                : `You scored higher than ${standing.beaten} of ${standing.total} players today on ${difficulty}.`}
+            </p>
+          )}
         </div>
 
         {/* Stats grid */}
@@ -82,6 +97,18 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({ stats, onPlayAgain }) 
             <span className="text-xs text-muted mt-1">total played</span>
           </div>
         </div>
+
+        {/* Progression nudge */}
+        {showNudge && nextTier && (
+          <button
+            type="button"
+            onClick={() => onStartRound(nextTier)}
+            className="w-full max-w-md border border-signal/50 bg-signal/10 hover:bg-signal/20 transition-colors p-4 text-left cursor-pointer"
+          >
+            <span className="font-mono text-signal text-xs uppercase tracking-wider">Nice accuracy</span>
+            <span className="block font-display text-xl text-paper mt-1">Ready for {nextTier}? &rarr;</span>
+          </button>
+        )}
 
         {/* Leaderboard */}
         {top.length > 0 && (

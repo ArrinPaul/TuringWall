@@ -115,4 +115,55 @@ describe('gameStore', () => {
     expect(store.getState().difficulty).toBeNull();
     expect(store.getState().playerName).toBe('');
   });
+
+  it('returnToAttract resets roundsTarget back to the 10-round default', () => {
+    const store = createGameStore(fixtureItems);
+    store.getState().setRoundsTarget(5);
+    store.getState().returnToAttract();
+    expect(store.getState().roundsTarget).toBe(10);
+  });
+
+  it('setRoundsTarget(5) makes a session end, and record a leaderboard entry, after 5 rounds', () => {
+    const store = createGameStore(fixtureItems, () => 0);
+    store.getState().setRoundsTarget(5);
+    store.getState().startRound('easy');
+    for (let i = 0; i < 5; i++) {
+      const current = store.getState().current!;
+      store.getState().guess(current.isAI ? 'ai' : 'human');
+      store.getState().next();
+    }
+    expect(store.getState().screen).toBe('stats');
+    expect(loadLeaderboard()).toHaveLength(1);
+  });
+
+  it('startRound("mixed") draws from every tier, and each guess is worth its own item’s points', () => {
+    const store = createGameStore(fixtureItems, () => 0);
+    store.getState().startRound('mixed');
+    expect(store.getState().difficulty).toBe('mixed');
+    expect(['a', 'b', 'c']).toContain(store.getState().current?.id);
+
+    // Drive to the 'pro' item (id 'c') and confirm it scores more than an easy item would.
+    let current = store.getState().current!;
+    while (current.id !== 'c') {
+      store.getState().guess(current.isAI ? 'ai' : 'human');
+      store.getState().next();
+      current = store.getState().current!;
+    }
+    const scoreBefore = store.getState().stats.score;
+    store.getState().guess(current.isAI ? 'ai' : 'human');
+    expect(store.getState().stats.score - scoreBefore).toBeGreaterThan(1);
+  });
+
+  it('marks a mode as cleared only once a full session in it completes', () => {
+    const store = createGameStore(fixtureItems, () => 0);
+    store.getState().setRoundsTarget(5);
+    expect(store.getState().clearedModes).toEqual([]);
+    store.getState().startRound('easy');
+    for (let i = 0; i < 5; i++) {
+      const current = store.getState().current!;
+      store.getState().guess(current.isAI ? 'ai' : 'human');
+      store.getState().next();
+    }
+    expect(store.getState().clearedModes).toEqual(['easy']);
+  });
 });

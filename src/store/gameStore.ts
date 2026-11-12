@@ -1,5 +1,5 @@
 import { create, type UseBoundStore, type StoreApi } from 'zustand';
-import type { Item, Difficulty } from '../data/types';
+import type { Item, SessionMode } from '../data/types';
 import { ITEMS } from '../data/items';
 import { createDeck, type Deck } from '../game/deck';
 import { createStats, applyGuess, hitMilestone, accuracyPercent, DIFFICULTY_POINTS, type Stats } from '../game/scoring';
@@ -7,22 +7,34 @@ import { addEntry } from '../leaderboard/leaderboard';
 
 export type Screen = 'attract' | 'select' | 'playing' | 'revealed' | 'stats';
 
+export const ROUNDS_OPTIONS = [5, 10] as const;
+export const DEFAULT_ROUNDS = 10;
+
 export interface GameState {
   screen: Screen;
   playerName: string;
-  difficulty: Difficulty | null;
+  difficulty: SessionMode | null;
+  roundsTarget: number;
+  clearedModes: SessionMode[];
   current: Item | null;
   stats: Stats;
   lastGuessCorrect: boolean | null;
   milestoneHit: boolean;
   guessSeq: number;
   setPlayerName: (name: string) => void;
+  setRoundsTarget: (n: number) => void;
   goToSelect: () => void;
-  startRound: (difficulty: Difficulty) => void;
+  startRound: (mode: SessionMode) => void;
   guess: (guess: 'human' | 'ai') => void;
   next: () => void;
   showStats: () => void;
   returnToAttract: () => void;
+}
+
+function poolFor(items: Item[], mode: SessionMode): Item[] {
+  if (mode === 'mixed') return items;
+  const filtered = items.filter((i) => i.difficulty === mode);
+  return filtered.length > 0 ? filtered : items;
 }
 
 export function createGameStore(
@@ -35,6 +47,8 @@ export function createGameStore(
     screen: 'attract',
     playerName: '',
     difficulty: null,
+    roundsTarget: DEFAULT_ROUNDS,
+    clearedModes: [],
     current: null,
     stats: createStats(),
     lastGuessCorrect: null,
@@ -45,17 +59,20 @@ export function createGameStore(
       set({ playerName: name });
     },
 
+    setRoundsTarget: (n: number) => {
+      set({ roundsTarget: n });
+    },
+
     goToSelect: () => {
       set({ screen: 'select' });
     },
 
-    startRound: (difficulty: Difficulty) => {
-      const pool = items.filter((i) => i.difficulty === difficulty);
-      deck = createDeck(pool.length > 0 ? pool : items, rng);
+    startRound: (mode: SessionMode) => {
+      deck = createDeck(poolFor(items, mode), rng);
       const firstItem = deck.next();
       set({
         screen: 'playing',
-        difficulty,
+        difficulty: mode,
         current: firstItem,
         stats: createStats(),
         lastGuessCorrect: null,
@@ -71,7 +88,9 @@ export function createGameStore(
 
       const correct = (g === 'ai') === state.current.isAI;
       const prevStreak = state.stats.streak;
-      const points = state.difficulty ? DIFFICULTY_POINTS[state.difficulty] : 1;
+      // Points come from the item's own tier, not the session mode, so a
+      // Mixed session still rewards a hard item more than an easy one.
+      const points = DIFFICULTY_POINTS[state.current.difficulty];
       const nextStats = applyGuess(state.stats, correct, points);
       const isMilestone = hitMilestone(prevStreak, nextStats.streak);
 
@@ -90,7 +109,7 @@ export function createGameStore(
         return;
       }
 
-      if (state.stats.roundsPlayed > 0 && state.stats.roundsPlayed % 10 === 0) {
+      if (state.stats.roundsPlayed > 0 && state.stats.roundsPlayed % state.roundsTarget === 0) {
         if (state.difficulty) {
           addEntry({
             name: state.playerName.trim() || 'Anonymous',
@@ -104,13 +123,15 @@ export function createGameStore(
         set({
           screen: 'stats',
           milestoneHit: false,
+          clearedModes: state.difficulty && !state.clearedModes.includes(state.difficulty)
+            ? [...state.clearedModes, state.difficulty]
+            : state.clearedModes,
         });
         return;
       }
 
       if (!deck) {
-        const pool = state.difficulty ? items.filter((i) => i.difficulty === state.difficulty) : items;
-        deck = createDeck(pool.length > 0 ? pool : items, rng);
+        deck = createDeck(state.difficulty ? poolFor(items, state.difficulty) : items, rng);
       }
       const nextItem = deck.next();
 
@@ -131,6 +152,8 @@ export function createGameStore(
         screen: 'attract',
         playerName: '',
         difficulty: null,
+        roundsTarget: DEFAULT_ROUNDS,
+        clearedModes: [],
         current: null,
         stats: createStats(),
         lastGuessCorrect: null,
