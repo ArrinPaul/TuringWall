@@ -3,6 +3,7 @@ import { AnimatePresence } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { useGameStore } from './store/gameStore';
 import { useIdleReturn } from './hooks/idle';
+import { useFullscreen } from './hooks/fullscreen';
 import { playTone, isSoundMuted, toggleSoundMuted } from './audio/tone';
 import { AttractScreen } from './components/AttractScreen';
 import { SelectScreen } from './components/SelectScreen';
@@ -38,23 +39,27 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
   } = store();
 
   const [muted, setMuted] = useState(isSoundMuted());
+  const { isFullscreen, toggleFullscreen } = useFullscreen();
 
   const handleToggleMute = () => {
     const nextVal = toggleSoundMuted();
     setMuted(nextVal);
   };
 
-  // Keyboard shortcut for Mute [M]
+  // Keyboard shortcuts: Mute [M], Fullscreen [F]
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'm' || e.key === 'M') {
         e.preventDefault();
         handleToggleMute();
+      } else if (e.key === 'f' || e.key === 'F') {
+        e.preventDefault();
+        toggleFullscreen();
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
+  }, [toggleFullscreen]);
 
   // Kiosk auto-reset: Return to attract screen on 45s of user inactivity
   useIdleReturn(screen !== 'attract', () => {
@@ -82,17 +87,29 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
 
   return (
     <main className="w-full h-full min-h-screen bg-ink text-paper font-body flex flex-col items-center justify-center relative">
-      {/* Floating Sound Control Button */}
-      <button
-        type="button"
-        onClick={handleToggleMute}
-        aria-label={muted ? 'Unmute sound' : 'Mute sound'}
-        className="fixed top-4 right-4 z-50 px-3 py-2 bg-panel border border-panel-line text-muted hover:text-paper transition-colors text-xs font-mono uppercase tracking-wider flex items-center space-x-1.5 cursor-pointer"
-        title="Toggle sound (M)"
-      >
-        <span>Sound {muted ? 'off' : 'on'}</span>
-        <span className="hidden sm:inline text-muted">[M]</span>
-      </button>
+      {/* Floating Sound and Fullscreen Controls */}
+      <div className="fixed top-4 right-4 z-50 flex items-center space-x-2">
+        <button
+          type="button"
+          onClick={toggleFullscreen}
+          aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+          className="px-3 py-2 bg-panel border border-panel-line text-muted hover:text-paper transition-colors text-xs font-mono uppercase tracking-wider flex items-center space-x-1.5 cursor-pointer"
+          title="Toggle fullscreen (F)"
+        >
+          <span>{isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}</span>
+          <span className="hidden sm:inline text-muted">[F]</span>
+        </button>
+        <button
+          type="button"
+          onClick={handleToggleMute}
+          aria-label={muted ? 'Unmute sound' : 'Mute sound'}
+          className="px-3 py-2 bg-panel border border-panel-line text-muted hover:text-paper transition-colors text-xs font-mono uppercase tracking-wider flex items-center space-x-1.5 cursor-pointer"
+          title="Toggle sound (M)"
+        >
+          <span>Sound {muted ? 'off' : 'on'}</span>
+          <span className="hidden sm:inline text-muted">[M]</span>
+        </button>
+      </div>
 
       <AnimatePresence mode="wait">
         {screen === 'attract' && (
