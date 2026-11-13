@@ -3,28 +3,30 @@ import type { Item, SessionMode } from '../data/types';
 import { ITEMS } from '../data/items';
 import { createDeck, type Deck } from '../game/deck';
 import { createStats, applyGuess, hitMilestone, accuracyPercent, DIFFICULTY_POINTS, type Stats } from '../game/scoring';
-import { addEntry } from '../leaderboard/leaderboard';
+import { addEntry, loadLeaderboard, type SessionLength } from '../leaderboard/leaderboard';
 
 export type Screen = 'attract' | 'select' | 'playing' | 'revealed' | 'stats';
 
-export const ROUNDS_OPTIONS = [5, 10] as const;
-export const DEFAULT_ROUNDS = 10;
+export const ROUNDS_OPTIONS = [3, 5, 7, 10] as const satisfies readonly SessionLength[];
+export const DEFAULT_ROUNDS: SessionLength = 10;
 
 export interface GameState {
   screen: Screen;
   playerName: string;
   difficulty: SessionMode | null;
-  roundsTarget: number;
+  roundsTarget: SessionLength;
   clearedModes: SessionMode[];
   current: Item | null;
   stats: Stats;
   lastGuessCorrect: boolean | null;
   milestoneHit: boolean;
+  /** Set once a completed session's score beats every prior score on this same length+tier board. */
+  newPersonalBest: boolean;
   guessSeq: number;
   /** Unique concept tags encountered this session, in first-seen order — the session's "syllabus". */
   conceptsSeen: string[];
   setPlayerName: (name: string) => void;
-  setRoundsTarget: (n: number) => void;
+  setRoundsTarget: (n: SessionLength) => void;
   goToSelect: () => void;
   startRound: (mode: SessionMode) => void;
   guess: (guess: 'human' | 'ai') => void;
@@ -55,6 +57,7 @@ export function createGameStore(
     stats: createStats(),
     lastGuessCorrect: null,
     milestoneHit: false,
+    newPersonalBest: false,
     guessSeq: 0,
     conceptsSeen: [],
 
@@ -62,7 +65,7 @@ export function createGameStore(
       set({ playerName: name });
     },
 
-    setRoundsTarget: (n: number) => {
+    setRoundsTarget: (n: SessionLength) => {
       set({ roundsTarget: n });
     },
 
@@ -80,6 +83,7 @@ export function createGameStore(
         stats: createStats(),
         lastGuessCorrect: null,
         milestoneHit: false,
+        newPersonalBest: false,
         conceptsSeen: [],
       });
     },
@@ -118,7 +122,17 @@ export function createGameStore(
       }
 
       if (state.stats.roundsPlayed > 0 && state.stats.roundsPlayed % state.roundsTarget === 0) {
+        let isNewBest = false;
         if (state.difficulty) {
+          // Compare against this exact length+tier board *before* inserting this
+          // session's own entry, so "new best" means beating someone else's run
+          // (or being the first to clear this tier at this length at all).
+          const priorSameTier = loadLeaderboard(state.roundsTarget).filter(
+            (e) => e.difficulty === state.difficulty
+          );
+          const priorBest = priorSameTier.length > 0 ? Math.max(...priorSameTier.map((e) => e.score)) : null;
+          isNewBest = priorBest !== null && state.stats.score > priorBest;
+
           addEntry({
             name: state.playerName.trim() || 'Anonymous',
             difficulty: state.difficulty,
@@ -126,11 +140,13 @@ export function createGameStore(
             accuracy: accuracyPercent(state.stats),
             bestStreak: state.stats.bestStreak,
             timestamp: Date.now(),
+            roundsTarget: state.roundsTarget,
           });
         }
         set({
           screen: 'stats',
           milestoneHit: false,
+          newPersonalBest: isNewBest,
           clearedModes: state.difficulty && !state.clearedModes.includes(state.difficulty)
             ? [...state.clearedModes, state.difficulty]
             : state.clearedModes,
@@ -166,6 +182,7 @@ export function createGameStore(
         stats: createStats(),
         lastGuessCorrect: null,
         milestoneHit: false,
+        newPersonalBest: false,
         conceptsSeen: [],
       });
     },

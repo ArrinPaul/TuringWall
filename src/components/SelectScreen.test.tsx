@@ -56,10 +56,18 @@ describe('SelectScreen', () => {
     expect(onNameChange).toHaveBeenCalledWith('Rin');
   });
 
+  it('renders all four session-length options', () => {
+    setup();
+    expect(screen.getByText('3')).toBeInTheDocument();
+    expect(screen.getByText('5')).toBeInTheDocument();
+    expect(screen.getByText('7')).toBeInTheDocument();
+    expect(screen.getByText('10')).toBeInTheDocument();
+  });
+
   it('clicking a rounds option calls onRoundsChange with that number', () => {
     const { onRoundsChange } = setup();
-    fireEvent.click(screen.getByText('5 rounds'));
-    expect(onRoundsChange).toHaveBeenCalledWith(5);
+    fireEvent.click(screen.getByText('7'));
+    expect(onRoundsChange).toHaveBeenCalledWith(7);
   });
 
   it('marks cleared tiers with a "Cleared" badge, and leaves others unmarked', () => {

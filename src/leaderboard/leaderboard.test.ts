@@ -1,5 +1,15 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { withEntry, topEntries, todaysEntries, roomStanding, formatAsText, loadLeaderboard, addEntry, type LeaderboardEntry } from './leaderboard';
+import {
+  withEntry,
+  topEntries,
+  todaysEntries,
+  roomStanding,
+  formatAsText,
+  loadLeaderboard,
+  loadAllLeaderboards,
+  addEntry,
+  type LeaderboardEntry,
+} from './leaderboard';
 
 function makeEntry(overrides: Partial<LeaderboardEntry> = {}): LeaderboardEntry {
   return {
@@ -9,6 +19,7 @@ function makeEntry(overrides: Partial<LeaderboardEntry> = {}): LeaderboardEntry 
     accuracy: 80,
     bestStreak: 3,
     timestamp: 1700000000000,
+    roundsTarget: 10,
     ...overrides,
   };
 }
@@ -38,12 +49,13 @@ describe('topEntries', () => {
 });
 
 describe('formatAsText', () => {
-  it('renders a tab-separated header and one row per entry', () => {
-    const text = formatAsText([makeEntry()]);
+  it('renders a tab-separated header and one row per entry, including the session length', () => {
+    const text = formatAsText([makeEntry({ roundsTarget: 7 })]);
     const lines = text.split('\n');
-    expect(lines[0]).toBe('Name\tDifficulty\tScore\tAccuracy\tBest Streak\tDate');
+    expect(lines[0]).toBe('Name\tDifficulty\tRounds\tScore\tAccuracy\tBest Streak\tDate');
     expect(lines[1]).toContain('Rin');
     expect(lines[1]).toContain('easy');
+    expect(lines[1]).toContain('7');
     expect(lines[1]).toContain('80%');
   });
 });
@@ -76,22 +88,45 @@ describe('roomStanding', () => {
   });
 });
 
-describe('loadLeaderboard / addEntry (localStorage-backed)', () => {
+describe('loadLeaderboard / addEntry (localStorage-backed, segmented by session length)', () => {
   beforeEach(() => {
     localStorage.clear();
   });
 
-  it('starts empty when nothing is stored', () => {
-    expect(loadLeaderboard()).toEqual([]);
+  it('starts empty for every session length when nothing is stored', () => {
+    expect(loadLeaderboard(3)).toEqual([]);
+    expect(loadLeaderboard(5)).toEqual([]);
+    expect(loadLeaderboard(7)).toEqual([]);
+    expect(loadLeaderboard(10)).toEqual([]);
   });
 
-  it('addEntry persists and loadLeaderboard reads it back', () => {
-    addEntry(makeEntry({ name: 'Persisted' }));
-    expect(loadLeaderboard().map((e) => e.name)).toEqual(['Persisted']);
+  it('addEntry persists and loadLeaderboard reads it back on the matching length only', () => {
+    addEntry(makeEntry({ name: 'Persisted', roundsTarget: 5 }));
+    expect(loadLeaderboard(5).map((e) => e.name)).toEqual(['Persisted']);
+    expect(loadLeaderboard(3)).toEqual([]);
+    expect(loadLeaderboard(7)).toEqual([]);
+    expect(loadLeaderboard(10)).toEqual([]);
   });
 
-  it('survives corrupted storage by returning an empty list', () => {
-    localStorage.setItem('real-or-ai-wall:leaderboard', 'not json');
-    expect(loadLeaderboard()).toEqual([]);
+  it('a 3-question entry never appears on the 10-question board, and vice versa', () => {
+    addEntry(makeEntry({ name: 'Short run', roundsTarget: 3, score: 3 }));
+    addEntry(makeEntry({ name: 'Long run', roundsTarget: 10, score: 10 }));
+    expect(loadLeaderboard(3).map((e) => e.name)).toEqual(['Short run']);
+    expect(loadLeaderboard(10).map((e) => e.name)).toEqual(['Long run']);
+  });
+
+  it('loadAllLeaderboards returns every length bucket at once', () => {
+    addEntry(makeEntry({ name: 'A', roundsTarget: 3 }));
+    addEntry(makeEntry({ name: 'B', roundsTarget: 7 }));
+    const all = loadAllLeaderboards();
+    expect(all[3].map((e) => e.name)).toEqual(['A']);
+    expect(all[7].map((e) => e.name)).toEqual(['B']);
+    expect(all[5]).toEqual([]);
+    expect(all[10]).toEqual([]);
+  });
+
+  it('survives corrupted storage by returning an empty list for every length', () => {
+    localStorage.setItem('real-or-ai-wall:leaderboard:v2', 'not json');
+    expect(loadLeaderboard(10)).toEqual([]);
   });
 });

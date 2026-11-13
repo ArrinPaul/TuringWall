@@ -52,3 +52,20 @@ export function moodForGuess(correct: boolean, streak: number): SignalMood {
   if (correct && streak >= 5) return 'smug';
   return correct ? 'correct' : 'incorrect';
 }
+
+/**
+ * Conversation-starters for whoever is standing next to the player but not holding the
+ * controls — a parent, a friend, a passing counselor. Shown on the attract screen so the
+ * stall works for an audience of more than one at a time.
+ */
+const SPECTATOR_LINES: string[] = [
+  'Ask them: what gave away which one was AI-written?',
+  'Ask them: would you have caught that tell yourself?',
+  'Ask them: which round was the hardest call?',
+  "Ask them: what's one thing they'd look for now?",
+];
+
+export function pickSpectatorLine(rng: () => number = Math.random): string {
+  const index = Math.min(SPECTATOR_LINES.length - 1, Math.floor(rng() * SPECTATOR_LINES.length));
+  return SPECTATOR_LINES[index];
+}

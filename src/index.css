@@ -46,3 +46,41 @@
     user-drag: none;
   }
 }
+
+/* Printable session takeaway — a clean one-page summary for a parent/student to take
+   home from the stall. Everything else on the page (kiosk chrome, decorative panels,
+   the dark lab-notebook background) is suppressed; only `.print-takeaway` prints. */
+@media print {
+  html, body, #root {
+    background: #ffffff !important;
+    height: auto;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-takeaway {
+    display: block !important;
+    position: static !important;
+    color: #15110d !important;
+    background: #ffffff !important;
+    max-width: 100%;
+    padding: 0;
+    margin: 0 auto;
+  }
+
+  .print-takeaway * {
+    color: #15110d !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .print-takeaway .print-rule {
+    border-color: #15110d !important;
+  }
+}
+
+.print-takeaway {
+  display: none;
+}

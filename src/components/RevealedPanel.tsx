@@ -57,25 +57,25 @@ export const RevealedPanel: React.FC<RevealedPanelProps> = ({
 
   return (
     <motion.div
-      className="flex flex-col min-h-screen w-full bg-ink text-paper font-body p-4 md:py-6 md:px-8 justify-between select-none"
+      className="flex flex-col min-h-screen w-full bg-ink text-paper font-body p-4 pt-16 sm:pt-20 md:py-6 md:px-8 md:pt-20 justify-between select-none"
       initial={{ opacity: 0, scale: 0.98 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.98 }}
       transition={{ duration: 0.2 }}
     >
       {/* Top status bar */}
-      <div className="flex items-center justify-between w-full max-w-4xl mx-auto py-2 border-b border-panel-line text-muted text-sm md:text-base font-mono">
-        <div className="flex items-center space-x-3">
+      <div className="flex flex-wrap items-center justify-between gap-y-1.5 w-full max-w-4xl mx-auto py-2 border-b border-panel-line text-muted text-xs sm:text-sm md:text-base font-mono">
+        <div className="flex items-center gap-2 sm:gap-3">
           <span>
             Round <span className="text-paper font-500">{stats.roundsPlayed}</span>
           </span>
           {item.category && (
-            <span className="px-2 py-0.5 bg-panel border border-panel-line text-muted text-xs uppercase tracking-wider">
+            <span className="hidden sm:inline-block px-2 py-0.5 bg-panel border border-panel-line text-muted text-xs uppercase tracking-wider">
               {item.category}
             </span>
           )}
         </div>
-        <div className="flex items-center space-x-6">
+        <div className="flex items-center gap-3 sm:gap-6">
           <div>
             Score <span className="text-good font-500">{stats.score}</span>
           </div>
@@ -87,8 +87,11 @@ export const RevealedPanel: React.FC<RevealedPanelProps> = ({
 
       {/* Verdict & explanation card */}
       <div className="flex-1 flex flex-col items-center justify-center max-w-2xl w-full mx-auto my-4">
-        <div
-          className={`w-full border border-l-4 p-6 md:p-8 flex flex-col items-center text-center ${
+        <motion.div
+          initial={{ opacity: 0, scale: 0.92, y: 12 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          transition={{ type: 'spring', stiffness: 320, damping: 24 }}
+          className={`w-full border border-l-4 p-4 sm:p-6 md:p-8 flex flex-col items-center text-center ${
             correct
               ? 'bg-good-dim border-panel-line border-l-good'
               : 'bg-bad-dim border-panel-line border-l-bad'
@@ -101,14 +104,17 @@ export const RevealedPanel: React.FC<RevealedPanelProps> = ({
           </div>
 
           {/* Verdict */}
-          <div
+          <motion.div
             data-testid="verdict"
-            className={`px-5 py-1.5 font-mono text-lg md:text-xl uppercase tracking-wide mb-4 border ${
+            initial={{ scale: 0.4, opacity: 0, rotate: correct ? -6 : 6 }}
+            animate={{ scale: 1, opacity: 1, rotate: 0 }}
+            transition={{ type: 'spring', stiffness: 420, damping: 14, delay: 0.1 }}
+            className={`px-5 py-1.5 font-mono text-base sm:text-lg md:text-xl uppercase tracking-wide mb-4 border ${
               correct ? 'text-good border-good/40' : 'text-bad border-bad/40'
             }`}
           >
             {correct ? 'Correct' : 'Not quite'}
-          </div>
+          </motion.div>
 
           {/* Actual source */}
           <h2 className="font-display text-lg md:text-xl text-paper mb-3">
@@ -157,28 +163,30 @@ export const RevealedPanel: React.FC<RevealedPanelProps> = ({
               {explanation}
             </p>
           </div>
-        </div>
+        </motion.div>
       </div>
 
       {/* Actions */}
       <div className="w-full max-w-xl mx-auto flex flex-col items-center space-y-1.5 pb-2">
-        <div className="w-full flex items-center space-x-4">
-          <button
+        <div className="w-full flex items-center gap-3 sm:gap-4">
+          <motion.button
             type="button"
             disabled={navigating}
             onClick={handleShowStats}
-            className="flex-1 h-16 bg-panel hover:bg-panel-line active:scale-95 transition-all text-paper font-body font-500 text-lg border border-panel-line cursor-pointer disabled:opacity-50"
+            whileTap={{ scale: 0.94 }}
+            className="flex-1 h-14 sm:h-16 bg-panel hover:bg-panel-line transition-colors text-paper font-body font-500 text-base sm:text-lg border border-panel-line cursor-pointer disabled:opacity-50"
           >
             Stats [S]
-          </button>
-          <button
+          </motion.button>
+          <motion.button
             type="button"
             disabled={navigating}
             onClick={handleNext}
-            className="flex-2 h-16 bg-signal hover:bg-signal-dim active:scale-95 transition-all text-ink font-body font-600 text-xl cursor-pointer disabled:opacity-50"
+            whileTap={{ scale: 0.94 }}
+            className="flex-[2] h-14 sm:h-16 bg-signal hover:bg-signal-dim transition-colors text-ink font-body font-600 text-lg sm:text-xl cursor-pointer disabled:opacity-50"
           >
             Next round &rarr;
-          </button>
+          </motion.button>
         </div>
         <span className="text-muted text-xs font-mono">[Space] or [Enter] for next</span>
       </div>

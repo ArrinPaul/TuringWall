@@ -26,6 +26,7 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
     stats,
     lastGuessCorrect,
     milestoneHit,
+    newPersonalBest,
     guessSeq,
     conceptsSeen,
     setPlayerName,
@@ -73,10 +74,13 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
 
       if (milestoneHit) {
         try {
+          // Brass/ink palette, not the library's default rainbow — stays in the
+          // project's existing aesthetic rather than competing with Signal.
           void confetti({
-            particleCount: 100,
-            spread: 70,
+            particleCount: 90,
+            spread: 65,
             origin: { y: 0.6 },
+            colors: ['#d6933c', '#ad7329', '#7f9a5e', '#f4ede1'],
           });
         } catch {
           // Confetti fallback for non-canvas environments
@@ -88,22 +92,22 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
   return (
     <main className="w-full h-full min-h-screen bg-ink text-paper font-body flex flex-col items-center justify-center relative">
       {/* Floating Sound and Fullscreen Controls */}
-      <div className="fixed top-4 right-4 z-50 flex items-center space-x-2">
+      <div className="no-print fixed top-2 sm:top-4 right-2 sm:right-4 z-50 flex items-center gap-1.5 sm:gap-2">
         <button
           type="button"
           onClick={toggleFullscreen}
           aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
-          className="px-3 py-2 bg-panel border border-panel-line text-muted hover:text-paper transition-colors text-xs font-mono uppercase tracking-wider flex items-center space-x-1.5 cursor-pointer"
+          className="min-h-9 px-2 sm:px-3 py-1.5 sm:py-2 bg-panel border border-panel-line text-muted hover:text-paper transition-colors text-[10px] sm:text-xs font-mono uppercase tracking-wider flex items-center space-x-1.5 cursor-pointer"
           title="Toggle fullscreen (F)"
         >
-          <span>{isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}</span>
+          <span>{isFullscreen ? 'Exit' : 'Fullscreen'}</span>
           <span className="hidden sm:inline text-muted">[F]</span>
         </button>
         <button
           type="button"
           onClick={handleToggleMute}
           aria-label={muted ? 'Unmute sound' : 'Mute sound'}
-          className="px-3 py-2 bg-panel border border-panel-line text-muted hover:text-paper transition-colors text-xs font-mono uppercase tracking-wider flex items-center space-x-1.5 cursor-pointer"
+          className="min-h-9 px-2 sm:px-3 py-1.5 sm:py-2 bg-panel border border-panel-line text-muted hover:text-paper transition-colors text-[10px] sm:text-xs font-mono uppercase tracking-wider flex items-center space-x-1.5 cursor-pointer"
           title="Toggle sound (M)"
         >
           <span>Sound {muted ? 'off' : 'on'}</span>
@@ -156,6 +160,8 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
             key="stats"
             stats={stats}
             difficulty={difficulty}
+            roundsTarget={roundsTarget}
+            newPersonalBest={newPersonalBest}
             conceptsSeen={conceptsSeen}
             onPlayAgain={goToSelect}
             onStartRound={startRound}

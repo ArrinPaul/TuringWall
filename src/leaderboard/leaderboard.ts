@@ -1,5 +1,9 @@
 import type { SessionMode } from '../data/types';
 
+/** The four session lengths a round can be played at — each gets its own, non-comparable board. */
+export const SESSION_LENGTHS = [3, 5, 7, 10] as const;
+export type SessionLength = (typeof SESSION_LENGTHS)[number];
+
 export interface LeaderboardEntry {
   name: string;
   difficulty: SessionMode;
@@ -7,10 +11,18 @@ export interface LeaderboardEntry {
   accuracy: number;
   bestStreak: number;
   timestamp: number;
+  /** Which session length this run was played at — the board it belongs on. */
+  roundsTarget: SessionLength;
 }
 
-const STORAGE_KEY = 'real-or-ai-wall:leaderboard';
+const STORAGE_KEY = 'real-or-ai-wall:leaderboard:v2';
 const MAX_ENTRIES = 50;
+
+type LeaderboardStore = Record<SessionLength, LeaderboardEntry[]>;
+
+function emptyStore(): LeaderboardStore {
+  return { 3: [], 5: [], 7: [], 10: [] };
+}
 
 /** Pure: inserts an entry, re-sorts by score (desc), and caps the list. Exported for testing. */
 export function withEntry(entries: LeaderboardEntry[], entry: LeaderboardEntry): LeaderboardEntry[] {
@@ -54,44 +66,74 @@ export function roomStanding(entries: LeaderboardEntry[], mode: SessionMode, sco
 
 /** Pure: renders the leaderboard as a plain-text table, openable in any text editor. */
 export function formatAsText(entries: LeaderboardEntry[]): string {
-  const header = 'Name\tDifficulty\tScore\tAccuracy\tBest Streak\tDate';
+  const header = 'Name\tDifficulty\tRounds\tScore\tAccuracy\tBest Streak\tDate';
   const rows = entries.map((e) => {
     const date = new Date(e.timestamp).toLocaleString();
-    return `${e.name}\t${e.difficulty}\t${e.score}\t${e.accuracy}%\t${e.bestStreak}\t${date}`;
+    return `${e.name}\t${e.difficulty}\t${e.roundsTarget}\t${e.score}\t${e.accuracy}%\t${e.bestStreak}\t${date}`;
   });
   return [header, ...rows].join('\n');
 }
 
-export function loadLeaderboard(): LeaderboardEntry[] {
+function isSessionLength(n: unknown): n is SessionLength {
+  return typeof n === 'number' && (SESSION_LENGTHS as readonly number[]).includes(n);
+}
+
+function loadStore(): LeaderboardStore {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return [];
+    if (!raw) return emptyStore();
     const parsed = JSON.parse(raw);
-    return Array.isArray(parsed) ? parsed : [];
+    const store = emptyStore();
+    if (parsed && typeof parsed === 'object') {
+      for (const length of SESSION_LENGTHS) {
+        const bucket = (parsed as Record<string, unknown>)[String(length)];
+        if (Array.isArray(bucket)) {
+          store[length] = bucket;
+        }
+      }
+    }
+    return store;
   } catch {
-    return [];
+    return emptyStore();
   }
 }
 
-export function addEntry(entry: LeaderboardEntry): LeaderboardEntry[] {
-  const next = withEntry(loadLeaderboard(), entry);
+function saveStore(store: LeaderboardStore): void {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(store));
   } catch {
     // Local storage may be unavailable (private browsing, quota); the
     // session still works, it just won't persist the leaderboard.
   }
-  return next;
 }
 
-/** Triggers a browser download of the leaderboard as a .txt file. */
-export function downloadLeaderboardAsText(entries: LeaderboardEntry[]): void {
+/** Loads only the board for one session length — boards never mix across lengths. */
+export function loadLeaderboard(length: SessionLength): LeaderboardEntry[] {
+  return loadStore()[length];
+}
+
+/** Loads every board at once, keyed by session length — for the leaderboard screen's tabs. */
+export function loadAllLeaderboards(): LeaderboardStore {
+  return loadStore();
+}
+
+export function addEntry(entry: LeaderboardEntry): LeaderboardEntry[] {
+  const length = isSessionLength(entry.roundsTarget) ? entry.roundsTarget : SESSION_LENGTHS[0];
+  const store = loadStore();
+  store[length] = withEntry(store[length], entry);
+  saveStore(store);
+  return store[length];
+}
+
+/** Triggers a browser download of one session length's leaderboard as a .txt file. */
+export function downloadLeaderboardAsText(entries: LeaderboardEntry[], length?: SessionLength): void {
   try {
     const blob = new Blob([formatAsText(entries)], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `real-or-ai-wall-leaderboard-${new Date().toISOString().slice(0, 10)}.txt`;
+    const suffix = length ? `-${length}q` : '';
+    a.download = `real-or-ai-wall-leaderboard${suffix}-${new Date().toISOString().slice(0, 10)}.txt`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);

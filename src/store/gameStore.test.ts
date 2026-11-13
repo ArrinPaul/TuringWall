@@ -87,10 +87,11 @@ describe('gameStore', () => {
       store.getState().guess(current.isAI ? 'ai' : 'human');
       store.getState().next();
     }
-    const board = loadLeaderboard();
+    const board = loadLeaderboard(10);
     expect(board).toHaveLength(1);
     expect(board[0].name).toBe('Rin');
     expect(board[0].difficulty).toBe('easy');
+    expect(board[0].roundsTarget).toBe(10);
     // All 10 guesses are correct (guessing each item's real isAI), easy tier = 1 point each.
     expect(board[0].score).toBe(10);
   });
@@ -103,7 +104,7 @@ describe('gameStore', () => {
       store.getState().guess(current.isAI ? 'ai' : 'human');
       store.getState().next();
     }
-    expect(loadLeaderboard()[0].name).toBe('Anonymous');
+    expect(loadLeaderboard(10)[0].name).toBe('Anonymous');
   });
 
   it('returnToAttract resets the screen to attract, clears the difficulty, and clears the player name', () => {
@@ -133,7 +134,54 @@ describe('gameStore', () => {
       store.getState().next();
     }
     expect(store.getState().screen).toBe('stats');
-    expect(loadLeaderboard()).toHaveLength(1);
+    expect(loadLeaderboard(5)).toHaveLength(1);
+    expect(loadLeaderboard(10)).toHaveLength(0);
+  });
+
+  it('separates leaderboard entries by session length — a 5-round run never lands on the 10-round board', () => {
+    const store = createGameStore(fixtureItems, () => 0);
+    store.getState().setRoundsTarget(5);
+    store.getState().startRound('easy');
+    for (let i = 0; i < 5; i++) {
+      const current = store.getState().current!;
+      store.getState().guess(current.isAI ? 'ai' : 'human');
+      store.getState().next();
+    }
+    store.getState().returnToAttract();
+    store.getState().startRound('easy');
+    for (let i = 0; i < 10; i++) {
+      const current = store.getState().current!;
+      store.getState().guess(current.isAI ? 'ai' : 'human');
+      store.getState().next();
+    }
+    expect(loadLeaderboard(5)).toHaveLength(1);
+    expect(loadLeaderboard(10)).toHaveLength(1);
+    expect(loadLeaderboard(5)[0].roundsTarget).toBe(5);
+    expect(loadLeaderboard(10)[0].roundsTarget).toBe(10);
+  });
+
+  it('flags newPersonalBest only when this session beats a prior score on the same length+tier board', () => {
+    const store = createGameStore(fixtureItems, () => 0);
+    store.getState().setRoundsTarget(3);
+    store.getState().startRound('easy');
+    for (let i = 0; i < 3; i++) {
+      const current = store.getState().current!;
+      store.getState().guess(current.isAI ? 'ai' : 'human');
+      store.getState().next();
+    }
+    // First-ever clear of this tier/length: nothing to beat yet.
+    expect(store.getState().newPersonalBest).toBe(false);
+
+    store.getState().returnToAttract();
+    store.getState().setRoundsTarget(3);
+    store.getState().startRound('easy');
+    for (let i = 0; i < 3; i++) {
+      const current = store.getState().current!;
+      store.getState().guess(current.isAI ? 'ai' : 'human');
+      store.getState().next();
+    }
+    // Same perfect score as before (tie), not strictly a new best.
+    expect(store.getState().newPersonalBest).toBe(false);
   });
 
   it('startRound("mixed") draws from every tier, and each guess is worth its own item’s points', () => {
