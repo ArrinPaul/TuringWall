@@ -6,7 +6,6 @@
 
 _Can you tell whether a piece of writing or art is human-crafted or AI-generated? 540+ curated rounds, offline-first kiosk reliability, multi-tier gameplay, and separate session leaderboards._
 
-[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE)
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)
@@ -58,7 +57,6 @@ The game is engineered from the ground up for unattended kiosk reliability:
 14. [Troubleshooting](#troubleshooting)
 15. [Documentation](#documentation)
 16. [Contributing](#contributing)
-17. [License](#license)
 
 ---
 
@@ -309,7 +307,6 @@ TuringWall/
 ├── public/                   PWA manifest, service worker (sw.js), kiosk icons
 ├── dist/                     Production build output for standalone offline hosting
 ├── METHODOLOGY.md            Detailed scientific & algorithmic documentation
-├── LICENSE                   MIT License
 └── package.json              Project metadata and dependencies
 ```
 
@@ -359,8 +356,3 @@ Contributions to improve the question bank, refine difficulty calibration, or en
    ```
 4. Submit a Pull Request with a clear description of your changes.
 
----
-
-## License
-
-Released under the **MIT License**. See [LICENSE](LICENSE) for full legal text.
