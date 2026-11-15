@@ -22,6 +22,9 @@ export interface GameState {
   milestoneHit: boolean;
   /** Set once a completed session's score beats every prior score on this same length+tier board. */
   newPersonalBest: boolean;
+  /** True once this session's result has been written to the leaderboard — guards against double-saving
+   * (e.g. "Next round" vs jumping straight to "Stats" on the final round) and against saving nothing at all. */
+  sessionSaved: boolean;
   guessSeq: number;
   /** Unique concept tags encountered this session, in first-seen order — the session's "syllabus". */
   conceptsSeen: string[];
@@ -41,6 +44,48 @@ function poolFor(items: Item[], mode: SessionMode): Item[] {
   return filtered.length > 0 ? filtered : items;
 }
 
+/** Fields the leaderboard-save step contributes to state — applied once, from wherever the
+ * session actually ends (via "Next round" on the last reveal, or by jumping straight to Stats). */
+interface FinalizePatch {
+  sessionSaved: true;
+  newPersonalBest: boolean;
+  clearedModes: SessionMode[];
+}
+
+/** Pure-ish: if this session just completed and hasn't been saved yet, records it on the
+ * length+tier leaderboard and returns the state patch to apply; otherwise returns null. */
+function finalizeSessionIfComplete(state: GameState): FinalizePatch | null {
+  if (state.sessionSaved) return null;
+  if (state.stats.roundsPlayed < state.roundsTarget) return null;
+  if (!state.difficulty) return null;
+
+  // Compare against this exact length+tier board *before* inserting this
+  // session's own entry, so "new best" means beating someone else's run
+  // (or being the first to clear this tier at this length at all).
+  const priorSameTier = loadLeaderboard(state.roundsTarget).filter((e) => e.difficulty === state.difficulty);
+  const priorBest = priorSameTier.length > 0 ? Math.max(...priorSameTier.map((e) => e.score)) : null;
+  const isNewBest = priorBest !== null && state.stats.score > priorBest;
+
+  addEntry({
+    name: state.playerName.trim() || 'Anonymous',
+    difficulty: state.difficulty,
+    score: state.stats.score,
+    accuracy: accuracyPercent(state.stats),
+    bestStreak: state.stats.bestStreak,
+    timestamp: Date.now(),
+    roundsTarget: state.roundsTarget,
+  });
+
+  return {
+    sessionSaved: true,
+    newPersonalBest: isNewBest,
+    clearedModes:
+      state.difficulty && !state.clearedModes.includes(state.difficulty)
+        ? [...state.clearedModes, state.difficulty]
+        : state.clearedModes,
+  };
+}
+
 export function createGameStore(
   items: Item[],
   rng: () => number = Math.random
@@ -58,6 +103,7 @@ export function createGameStore(
     lastGuessCorrect: null,
     milestoneHit: false,
     newPersonalBest: false,
+    sessionSaved: false,
     guessSeq: 0,
     conceptsSeen: [],
 
@@ -84,6 +130,7 @@ export function createGameStore(
         lastGuessCorrect: null,
         milestoneHit: false,
         newPersonalBest: false,
+        sessionSaved: false,
         conceptsSeen: [],
       });
     },
@@ -122,34 +169,11 @@ export function createGameStore(
       }
 
       if (state.stats.roundsPlayed > 0 && state.stats.roundsPlayed % state.roundsTarget === 0) {
-        let isNewBest = false;
-        if (state.difficulty) {
-          // Compare against this exact length+tier board *before* inserting this
-          // session's own entry, so "new best" means beating someone else's run
-          // (or being the first to clear this tier at this length at all).
-          const priorSameTier = loadLeaderboard(state.roundsTarget).filter(
-            (e) => e.difficulty === state.difficulty
-          );
-          const priorBest = priorSameTier.length > 0 ? Math.max(...priorSameTier.map((e) => e.score)) : null;
-          isNewBest = priorBest !== null && state.stats.score > priorBest;
-
-          addEntry({
-            name: state.playerName.trim() || 'Anonymous',
-            difficulty: state.difficulty,
-            score: state.stats.score,
-            accuracy: accuracyPercent(state.stats),
-            bestStreak: state.stats.bestStreak,
-            timestamp: Date.now(),
-            roundsTarget: state.roundsTarget,
-          });
-        }
+        const patch = finalizeSessionIfComplete(state);
         set({
           screen: 'stats',
           milestoneHit: false,
-          newPersonalBest: isNewBest,
-          clearedModes: state.difficulty && !state.clearedModes.includes(state.difficulty)
-            ? [...state.clearedModes, state.difficulty]
-            : state.clearedModes,
+          ...(patch ?? {}),
         });
         return;
       }
@@ -167,7 +191,13 @@ export function createGameStore(
     },
 
     showStats: () => {
-      set({ screen: 'stats' });
+      // Jumping straight to Stats from the final round's reveal (instead of
+      // clicking "Next round") must still save the session — this is exactly
+      // the gap that let a completed session disappear without ever landing
+      // on the leaderboard.
+      const state = get();
+      const patch = finalizeSessionIfComplete(state);
+      set({ screen: 'stats', ...(patch ?? {}) });
     },
 
     returnToAttract: () => {
@@ -183,6 +213,7 @@ export function createGameStore(
         lastGuessCorrect: null,
         milestoneHit: false,
         newPersonalBest: false,
+        sessionSaved: false,
         conceptsSeen: [],
       });
     },

@@ -96,6 +96,43 @@ describe('gameStore', () => {
     expect(board[0].score).toBe(10);
   });
 
+  it('jumping straight to Stats on the final round (instead of clicking Next round) still records the entry', () => {
+    // Regression: showStats() used to be a bare screen switch, so a player who clicked
+    // "Stats" on the last round's reveal panel instead of "Next round" lost their score
+    // entirely — it never reached the leaderboard.
+    const store = createGameStore(fixtureItems, () => 0);
+    store.getState().setPlayerName('Jordan');
+    store.getState().startRound('easy');
+    for (let i = 0; i < 9; i++) {
+      const current = store.getState().current!;
+      store.getState().guess(current.isAI ? 'ai' : 'human');
+      store.getState().next();
+    }
+    // 10th and final round: guess, then go straight to Stats instead of next().
+    const last = store.getState().current!;
+    store.getState().guess(last.isAI ? 'ai' : 'human');
+    store.getState().showStats();
+
+    expect(store.getState().screen).toBe('stats');
+    const board = loadLeaderboard(10);
+    expect(board).toHaveLength(1);
+    expect(board[0].name).toBe('Jordan');
+    expect(board[0].score).toBe(10);
+  });
+
+  it('does not double-save if showStats is somehow called again after the session was already saved', () => {
+    const store = createGameStore(fixtureItems, () => 0);
+    store.getState().startRound('easy');
+    for (let i = 0; i < 10; i++) {
+      const current = store.getState().current!;
+      store.getState().guess(current.isAI ? 'ai' : 'human');
+      store.getState().next();
+    }
+    store.getState().showStats();
+    store.getState().showStats();
+    expect(loadLeaderboard(10)).toHaveLength(1);
+  });
+
   it('falls back to "Anonymous" when no name was entered', () => {
     const store = createGameStore(fixtureItems, () => 0);
     store.getState().startRound('easy');

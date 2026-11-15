@@ -125,7 +125,6 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
             key="select"
             name={playerName}
             onNameChange={setPlayerName}
-            roundsTarget={roundsTarget}
             onRoundsChange={setRoundsTarget}
             clearedModes={clearedModes}
             onSelect={startRound}

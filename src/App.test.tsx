@@ -8,10 +8,12 @@ const fixtureItems = [
   { id: 'b', kind: 'text' as const, text: 'Quote B', isAI: false, explanation: 'exp B', concept: 'concept B', difficulty: 'easy' as const },
 ];
 
-/** Helper: from attract, open the difficulty select screen and pick Easy. */
+/** Helper: from attract, walk the setup wizard (name -> tier -> length) picking Easy / 10 questions. */
 function startEasyRound() {
   fireEvent.click(screen.getByTestId('attract-root'));
+  fireEvent.click(screen.getByText(/Continue/i));
   fireEvent.click(screen.getByText('Easy'));
+  fireEvent.click(screen.getByText('10'));
 }
 
 describe('App', () => {
@@ -20,10 +22,17 @@ describe('App', () => {
     expect(screen.getByText(/real or ai/i)).toBeInTheDocument();
   });
 
-  it('tapping attract opens the difficulty select screen', () => {
+  it('tapping attract opens the setup wizard, starting on the name step', () => {
     render(<App store={createGameStore(fixtureItems, () => 0)} />);
     fireEvent.click(screen.getByTestId('attract-root'));
     expect(screen.getByTestId('select-root')).toBeInTheDocument();
+    expect(screen.getByText("Who's playing?")).toBeInTheDocument();
+  });
+
+  it('continuing from the name step reaches the hardness step with all tiers', () => {
+    render(<App store={createGameStore(fixtureItems, () => 0)} />);
+    fireEvent.click(screen.getByTestId('attract-root'));
+    fireEvent.click(screen.getByText(/Continue/i));
     expect(screen.getByText('Easy')).toBeInTheDocument();
     expect(screen.getByText('Pro')).toBeInTheDocument();
   });
@@ -66,7 +75,9 @@ describe('App', () => {
     ];
     render(<App store={createGameStore(imageItems, () => 0)} />);
     fireEvent.click(screen.getByTestId('attract-root'));
+    fireEvent.click(screen.getByText(/Continue/i));
     fireEvent.click(screen.getByText('Easy'));
+    fireEvent.click(screen.getByText('10'));
     fireEvent.error(screen.getByRole('img'));
     expect(screen.getByText(/image unavailable/i)).toBeInTheDocument();
   });

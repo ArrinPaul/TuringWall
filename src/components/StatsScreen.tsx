@@ -14,6 +14,7 @@ import {
 import { nextTierUp, type SessionMode } from '../data/types';
 import { SignalAvatar } from './SignalAvatar';
 import { closingLine, type SignalMood } from '../character/signal';
+import { FullLeaderboard } from './FullLeaderboard';
 
 interface StatsScreenProps {
   stats: Stats;
@@ -52,6 +53,7 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
   // before routing to this screen, so the boards below include it.
   const [allBoards] = useState(() => loadAllLeaderboards());
   const [activeLength, setActiveLength] = useState<SessionLength>(roundsTarget);
+  const [showFullBoard, setShowFullBoard] = useState(false);
 
   const board = allBoards[activeLength];
   const todays = todaysEntries(board);
@@ -189,6 +191,13 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
             <div className="flex items-center gap-1.5">
               <button
                 type="button"
+                onClick={() => setShowFullBoard(true)}
+                className="text-muted hover:text-paper text-xs uppercase tracking-wider border border-panel-line px-2 py-1 cursor-pointer transition-colors min-h-8"
+              >
+                View full board
+              </button>
+              <button
+                type="button"
                 onClick={() => window.print()}
                 className="text-muted hover:text-paper text-xs uppercase tracking-wider border border-panel-line px-2 py-1 cursor-pointer transition-colors min-h-8"
               >
@@ -233,7 +242,9 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
                 <li key={`${entry.name}-${entry.timestamp}`} className="flex items-center justify-between text-paper">
                   <span className="truncate">
                     <span className="text-muted">{i + 1}.</span> {entry.name}{' '}
-                    <span className="text-muted uppercase text-xs">({entry.difficulty})</span>
+                    <span className="text-muted uppercase text-xs">
+                      ({entry.difficulty} &middot; {entry.accuracy}%)
+                    </span>
                   </span>
                   <span className="text-signal shrink-0 ml-3">{entry.score}</span>
                 </li>
@@ -335,6 +346,12 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
           a volunteer &mdash; every concept above is one entry in it.
         </p>
       </div>
+
+      {showFullBoard && (
+        <div onClick={(e) => e.stopPropagation()}>
+          <FullLeaderboard initialLength={activeLength} onClose={() => setShowFullBoard(false)} />
+        </div>
+      )}
     </motion.div>
   );
 };

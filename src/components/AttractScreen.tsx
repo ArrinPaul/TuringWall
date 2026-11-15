@@ -96,32 +96,33 @@ export const AttractScreen: React.FC<AttractScreenProps> = ({ onStart }) => {
           </div>
         </div>
 
-        {ticker && (
-          <div className="text-signal text-xs md:text-sm font-mono uppercase tracking-wider border-t border-panel-line pt-5">
-            {ticker.sessions} session{ticker.sessions === 1 ? '' : 's'} played today &middot; {ticker.avgAccuracy}% average accuracy
+        {/* Secondary info, grouped into one quiet band instead of loose stacked lines */}
+        <div className="w-full max-w-md border-t border-panel-line pt-5 flex flex-col items-center space-y-4">
+          <div className="flex flex-col items-center space-y-1.5">
+            {ticker && (
+              <span className="text-signal text-xs md:text-sm font-mono uppercase tracking-wider">
+                {ticker.sessions} session{ticker.sessions === 1 ? '' : 's'} played today &middot; {ticker.avgAccuracy}% average accuracy
+              </span>
+            )}
+            <p className="text-muted/80 text-xs md:text-sm italic font-body max-w-xs sm:max-w-sm">{spectatorLine}</p>
           </div>
-        )}
 
-        {/* For whoever's watching but not playing — turns a spectator into a participant. */}
-        <p className="text-muted/80 text-xs md:text-sm italic font-body max-w-xs sm:max-w-sm">
-          {spectatorLine}
-        </p>
-
-        <div className={`max-w-md ${ticker ? '' : 'border-t border-panel-line'} pt-5 space-y-3`}>
-          <p className="text-muted text-xs md:text-sm leading-relaxed">
-            Every round trains real pattern recognition &mdash; the same close reading used to study
-            how language models and generative systems actually behave.
-          </p>
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              setShowGuide(true);
-            }}
-            className="px-4 py-2 min-h-11 bg-panel border border-panel-line text-muted hover:text-paper transition-colors font-mono text-xs uppercase tracking-wider cursor-pointer"
-          >
-            Field guide &middot; {conceptCount} tells
-          </button>
+          <div className="flex flex-col items-center space-y-3">
+            <p className="text-muted text-xs md:text-sm leading-relaxed max-w-sm">
+              Every round trains real pattern recognition &mdash; the same close reading used to study
+              how language models and generative systems actually behave.
+            </p>
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowGuide(true);
+              }}
+              className="px-4 py-2 min-h-11 bg-panel border border-panel-line text-muted hover:text-paper transition-colors font-mono text-xs uppercase tracking-wider cursor-pointer"
+            >
+              Field guide &middot; {conceptCount} tells
+            </button>
+          </div>
         </div>
       </motion.div>
 
