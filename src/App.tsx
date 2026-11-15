@@ -42,6 +42,40 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
   const [muted, setMuted] = useState(isSoundMuted());
   const { isFullscreen, toggleFullscreen } = useFullscreen();
 
+  // Support direct URL routing to /leaderboard
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (window.location.pathname === '/leaderboard') {
+      showStats();
+    }
+  }, [showStats]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (screen === 'stats') {
+      if (window.location.pathname !== '/leaderboard') {
+        window.history.pushState(null, '', '/leaderboard');
+      }
+    } else if (screen === 'attract') {
+      if (window.location.pathname === '/leaderboard') {
+        window.history.pushState(null, '', '/');
+      }
+    }
+  }, [screen]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const handlePopState = () => {
+      if (window.location.pathname === '/leaderboard') {
+        showStats();
+      } else {
+        returnToAttract();
+      }
+    };
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, [showStats, returnToAttract]);
+
   const handleToggleMute = () => {
     const nextVal = toggleSoundMuted();
     setMuted(nextVal);

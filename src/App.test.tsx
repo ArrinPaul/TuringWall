@@ -108,4 +108,54 @@ describe('App', () => {
       expect(screen.queryByText(/real or ai/i)).not.toBeInTheDocument();
     });
   });
+
+  describe('kiosk keyboard shortcuts', () => {
+    it('toggles sound mute on M keypress', () => {
+      render(<App store={createGameStore(fixtureItems, () => 0)} />);
+      expect(screen.getByText(/Sound on/i)).toBeInTheDocument();
+
+      fireEvent.keyDown(window, { key: 'm' });
+      expect(screen.getByText(/Sound off/i)).toBeInTheDocument();
+
+      fireEvent.keyDown(window, { key: 'M' });
+      expect(screen.getByText(/Sound on/i)).toBeInTheDocument();
+    });
+
+    it('toggles fullscreen on F keypress', () => {
+      const requestFullscreen = vi.fn(() => Promise.resolve());
+      document.documentElement.requestFullscreen = requestFullscreen;
+
+      render(<App store={createGameStore(fixtureItems, () => 0)} />);
+      fireEvent.keyDown(window, { key: 'f' });
+      expect(requestFullscreen).toHaveBeenCalledTimes(1);
+
+      fireEvent.keyDown(window, { key: 'F' });
+      expect(requestFullscreen).toHaveBeenCalledTimes(2);
+
+      delete (document.documentElement as any).requestFullscreen;
+    });
+  });
+
+  describe('leaderboard route and analysis view', () => {
+    it('opens leaderboard directly when window.location.pathname is /leaderboard and toggles analysis view', () => {
+      window.history.pushState(null, '', '/leaderboard');
+      render(<App store={createGameStore(fixtureItems, () => 0)} />);
+      expect(screen.getByText(/Real or AI\? Leaderboard/i)).toBeInTheDocument();
+
+      // Analysis is NOT shown directly on page
+      expect(screen.queryByTestId('analysis-modal')).not.toBeInTheDocument();
+
+      // Click "View Analysis" button to open analysis
+      fireEvent.click(screen.getByTestId('view-analysis-btn'));
+      expect(screen.getByTestId('analysis-modal')).toBeInTheDocument();
+      expect(screen.getByText(/AI Detection Analytics/i)).toBeInTheDocument();
+
+      // Click "Back to Leaderboard" button to return
+      fireEvent.click(screen.getAllByText(/Back to Leaderboard/i)[0]);
+      expect(screen.queryByTestId('analysis-modal')).not.toBeInTheDocument();
+      expect(screen.getByText(/Real or AI\? Leaderboard/i)).toBeInTheDocument();
+
+      window.history.pushState(null, '', '/');
+    });
+  });
 });
