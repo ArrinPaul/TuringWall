@@ -85,8 +85,8 @@ export const RevealedPanel: React.FC<RevealedPanelProps> = ({
         </div>
       </div>
 
-      {/* Verdict & explanation card */}
-      <div className="flex-1 flex flex-col items-center justify-center max-w-2xl w-full mx-auto my-4">
+      {/* Verdict & explanation card — top-aligned on phone, centered from sm: up (see PlayingScreen) */}
+      <div className="flex-1 flex flex-col items-center justify-start sm:justify-center max-w-2xl w-full mx-auto mt-5 mb-4 sm:my-4">
         <motion.div
           initial={{ opacity: 0, scale: 0.92, y: 12 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -167,7 +167,7 @@ export const RevealedPanel: React.FC<RevealedPanelProps> = ({
       </div>
 
       {/* Actions */}
-      <div className="w-full max-w-xl mx-auto flex flex-col items-center space-y-1.5 pb-2">
+      <div className="w-full max-w-xl mx-auto flex flex-col items-center space-y-1.5 pb-4 sm:pb-2">
         <div className="w-full flex items-center gap-3 sm:gap-4">
           <motion.button
             type="button"

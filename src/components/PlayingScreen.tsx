@@ -121,8 +121,10 @@ export const PlayingScreen: React.FC<PlayingScreenProps> = ({ item, onGuess, sta
         </div>
       </div>
 
-      {/* Main content card */}
-      <div className="flex-1 flex flex-col items-center justify-center max-w-3xl w-full mx-auto my-4">
+      {/* Main content card — top-aligned on phone (a tall narrow viewport makes a centered
+          card float in a large dead gap), centered from sm: up where there's more width
+          than height and centering actually reads as intentional. */}
+      <div className="flex-1 flex flex-col items-center justify-start sm:justify-center max-w-3xl w-full mx-auto mt-5 mb-4 sm:my-4">
         <div className="w-full bg-panel border border-panel-line border-l-4 border-l-signal p-4 sm:p-6 md:p-10 min-h-[180px] sm:min-h-[220px] flex flex-col items-center justify-center text-center">
           {item.kind === 'text' ? (
             <p className="font-display text-lg sm:text-2xl md:text-3xl leading-relaxed text-paper">
@@ -161,7 +163,7 @@ export const PlayingScreen: React.FC<PlayingScreenProps> = ({ item, onGuess, sta
       </div>
 
       {/* Guess buttons */}
-      <div className="w-full max-w-2xl mx-auto grid grid-cols-2 gap-3 sm:gap-4 md:gap-6 pb-2">
+      <div className="w-full max-w-2xl mx-auto grid grid-cols-2 gap-3 sm:gap-4 md:gap-6 pb-4 sm:pb-2">
         <div className="flex flex-col items-center">
           <motion.button
             type="button"
