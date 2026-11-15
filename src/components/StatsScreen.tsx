@@ -135,59 +135,10 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
           )}
         </div>
 
-        {/* Stats grid */}
-        <div className="grid grid-cols-2 gap-2.5 sm:gap-3 w-full max-w-md font-mono">
-          <div className="bg-panel border border-panel-line p-3.5 sm:p-5 flex flex-col items-center">
-            <span className="text-muted text-xs uppercase tracking-wider">Score</span>
-            <motion.span
-              initial={{ scale: 1.3, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 14, delay: 0.1 }}
-              className="text-3xl sm:text-4xl md:text-5xl text-good mt-1"
-            >
-              {stats.score}
-            </motion.span>
-            <span className="text-xs text-muted mt-1">correct answers</span>
-          </div>
-
-          <div className="bg-panel border border-panel-line p-3.5 sm:p-5 flex flex-col items-center">
-            <span className="text-muted text-xs uppercase tracking-wider">Accuracy</span>
-            <span className="text-3xl sm:text-4xl md:text-5xl text-signal mt-1">{accuracy}%</span>
-            <span className="text-xs text-muted mt-1">
-              {stats.correctCount} / {stats.roundsPlayed} rounds
-            </span>
-          </div>
-
-          <div className="bg-panel border border-panel-line p-3.5 sm:p-5 flex flex-col items-center">
-            <span className="text-muted text-xs uppercase tracking-wider">Best streak</span>
-            <span className="text-3xl sm:text-4xl md:text-5xl text-signal mt-1">{stats.bestStreak}</span>
-            <span className="text-xs text-muted mt-1">consecutive correct</span>
-          </div>
-
-          <div className="bg-panel border border-panel-line p-3.5 sm:p-5 flex flex-col items-center">
-            <span className="text-muted text-xs uppercase tracking-wider">Rounds</span>
-            <span className="text-3xl sm:text-4xl md:text-5xl text-paper mt-1">{stats.roundsPlayed}</span>
-            <span className="text-xs text-muted mt-1">total played</span>
-          </div>
-        </div>
-
-        {/* Progression nudge */}
-        {showNudge && nextTier && (
-          <motion.button
-            type="button"
-            onClick={() => onStartRound(nextTier)}
-            whileTap={{ scale: 0.97 }}
-            className="w-full max-w-md border border-signal/50 bg-signal/10 hover:bg-signal/20 transition-colors p-4 text-left cursor-pointer"
-          >
-            <span className="font-mono text-signal text-xs uppercase tracking-wider">Nice accuracy</span>
-            <span className="block font-display text-xl text-paper mt-1">Ready for {nextTier}? &rarr;</span>
-          </motion.button>
-        )}
-
-        {/* Leaderboard — one board per session length, never mixed */}
-        <div className="w-full max-w-md bg-panel border border-panel-line p-4 sm:p-5 text-left font-mono">
+        {/* Leaderboard — the main section on this screen, shown before the analysis breakdown */}
+        <div className="w-full max-w-md bg-panel border border-panel-line border-t-4 border-t-signal p-4 sm:p-5 text-left font-mono">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
-            <span className="text-signal text-xs uppercase tracking-wider">Leaderboard</span>
+            <span className="text-signal text-sm uppercase tracking-wider font-600">Leaderboard</span>
             <div className="flex items-center gap-1.5">
               <button
                 type="button"
@@ -252,6 +203,59 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
             </ol>
           ) : (
             <p className="text-muted text-sm">No {activeLength}-question sessions played today yet.</p>
+          )}
+        </div>
+
+        {/* Analysis — this session's own breakdown, shown after the leaderboard */}
+        <div className="w-full max-w-md flex flex-col items-center space-y-5 sm:space-y-6 pt-2 border-t border-panel-line">
+          <span className="text-signal font-mono uppercase text-xs tracking-[0.2em] self-start">Analysis</span>
+
+          <div className="grid grid-cols-2 gap-2.5 sm:gap-3 w-full font-mono">
+            <div className="bg-panel border border-panel-line p-3.5 sm:p-5 flex flex-col items-center">
+              <span className="text-muted text-xs uppercase tracking-wider">Score</span>
+              <motion.span
+                initial={{ scale: 1.3, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: 'spring', stiffness: 300, damping: 14, delay: 0.1 }}
+                className="text-3xl sm:text-4xl md:text-5xl text-good mt-1"
+              >
+                {stats.score}
+              </motion.span>
+              <span className="text-xs text-muted mt-1">correct answers</span>
+            </div>
+
+            <div className="bg-panel border border-panel-line p-3.5 sm:p-5 flex flex-col items-center">
+              <span className="text-muted text-xs uppercase tracking-wider">Accuracy</span>
+              <span className="text-3xl sm:text-4xl md:text-5xl text-signal mt-1">{accuracy}%</span>
+              <span className="text-xs text-muted mt-1">
+                {stats.correctCount} / {stats.roundsPlayed} rounds
+              </span>
+            </div>
+
+            <div className="bg-panel border border-panel-line p-3.5 sm:p-5 flex flex-col items-center">
+              <span className="text-muted text-xs uppercase tracking-wider">Best streak</span>
+              <span className="text-3xl sm:text-4xl md:text-5xl text-signal mt-1">{stats.bestStreak}</span>
+              <span className="text-xs text-muted mt-1">consecutive correct</span>
+            </div>
+
+            <div className="bg-panel border border-panel-line p-3.5 sm:p-5 flex flex-col items-center">
+              <span className="text-muted text-xs uppercase tracking-wider">Rounds</span>
+              <span className="text-3xl sm:text-4xl md:text-5xl text-paper mt-1">{stats.roundsPlayed}</span>
+              <span className="text-xs text-muted mt-1">total played</span>
+            </div>
+          </div>
+
+          {/* Progression nudge */}
+          {showNudge && nextTier && (
+            <motion.button
+              type="button"
+              onClick={() => onStartRound(nextTier)}
+              whileTap={{ scale: 0.97 }}
+              className="w-full border border-signal/50 bg-signal/10 hover:bg-signal/20 transition-colors p-4 text-left cursor-pointer"
+            >
+              <span className="font-mono text-signal text-xs uppercase tracking-wider">Nice accuracy</span>
+              <span className="block font-display text-xl text-paper mt-1">Ready for {nextTier}? &rarr;</span>
+            </motion.button>
           )}
         </div>
 

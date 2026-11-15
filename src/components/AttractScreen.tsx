@@ -49,22 +49,6 @@ export const AttractScreen: React.FC<AttractScreenProps> = ({ onStart }) => {
       onClick={onStart}
       className="relative flex flex-col min-h-screen w-full bg-ink text-paper font-body cursor-pointer select-none overflow-hidden"
     >
-      {/* Depth: a soft radial vignette plus a faint dot-grid texture, instead of a flat solid fill */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            'radial-gradient(ellipse 80% 60% at 30% 20%, rgba(214,147,60,0.08), transparent 60%), radial-gradient(ellipse 70% 50% at 85% 85%, rgba(214,147,60,0.05), transparent 55%)',
-        }}
-      />
-      <div
-        className="absolute inset-0 pointer-events-none opacity-[0.07]"
-        style={{
-          backgroundImage: 'radial-gradient(circle, #f4ede1 1px, transparent 1px)',
-          backgroundSize: '28px 28px',
-        }}
-      />
-
       <div className="relative z-10 flex-1 flex items-center px-6 py-10 md:px-12 lg:px-20">
         <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-16 items-center">
           {/* Left: identity, headline, CTA */}
@@ -130,24 +114,32 @@ export const AttractScreen: React.FC<AttractScreenProps> = ({ onStart }) => {
             </div>
           </motion.div>
 
-          {/* Right: a real sample round, as the landing page's visual centerpiece */}
+          {/* Right: a small pinned-evidence board — real quotes, tilted and overlapping, not a clean aligned card */}
           <motion.div
-            className="relative hidden sm:flex flex-col items-stretch"
-            initial={{ opacity: 0, x: 12 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 12 }}
-            transition={{ duration: 0.25, delay: 0.1 }}
+            className="relative hidden sm:block h-[22rem] lg:h-[26rem]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3, delay: 0.1 }}
           >
-            <span className="font-mono text-muted text-[11px] uppercase tracking-[0.2em] mb-3">A sample round</span>
-            <div className="relative bg-panel border border-panel-line p-6 lg:p-8 shadow-2xl">
-              <div className="absolute -top-3 -left-3 w-full h-full border border-panel-line -z-10" aria-hidden="true" />
-              <p className="font-display text-xl lg:text-2xl text-paper leading-snug">&ldquo;{sampleQuote}&rdquo;</p>
-              <p className="text-muted font-mono text-xs uppercase tracking-wider mt-5 mb-3">Was this created by a human or AI?</p>
+            <div className="absolute top-2 right-6 lg:right-10 max-w-[13rem] p-4 bg-panel border border-panel-line border-l-4 border-l-signal rotate-[4deg] shadow-lg text-left">
+              <span className="font-mono text-[10px] uppercase tracking-widest text-signal block mb-1">AI-made?</span>
+              <span className="font-mono text-xs text-muted">&ldquo;Elevate your daily routine with this thoughtfully designed...&rdquo;</span>
+            </div>
+            <div className="absolute bottom-4 left-0 lg:left-4 max-w-[13rem] p-4 bg-panel border border-panel-line border-l-4 border-l-signal rotate-[-3deg] shadow-lg text-left">
+              <span className="font-mono text-[10px] uppercase tracking-widest text-signal block mb-1">Human or model?</span>
+              <span className="font-mono text-xs text-muted">&ldquo;git commit -m 'fixed bug on line 42, please do not ask why'...&rdquo;</span>
+            </div>
+
+            <div className="absolute top-14 left-6 lg:left-10 right-6 lg:right-14 bg-panel border border-panel-line border-l-4 border-l-signal p-6 lg:p-7 shadow-2xl rotate-[-1.5deg]">
+              <span className="font-mono text-muted text-[10px] uppercase tracking-[0.2em] block mb-3">A sample round</span>
+              <p className="font-display text-lg lg:text-xl text-paper leading-snug">&ldquo;{sampleQuote}&rdquo;</p>
+              <p className="text-muted font-mono text-xs uppercase tracking-wider mt-5 mb-3">Human or AI?</p>
               <div className="grid grid-cols-2 gap-3">
-                <div className="h-12 flex items-center justify-center bg-good/15 border border-good/40 text-good font-body text-sm">
+                <div className="h-11 flex items-center justify-center bg-good/15 border border-good/40 text-good font-body text-sm">
                   Human
                 </div>
-                <div className="h-12 flex items-center justify-center bg-signal/15 border border-signal/40 text-signal font-body text-sm">
+                <div className="h-11 flex items-center justify-center bg-signal/15 border border-signal/40 text-signal font-body text-sm">
                   AI-made
                 </div>
               </div>
