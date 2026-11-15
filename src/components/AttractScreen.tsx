@@ -5,14 +5,23 @@ import { SignalAvatar } from './SignalAvatar';
 import { pickLine, pickSpectatorLine } from '../character/signal';
 import { FieldGuide } from './FieldGuide';
 import { allConcepts } from '../character/fieldGuide';
+import { ITEMS } from '../data/items';
+import type { TextItem } from '../data/types';
 
 interface AttractScreenProps {
   onStart: () => void;
 }
 
+function pickSampleQuote(): string {
+  const textItems = ITEMS.filter((i): i is TextItem => i.kind === 'text');
+  const pick = textItems[Math.floor(Math.random() * textItems.length)];
+  return pick ? pick.text : 'Every round is a real sample. No tricks.';
+}
+
 export const AttractScreen: React.FC<AttractScreenProps> = ({ onStart }) => {
   const [introLine] = useState(() => pickLine('neutral'));
   const [spectatorLine] = useState(() => pickSpectatorLine());
+  const [sampleQuote] = useState(pickSampleQuote);
   const [showGuide, setShowGuide] = useState(false);
   const conceptCount = allConcepts().length;
   const [ticker] = useState(() => {
@@ -38,93 +47,114 @@ export const AttractScreen: React.FC<AttractScreenProps> = ({ onStart }) => {
     <div
       data-testid="attract-root"
       onClick={onStart}
-      className="flex flex-col items-center justify-center min-h-screen w-full bg-ink text-paper font-body p-4 sm:p-8 cursor-pointer select-none text-center relative overflow-hidden"
+      className="relative flex flex-col min-h-screen w-full bg-ink text-paper font-body cursor-pointer select-none overflow-hidden"
     >
-      {/* Floating teaser snippets — evidence-card motif: flat panel, left accent tab, mono type.
-          Decorative only; hidden below sm so they never crowd or clip on phone widths. */}
-      <div className="hidden sm:block absolute inset-0 pointer-events-none overflow-hidden opacity-70">
-        <div className="absolute top-14 left-4 lg:left-10 max-w-[12rem] lg:max-w-xs p-4 bg-panel border border-panel-line border-l-4 border-l-signal rotate-[-4deg] text-left shadow-lg">
-          <span className="font-mono text-[10px] uppercase tracking-widest text-signal block mb-1">Human?</span>
-          <span className="font-mono text-xs text-muted">"my cat just stared at a blank wall for 45 mins then sneezed..."</span>
-        </div>
-        <div className="absolute bottom-20 left-4 lg:left-16 max-w-[12rem] lg:max-w-xs p-4 bg-panel border border-panel-line border-l-4 border-l-signal rotate-[3deg] text-left shadow-lg">
-          <span className="font-mono text-[10px] uppercase tracking-widest text-signal block mb-1">AI-made?</span>
-          <span className="font-mono text-xs text-muted">"Elevate your daily routine with this thoughtfully designed..."</span>
-        </div>
-        <div className="absolute top-20 right-4 lg:right-12 max-w-[12rem] lg:max-w-xs p-4 bg-panel border border-panel-line border-l-4 border-l-signal rotate-[5deg] text-left shadow-lg">
-          <span className="font-mono text-[10px] uppercase tracking-widest text-signal block mb-1">Can you tell?</span>
-          <span className="font-mono text-xs text-muted">"Raindrops hum a quiet tune, dancing lightly past the moon..."</span>
-        </div>
-        <div className="absolute bottom-24 right-4 lg:right-16 max-w-[12rem] lg:max-w-xs p-4 bg-panel border border-panel-line border-l-4 border-l-signal rotate-[-3deg] text-left shadow-lg">
-          <span className="font-mono text-[10px] uppercase tracking-widest text-signal block mb-1">Human or model?</span>
-          <span className="font-mono text-xs text-muted">"git commit -m 'fixed bug on line 42, please do not ask why'..."</span>
+      {/* Depth: a soft radial vignette plus a faint dot-grid texture, instead of a flat solid fill */}
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            'radial-gradient(ellipse 80% 60% at 30% 20%, rgba(214,147,60,0.08), transparent 60%), radial-gradient(ellipse 70% 50% at 85% 85%, rgba(214,147,60,0.05), transparent 55%)',
+        }}
+      />
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.07]"
+        style={{
+          backgroundImage: 'radial-gradient(circle, #f4ede1 1px, transparent 1px)',
+          backgroundSize: '28px 28px',
+        }}
+      />
+
+      <div className="relative z-10 flex-1 flex items-center px-6 py-10 md:px-12 lg:px-20">
+        <div className="w-full max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-[1.1fr_0.9fr] gap-10 lg:gap-16 items-center">
+          {/* Left: identity, headline, CTA */}
+          <motion.div
+            className="flex flex-col items-start text-left"
+            initial={{ opacity: 0, x: -12 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -12 }}
+            transition={{ duration: 0.25 }}
+          >
+            <div className="flex items-center gap-3 mb-5">
+              <SignalAvatar mood="neutral" size={52} />
+              <div className="flex flex-col">
+                <span className="text-signal font-mono text-xs uppercase tracking-[0.2em]">Signal</span>
+                <p className="font-display italic text-sm sm:text-base text-muted">&ldquo;{introLine}&rdquo;</p>
+              </div>
+            </div>
+
+            <h1 className="font-display font-700 text-5xl sm:text-6xl lg:text-7xl text-paper leading-[0.95]">
+              Real or AI?
+            </h1>
+            <div className="w-16 h-[3px] bg-signal my-5" />
+
+            <p className="text-base sm:text-lg text-muted font-body max-w-md leading-relaxed">
+              Every round is a real piece of writing or art. Can you tell which hand made it?
+            </p>
+
+            <div className="mt-7">
+              <motion.div
+                whileTap={{ scale: 0.95 }}
+                className="inline-block px-8 sm:px-10 py-4 sm:py-5 bg-signal hover:bg-signal-dim text-ink font-body font-600 text-lg sm:text-xl shadow-lg transition-colors"
+              >
+                Tap anywhere to play
+              </motion.div>
+              <div className="text-muted text-xs mt-3 font-mono">
+                or press <kbd className="px-2 py-0.5 bg-panel border border-panel-line text-paper">Space</kbd> / <kbd className="px-2 py-0.5 bg-panel border border-panel-line text-paper">Enter</kbd>
+              </div>
+            </div>
+
+            {/* One consolidated status line instead of several stacked ones */}
+            <div className="mt-9 pt-5 border-t border-panel-line w-full max-w-md flex flex-col gap-2">
+              {ticker && (
+                <span className="text-signal text-xs font-mono uppercase tracking-wider">
+                  {ticker.sessions} session{ticker.sessions === 1 ? '' : 's'} played today &middot; {ticker.avgAccuracy}% average accuracy
+                </span>
+              )}
+              <p className="text-muted/80 text-xs sm:text-sm italic font-body">{spectatorLine}</p>
+              <div className="flex items-center gap-3 flex-wrap mt-1">
+                <span className="text-muted text-xs leading-relaxed">
+                  Trains the same close reading used to study how AI systems actually behave.
+                </span>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setShowGuide(true);
+                  }}
+                  className="px-3 py-1.5 min-h-9 bg-panel border border-panel-line text-muted hover:text-paper transition-colors font-mono text-[11px] uppercase tracking-wider cursor-pointer shrink-0"
+                >
+                  Field guide &middot; {conceptCount}
+                </button>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Right: a real sample round, as the landing page's visual centerpiece */}
+          <motion.div
+            className="relative hidden sm:flex flex-col items-stretch"
+            initial={{ opacity: 0, x: 12 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: 12 }}
+            transition={{ duration: 0.25, delay: 0.1 }}
+          >
+            <span className="font-mono text-muted text-[11px] uppercase tracking-[0.2em] mb-3">A sample round</span>
+            <div className="relative bg-panel border border-panel-line p-6 lg:p-8 shadow-2xl">
+              <div className="absolute -top-3 -left-3 w-full h-full border border-panel-line -z-10" aria-hidden="true" />
+              <p className="font-display text-xl lg:text-2xl text-paper leading-snug">&ldquo;{sampleQuote}&rdquo;</p>
+              <p className="text-muted font-mono text-xs uppercase tracking-wider mt-5 mb-3">Was this created by a human or AI?</p>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="h-12 flex items-center justify-center bg-good/15 border border-good/40 text-good font-body text-sm">
+                  Human
+                </div>
+                <div className="h-12 flex items-center justify-center bg-signal/15 border border-signal/40 text-signal font-body text-sm">
+                  AI-made
+                </div>
+              </div>
+            </div>
+          </motion.div>
         </div>
       </div>
-
-      <motion.div
-        className="max-w-2xl mx-auto flex flex-col items-center space-y-5 sm:space-y-7 z-10"
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -8 }}
-        transition={{ duration: 0.2 }}
-      >
-        <SignalAvatar mood="neutral" size={56} />
-
-        <div className="flex flex-col items-center space-y-1.5">
-          <span className="text-signal font-mono text-xs uppercase tracking-[0.2em]">Signal</span>
-          <p className="font-display italic text-base sm:text-lg md:text-xl text-paper max-w-xs sm:max-w-sm">&ldquo;{introLine}&rdquo;</p>
-        </div>
-
-        <h1 className="font-display font-700 text-5xl sm:text-6xl md:text-8xl text-paper leading-none">
-          Real or AI?
-        </h1>
-        <div className="w-16 h-[3px] bg-signal" />
-
-        <p className="text-base sm:text-lg md:text-2xl text-muted font-body max-w-lg leading-relaxed">
-          Every round is a real piece of writing or art. Can you tell which hand made it?
-        </p>
-
-        <div className="pt-2">
-          <motion.div
-            whileTap={{ scale: 0.95 }}
-            className="px-6 sm:px-10 py-4 sm:py-5 bg-signal hover:bg-signal-dim text-ink font-body font-600 text-lg sm:text-2xl shadow-lg transition-colors"
-          >
-            Tap anywhere to play
-          </motion.div>
-          <div className="text-muted text-xs mt-3 font-mono">
-            or press <kbd className="px-2 py-0.5 bg-panel border border-panel-line text-paper">Space</kbd> / <kbd className="px-2 py-0.5 bg-panel border border-panel-line text-paper">Enter</kbd>
-          </div>
-        </div>
-
-        {/* Secondary info, grouped into one quiet band instead of loose stacked lines */}
-        <div className="w-full max-w-md border-t border-panel-line pt-5 flex flex-col items-center space-y-4">
-          <div className="flex flex-col items-center space-y-1.5">
-            {ticker && (
-              <span className="text-signal text-xs md:text-sm font-mono uppercase tracking-wider">
-                {ticker.sessions} session{ticker.sessions === 1 ? '' : 's'} played today &middot; {ticker.avgAccuracy}% average accuracy
-              </span>
-            )}
-            <p className="text-muted/80 text-xs md:text-sm italic font-body max-w-xs sm:max-w-sm">{spectatorLine}</p>
-          </div>
-
-          <div className="flex flex-col items-center space-y-3">
-            <p className="text-muted text-xs md:text-sm leading-relaxed max-w-sm">
-              Every round trains real pattern recognition &mdash; the same close reading used to study
-              how language models and generative systems actually behave.
-            </p>
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                setShowGuide(true);
-              }}
-              className="px-4 py-2 min-h-11 bg-panel border border-panel-line text-muted hover:text-paper transition-colors font-mono text-xs uppercase tracking-wider cursor-pointer"
-            >
-              Field guide &middot; {conceptCount} tells
-            </button>
-          </div>
-        </div>
-      </motion.div>
 
       {showGuide && (
         <div onClick={(e) => e.stopPropagation()}>
