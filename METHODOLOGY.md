@@ -1,6 +1,6 @@
 # Methodology
 
-How **Real or AI?** selects, verifies, and scores human vs. AI content: where the items come from, how difficulty tiers are calibrated, how the deck randomization works, how scoring and streak multipliers are calculated, and how kiosk offline reliability is guaranteed.
+How **TuringWall** (*Real or AI?*) selects, verifies, and scores human vs. AI content: where the items come from, how difficulty tiers are calibrated, how the deck randomization works, how scoring and streak multipliers are calculated, and how kiosk offline reliability is guaranteed.
 
 Every algorithm and state machine described here is implemented in `src/game/`, `src/data/`, `src/character/`, and `src/leaderboard/`.
 

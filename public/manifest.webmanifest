@@ -1,7 +1,7 @@
 {
-  "name": "Real or AI?",
-  "short_name": "RealOrAI",
-  "description": "Interactive kiosk game: Real or AI?",
+  "name": "TuringWall — Real or AI?",
+  "short_name": "TuringWall",
+  "description": "Interactive kiosk Turing challenge: Real or AI?",
   "start_url": "/",
   "theme_color": "#15110d",
   "background_color": "#15110d",

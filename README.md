@@ -1,6 +1,6 @@
 <div align="center">
 
-# Real or AI?
+# TuringWall
 
 ### An interactive kiosk Turing challenge and pattern-recognition game for the Daksh AIML stall
 
@@ -16,7 +16,7 @@ _Can you tell whether a piece of writing or art is human-crafted or AI-generated
 ![Vitest](https://img.shields.io/badge/Vitest-5-6E9F18?logo=vitest&logoColor=white)
 ![Offline First](https://img.shields.io/badge/Offline-100%25_Local-brightgreen)
 
-[Quickstart](#quickstart) · [Features](#features) · [Architecture](#architecture) · [Methodology](./METHODOLOGY.md) · [Content Honesty](#item-bank--content-honesty) · [Game Mechanics](#game-mechanics--scoring) · [Stall Operations](#stall-operations--kiosk-mode) · [Testing & Simulation](#testing--simulation) · [Report an issue](https://github.com/ArrinPaul/real-or-ai-wall/issues)
+[Quickstart](#quickstart) · [Features](#features) · [Architecture](#architecture) · [Methodology](./METHODOLOGY.md) · [Content Honesty](#item-bank--content-honesty) · [Game Mechanics](#game-mechanics--scoring) · [Stall Operations](#stall-operations--kiosk-mode) · [Testing & Simulation](#testing--simulation) · [Report an issue](https://github.com/ArrinPaul/TuringWall/issues)
 
 </div>
 
@@ -24,7 +24,7 @@ _Can you tell whether a piece of writing or art is human-crafted or AI-generated
 
 ## About
 
-**Real or AI?** is an interactive, kiosk-hardened web application built for the Daksh AIML stall. Visitors are invited to step up and test their critical reading against a curated gauntlet of 541 text passages and visual artifacts: discerning real human literature, commit messages, forum discussions, and artwork from the outputs of frontier generative models (GPT-4o, Claude 3.5, Gemini 1.5, Midjourney, Stable Diffusion).
+**TuringWall** (Real or AI?) is an interactive, kiosk-hardened web application built for the Daksh AIML stall. Visitors are invited to step up and test their critical reading against a curated gauntlet of 541 text passages and visual artifacts: discerning real human literature, commit messages, forum discussions, and artwork from the outputs of frontier generative models (GPT-4o, Claude 3.5, Gemini 1.5, Midjourney, Stable Diffusion).
 
 Accompanying each player is **Signal**, an observant pattern-reading persona who provides instant feedback, highlights cognitive tells, and links rounds directly to an interactive 36-concept Field Guide.
 
@@ -187,8 +187,8 @@ An incorrect answer resets the streak to zero. Accuracy is computed as $(\text{C
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/ArrinPaul/real-or-ai-wall.git
-cd real-or-ai-wall
+git clone https://github.com/ArrinPaul/TuringWall.git
+cd TuringWall
 
 # 2. Install dependencies
 npm install
@@ -292,7 +292,7 @@ The test suite includes a 21-test simulation suite verifying:
 ## Project Structure
 
 ```text
-real-or-ai-wall/
+TuringWall/
 ├── src/
 │   ├── assets/               Local imagery, source licenses (SOURCES.md), icons
 │   ├── audio/                Web Audio API tone synthesizer (tone.ts) and tests
