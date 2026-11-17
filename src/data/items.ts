@@ -315,6 +315,9 @@ export const ITEMS: Item[] = [
     explanation: 'Historical nuance with specific cultural context and conversational tone.',
     concept: 'Specific cultural nuance',
     difficulty: 'pro',
+    evidenceHighlights: ['Napoleon was actually slightly above average', 'British wartime cartoons invented the short myth'],
+    temptingReason: 'The trivia-debunking structure resembles standard educational answers produced by informational AI assistants.',
+    counterexample: 'Automated trivia bots frequently regurgitate the Napoleon height myth, so historical fact-checking alone does not indicate human authorship.',
     category: 'History',
   },
   {
@@ -335,6 +338,9 @@ export const ITEMS: Item[] = [
     explanation: 'Vulnerable, grounded emotional realization expressed in colloquial terms.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['adults were just making it up', 'as they went along'],
+    temptingReason: 'The widespread realization about adult improvisation is a famous online shower thought easily retrieved by models.',
+    counterexample: 'Language models frequently generate popular observations about adulthood being improvised, so relatable philosophical reflections are inconclusive.',
     category: 'Life',
   },
 
@@ -613,6 +619,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, understated grief detail — the kind of precise ordinary moment AI rarely invents unprompted.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['been a year and I still reach for my phone', 'text her before remembering'],
+    temptingReason: 'The poignant micro-detail of reaching for a phone after a loss resembles sentimental writing prompts about grief.',
+    counterexample: 'AI emotional fiction regularly incorporates phone habits into grief stories, so poignant modern mourning details are not conclusive.',
     category: 'Life',
   },
   {
@@ -662,6 +671,9 @@ export const ITEMS: Item[] = [
     explanation: 'Delayed, specific emotional backtracking is a very human conversational move.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['actually really bugged me', 'sorry for being weird about it all week'],
+    temptingReason: 'The conversational backtracking and informal slang could be an AI adopting a casual texting persona.',
+    counterexample: 'Prompted chatbots can simulate awkward emotional apologies with conversational slang, so informal vulnerability is an imperfect signal.',
     category: 'Chat',
   },
 
@@ -1053,6 +1065,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, understated emotional realization with real ambivalence is hard for AI to fabricate convincingly.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['home had quietly become a place I visit', 'hardest part about moving out'],
+    temptingReason: 'The poetic reframing of childhood home as a visitation site reads like polished literary personal essay writing.',
+    counterexample: 'AI personal essays often formulate home-as-a-visitation-place reflections, so resonant emotional observations remain inconclusive.',
     category: 'Life',
   },
   {
@@ -1076,6 +1091,9 @@ export const ITEMS: Item[] = [
     explanation: 'A precise, sensory detail (recognizing handwriting) tied to a specific emotional gap points toward human.',
     concept: 'Specific lived detail',
     difficulty: 'pro',
+    evidenceHighlights: ['haven\'t spoken to him in six years', 'saw his handwriting on a birthday card'],
+    temptingReason: 'The bittersweet sensory recognition reads like a crafted writing prompt response about long-lost acquaintances.',
+    counterexample: 'Language models frequently generate micro-stories about recognizing lost handwriting, so sentimental recognition points both ways.',
     category: 'Social',
   },
   {
@@ -1099,6 +1117,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, warm, slightly teasing family detail with a concrete punchline is typically human.',
     concept: 'Specific lived detail',
     difficulty: 'pro',
+    evidenceHighlights: ['chai recipe is a secret', 'everyone in the family knowing it\'s just extra ginger'],
+    temptingReason: 'The charming culinary family secret resembles a scripted cooking blog anecdote crafted for charm.',
+    counterexample: 'AI food copywriters readily manufacture humorous family recipe secrets, so kitchen banter alone does not verify the author.',
     category: 'Food',
   },
   {
@@ -1122,6 +1143,9 @@ export const ITEMS: Item[] = [
     explanation: 'A vague but emotionally precise reference ("before everything changed") with real hesitation points toward human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['voice note from before everything changed', 'couldn\'t bring myself to delete it or listen again'],
+    temptingReason: 'The digital artifact hesitation trope fits modern creative micro-fiction about past relationships.',
+    counterexample: 'AI creative writing tools frequently generate stories about preserved voice notes, so digital heartbreak tropes point both directions.',
     category: 'Journal',
   },
   {
@@ -1145,6 +1169,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, dated timeframe plus a mundane ongoing detail is a human observation.',
     concept: 'Specific lived detail',
     difficulty: 'pro',
+    evidenceHighlights: ['senior year group project chat is still active', 'mostly just sending each other memes now'],
+    temptingReason: 'The observation about dormant school chats turning into meme repositories is a common internet trope.',
+    counterexample: 'Social AI models frequently produce observations about lingering student group chats, so relatable digital habits are inconclusive.',
     category: 'School',
   },
   {
@@ -1168,6 +1195,9 @@ export const ITEMS: Item[] = [
     explanation: 'A personal, evolved understanding stated plainly with real vulnerability points toward human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['silence meant something was wrong', 'comfortable enough not to fill it'],
+    temptingReason: 'The psychological maturity reframe resembles relationship coaching maxims found across lifestyle platforms.',
+    counterexample: 'Relationship advice generators frequently discuss comfortable silence as relational maturity, making conversational wisdom an ambiguous clue.',
     category: 'Life',
   },
   {
@@ -1508,6 +1538,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, slightly amusing comparison across time with real self-assessment points toward human.',
     concept: 'Specific lived detail',
     difficulty: 'pro',
+    evidenceHighlights: ['abandoned draft of this same essay', 'argument was somehow worse then'],
+    temptingReason: 'The self-aware reflection on messy revision processes reads like an author persona generated for essay tips.',
+    counterexample: 'Writing tutorial bots frequently fabricate self-critical draft comparisons, so humorous self-deprecation is only a partial clue.',
     category: 'Essay',
   },
   {
@@ -1655,6 +1688,9 @@ export const ITEMS: Item[] = [
     explanation: 'A precise sensory memory trigger with real specificity is very hard for AI to fabricate convincingly.',
     concept: 'Specific lived detail',
     difficulty: 'pro',
+    evidenceHighlights: ['specific detergent in a stranger\'s laundry', 'eleven years old again for a second'],
+    temptingReason: 'The Proustian sensory memory trigger follows a well-known literary trope that language models imitate well.',
+    counterexample: 'AI literature generators frequently produce involuntary sensory memory scenes, so evocative smell triggers are not conclusive.',
     category: 'Life',
   },
   {
@@ -1678,6 +1714,9 @@ export const ITEMS: Item[] = [
     explanation: 'A precise, vulnerable childhood memory with real restraint in how it is told points toward human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['arguing quietly about money through the wall', 'pretended to be asleep until it stopped'],
+    temptingReason: 'The vivid childhood financial anxiety scene follows standard creative writing prompts on domestic tension.',
+    counterexample: 'Creative AI models can easily generate scenes of children pretending to sleep during arguments, so domestic vulnerability is not conclusive.',
     category: 'Life',
   },
 
@@ -1809,6 +1848,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, self-aware observation about an ironic punishment points toward human humor.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['detention for reading a novel during class', 'irony of being punished for reading'],
+    temptingReason: 'The ironic classroom scenario reads like a relatable high school anecdote crafted for internet virality.',
+    counterexample: 'AI humor generators frequently create stories about being punished for reading books in school, so ironic academic anecdotes are only suggestive.',
     category: 'School',
   },
   {
@@ -1832,6 +1874,9 @@ export const ITEMS: Item[] = [
     explanation: 'A deliberate, self-aware act of future embarrassment is a human sense of humor.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['cringiest possible yearbook quote on purpose', 'future me deserves to suffer a little'],
+    temptingReason: 'The self-aware comedic foresight feels like a joke created by a humorous youth-culture chatbot.',
+    counterexample: 'Humor models can generate self-mocking jokes about embarrassing yearbook quotes, so intentional cringe is an uncertain indicator.',
     category: 'School',
   },
 
@@ -1975,6 +2020,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, mildly stressful workplace mistake with a terse apology points toward human.',
     concept: 'Specific technical mishap',
     difficulty: 'pro',
+    evidenceHighlights: ['accidentally cc\'d the wrong person', 'please disregard and apologies'],
+    temptingReason: 'The terse, formal retraction message resembles a standard email client auto-template for misdirected mail.',
+    counterexample: 'Email productivity tools offer pre-written templates for accidental CC slips, so standard retraction phrasing is an ambiguous signal.',
     category: 'Email',
   },
   {
@@ -2155,6 +2203,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific adjustment period with a concrete, vivid comparison is typically human.',
     concept: 'Specific lived detail',
     difficulty: 'pro',
+    evidenceHighlights: ['took about three weeks to get used to', 'mattress feels like a hammock'],
+    temptingReason: 'The vivid comparison between firm bedding and a sagging hammock could be a sponsored mattress reviewer\'s copy.',
+    counterexample: 'Synthetic review platforms often generate vivid product metaphors to seem authentic, making consumer similes an uncertain signal.',
     category: 'Review',
   },
   {
@@ -2325,6 +2376,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, small social slip revealing an unresolved sense of identity points toward human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['using my old job title out of habit', 'awkwardly correct myself mid-sentence'],
+    temptingReason: 'The subtle social embarrassment of lingering professional habits reads like a scripted career transition prompt.',
+    counterexample: 'Career coaching bots frequently fabricate anecdotes about accidentally using past job titles, making professional slips an ambiguous clue.',
     category: 'Journal',
   },
 
@@ -2459,6 +2513,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, cautionary tale with a concrete past incident points toward human advice.',
     concept: 'Specific lived detail',
     difficulty: 'pro',
+    evidenceHighlights: ['checked by your own mechanic, not theirs', 'buying a flood-damaged engine'],
+    temptingReason: 'The pragmatic used-car buying warning reads like an automated summary from a consumer protection guide.',
+    counterexample: 'Automotive advice bots frequently advise independent mechanic inspections for flood damage, so practical car tips do not settle origin.',
     category: 'Advice',
   },
   {
@@ -2482,6 +2539,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, hard-won insight with concrete timing is a human piece of advice.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['grief comes back on random tuesdays', 'gentle with yourself on those too'],
+    temptingReason: 'The colloquial tenderness and specific weekday reference sound like compassionate therapist advice from social media.',
+    counterexample: 'Supportive AI chatbots frequently produce compassionate advice about random grief spikes, so tender counselor phrasing is inconclusive.',
     category: 'Advice',
   },
 
@@ -2629,6 +2689,9 @@ export const ITEMS: Item[] = [
     explanation: 'A tidy ripple-effect metaphor with no actual act of kindness described.',
     concept: 'Universal platitude',
     difficulty: 'pro',
+    evidenceHighlights: ['small act of kindness creates a ripple', 'far beyond what we can ever see'],
+    temptingReason: 'The gentle moral sentiment reads like an inspirational quote from a community bulletin or charity campaign.',
+    counterexample: 'Human nonprofit organizers frequently use ripple-effect metaphors for kindness campaigns, making generic moral imagery an uncertain indicator.',
     category: 'Social',
   },
   {
@@ -2639,6 +2702,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, understated social tension with mutual unspoken awareness points toward human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['quietly unfollowed someone we both know', 'clearly both noticed'],
+    temptingReason: 'The analysis of quiet social media boundary enforcement reads like a modern etiquette column prompt.',
+    counterexample: 'Digital culture writing models routinely analyze silent unfollowing dynamics, so modern social etiquette observations point both ways.',
     category: 'Social',
   },
 
@@ -2777,6 +2843,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, quoted, genuinely imprecise instruction is a very human culinary detail.',
     concept: 'Specific lived detail',
     difficulty: 'pro',
+    evidenceHighlights: ['asked my grandmother for her curry recipe', 'add masala until it smells right'],
+    temptingReason: 'The grandmother cooking without measurements trope is a beloved, widely shared culinary meme.',
+    counterexample: 'AI food writers frequently invoke the imprecise cooking grandmother trope, so sensory cooking tips remain an ambiguous clue.',
     category: 'Food',
   },
   {
@@ -3246,6 +3315,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, believable family obligation with a concrete reason points toward human.',
     concept: 'Specific lived detail',
     difficulty: 'pro',
+    evidenceHighlights: ['watch my little sister last minute', 'mom\'s shift got extended'],
+    temptingReason: 'The brief family-emergency excuse looks like a generated message template for missing appointments.',
+    counterexample: 'Communication assistants frequently draft concise family obligation excuses, so mundane emergency explanations are inconclusive.',
     category: 'Excuse',
   },
   {
@@ -3256,6 +3328,9 @@ export const ITEMS: Item[] = [
     explanation: 'Deliberately vague, legalistic phrasing ("exigent", "sensitive nature") that reveals nothing concrete.',
     concept: 'Register mismatch (overly formal)',
     difficulty: 'pro',
+    evidenceHighlights: ['Exigent personal matters', 'immediate and undivided attention'],
+    temptingReason: 'The lofty, defensive wording sounds like an excessively cautious employee drafting a formal absence request.',
+    counterexample: 'Human professionals occasionally use stiff legalistic phrasing when hiding sensitive absences, so clinical formality alone is an ambiguous clue.',
     category: 'Excuse',
   },
 
@@ -3387,6 +3462,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific timeline, a quoted dismissive response, and a visible worsening detail points toward human.',
     concept: 'Rambling cause-and-effect venting',
     difficulty: 'pro',
+    evidenceHighlights: ['landlord said "noted"', 'the stain is bigger now'],
+    temptingReason: 'The concise summary of an unresolved apartment dispute could be an AI-generated scenario for tenant advice blogs.',
+    counterexample: 'Language models often generate realistic landlord-tenant disputes for roleplay, so common renting frustrations are only suggestive.',
     category: 'Complaint',
   },
   {
@@ -3538,6 +3616,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific archival contradiction with real emotional weight is a human historical detail.',
     concept: 'Specific cultural nuance',
     difficulty: 'pro',
+    evidenceHighlights: ['great-great-grandmother\'s occupation listed', 'stories say she ran the whole farm'],
+    temptingReason: 'The historical discrepancy between official records and family lore fits common genealogy storytelling templates.',
+    counterexample: 'Synthetic genealogy narratives frequently incorporate census record discrepancies, so archival contradictions remain only a clue.',
     category: 'History',
   },
   {
@@ -3685,6 +3766,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, time-stamped setback with a quietly resigned reaction points toward human.',
     concept: 'Specific lived detail',
     difficulty: 'pro',
+    evidenceHighlights: ['dropped and shattered the one slide', 'redid the whole thing in silence'],
+    temptingReason: 'The dramatic laboratory mishap feels like an anecdote manufactured for a science student comedy page.',
+    counterexample: 'AI storytelling tools can simulate lab mishaps and silent frustration, so believable student exasperation is only suggestive.',
     category: 'Science',
   },
   {
@@ -3695,6 +3779,9 @@ export const ITEMS: Item[] = [
     explanation: 'A poetic reinterpretation of entropy with no actual physics grounding beyond the metaphor itself.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['disorder is not failure', 'quiet insistence on change'],
+    temptingReason: 'The poetic philosophical reinterpretation of a physics concept sounds like an excerpt from a literary science essayist.',
+    counterexample: 'Human science communicators frequently personify physical laws like entropy, so lyrical scientific metaphors point in both directions.',
     category: 'Science',
   },
 
@@ -3826,6 +3913,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, dated, bittersweet personal detail with genuine self-assessment points toward human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['made a mixtape for a crush in 2009', 'track order still holds up'],
+    temptingReason: 'The vintage cassette nostalgia and dated romantic longing fit popular nostalgic indie fiction tropes.',
+    counterexample: 'AI creative writers frequently evoke mixtape tracklists from the 2000s, so retro musical nostalgia alone does not establish human origin.',
     category: 'Music',
   },
   {
@@ -3836,6 +3926,9 @@ export const ITEMS: Item[] = [
     explanation: 'A smooth, quotable claim about musical silence with no specific piece or composer ever named.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['silence between the notes', 'gives a piece its meaning'],
+    temptingReason: 'The thoughtful aphorism echoes famous musical reflections often attributed to classical composers or jazz musicians.',
+    counterexample: 'Human music theorists love repeating this classic Debussy-style adage, so musical aphorisms alone cannot reveal the author.',
     category: 'Music',
   },
 
@@ -4114,6 +4207,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, physical object with a concrete, personally meaningful reason points toward human.',
     concept: 'Specific lived detail',
     difficulty: 'pro',
+    evidenceHighlights: ['rejection letter from his first ever job', 'framed on his office wall'],
+    temptingReason: 'The framed rejection letter as motivation story fits classic leadership parables told on corporate social media.',
+    counterexample: 'Corporate motivational bots frequently generate parables about framed rejection letters, so inspiring office symbols are an ambiguous tell.',
     category: 'Inspiration',
   },
   {
@@ -4124,6 +4220,9 @@ export const ITEMS: Item[] = [
     explanation: 'A polished claim about "quiet victories" with no actual victory or circumstance described.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['quietest victories', 'ones no one claps for'],
+    temptingReason: 'The gentle encouragement feels like personal wisdom shared by an empathetic friend or life coach.',
+    counterexample: 'Human motivational speakers frequently celebrate unheralded daily efforts, making inspirational aphorisms an ambiguous clue.',
     category: 'Inspiration',
   },
 
@@ -4256,6 +4355,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, time-anchored family detail with a concrete physical landmark points toward human.',
     concept: 'Specific cultural nuance',
     difficulty: 'pro',
+    evidenceHighlights: ['village my grandparents left sixty years ago', 'well is still exactly where they described it'],
+    temptingReason: 'The nostalgic return to ancestral roots resembles an AI-generated sentimental travel narrative.',
+    counterexample: 'AI creative writing tools frequently generate heartfelt ancestral homecoming stories, so poignant family landmarks are not conclusive.',
     category: 'Travel',
   },
   {
@@ -4266,6 +4368,9 @@ export const ITEMS: Item[] = [
     explanation: 'A smooth, literary airport metaphor with no actual flight, destination, or event described.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['threshold between worlds', 'who we were and who we are becoming'],
+    temptingReason: 'The evocative depiction of airport liminality reads like polished prose from a travel memoir.',
+    counterexample: 'Human travel writers frequently describe transit terminals as liminal emotional spaces, so romantic reflections remain inconclusive.',
     category: 'Travel',
   },
 
@@ -4397,6 +4502,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, intergenerational detail with a concrete lasting physical habit points toward human.',
     concept: 'Specific lived detail',
     difficulty: 'pro',
+    evidenceHighlights: ['strip of grass between two houses', 'still stand the way he showed me'],
+    temptingReason: 'The nostalgic baseball instruction in an improvisational yard reads like evocative cinematic sports writing.',
+    counterexample: 'AI narrative models often create touching generational sports instruction stories, so nostalgic athletic details are not conclusive.',
     category: 'Sports',
   },
   {
@@ -4407,6 +4515,9 @@ export const ITEMS: Item[] = [
     explanation: 'A poetic, vague pre-game moment description with no actual sport, team, or player named.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['silence before the whistle', 'every fear and every hope'],
+    temptingReason: 'The dramatic build-up captures the psychological tension familiar to athletes and sports journalists.',
+    counterexample: 'Human sports essayists regularly dramatize the silent seconds before competition, so dramatic athletic tension is not machine-specific.',
     category: 'Sports',
   },
 
@@ -4541,6 +4652,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, understated workplace gesture with a concrete quoted detail points toward human.',
     concept: 'Specific lived detail',
     difficulty: 'pro',
+    evidenceHighlights: ['mentor retired last month', 'sticky note on my monitor'],
+    temptingReason: 'The cryptic farewell note from a wise mentor feels like a scene from an inspiring workplace drama.',
+    counterexample: 'Generative AI regularly writes sentimental stories about retiring mentors and sticky notes, so poignant workplace gestures point both ways.',
     category: 'Work',
   },
   {
@@ -4551,6 +4665,9 @@ export const ITEMS: Item[] = [
     explanation: 'A polished claim about hidden meaning in work with no actual job, task, or person described.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['rarely the most visible', 'hides in the tasks no one applauds'],
+    temptingReason: 'The earnest reflection on quiet contribution sounds like genuine encouragement from a veteran mentor.',
+    counterexample: 'Human management authors frequently praise unsung background tasks, so philosophizing about workplace purpose is an uncertain indicator.',
     category: 'Work',
   },
 
@@ -4662,6 +4779,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, urgent, slightly cryptic self-directed instruction with real stakes points toward human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['still have not called that number back', 'regret waiting a decade like I almost did'],
+    temptingReason: 'The urgent, dramatic instruction to a future self feels like an introspective exercise written for personal growth blogs.',
+    counterexample: 'Self-help AI tools frequently draft dramatic letters urging future action on old phone calls, making urgent self-reflection inconclusive.',
     category: 'Letter',
   },
   {
@@ -4672,6 +4792,9 @@ export const ITEMS: Item[] = [
     explanation: 'A polished claim romanticizing letter-writing itself, with no actual letter or recipient described.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['sacred about ink on a page', 'permanence that no fleeting message can replicate'],
+    temptingReason: 'The tactile nostalgia for handwritten stationery echoes personal correspondence from stationery lovers.',
+    counterexample: 'Human enthusiasts routinely romanticize fountain pens and paper over digital screens, making sentimental stationery praise inconclusive.',
     category: 'Letter',
   },
 
@@ -4685,6 +4808,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, awkward parenting-meets-officiating detail with a concrete emotional cost points toward human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['referee my own kid\'s team', 'did not speak to me for an hour'],
+    temptingReason: 'The funny, mildly strained parenting dilemma reads like a scripted scene from a suburban family comedy.',
+    counterexample: 'AI comedy writers frequently invent scenarios about parents refereeing youth soccer games, so suburban parenting tension is only suggestive.',
     category: 'Sports',
   },
   {
@@ -4695,6 +4821,9 @@ export const ITEMS: Item[] = [
     explanation: 'A smooth, abstract sports maxim with no athlete, sport, or event actually described.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['invisible foundation', 'visible achievement eventually stands'],
+    temptingReason: 'The stoic maxim sounds like an inspirational quote displayed in a professional training locker room.',
+    counterexample: 'Human athletic coaches repeat maxims about discipline constantly, so tidy athletic aphorisms decide very little.',
     category: 'Sports',
   },
   {
@@ -4786,6 +4915,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, circular bureaucratic workplace frustration with real exasperation points toward human.',
     concept: 'Rambling cause-and-effect venting',
     difficulty: 'pro',
+    evidenceHighlights: ['badge stopped working at the front door', 'IT wants a ticket number for a ticket number'],
+    temptingReason: 'The absurd recursive bureaucracy joke reads like satirical workplace humor written for a tech sitcom.',
+    counterexample: 'AI chatbots trained on corporate comedy can produce recursive IT jokes, so bureaucratic absurdity does not settle authorship.',
     category: 'Work',
   },
   {
@@ -4890,6 +5022,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, warm detail deliberately withheld is a human touch in a letter.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['wrote you a reference letter', 'stayed late to fix my mistake'],
+    temptingReason: 'The warm, confidential workplace camaraderie reads like a scripted testimonial on professional loyalty.',
+    counterexample: 'Professional writing assistants can simulate warm references with confidential anecdotes, so fond workplace memories are not conclusive.',
     category: 'Letter',
   },
   {
@@ -5037,6 +5172,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, exact tally with a concrete personal workaround points toward human venting.',
     concept: 'Rambling cause-and-effect venting',
     difficulty: 'pro',
+    evidenceHighlights: ['car alarm across the street', 'gone off at 3am four nights this week'],
+    temptingReason: 'The vivid, sleepless neighbor complaint could be a synthetic scenario illustrating urban noise grievances.',
+    counterexample: 'Generative models can synthesize irritated urban complaints with specific hours, so visceral annoyance remains an incomplete clue.',
     category: 'Complaint',
   },
   {
@@ -5094,6 +5232,9 @@ export const ITEMS: Item[] = [
     explanation: 'The "butterfly / free / destiny" imagery cluster is an extremely recognizable AI poetry template.',
     concept: 'Token-level rhyme repetition',
     difficulty: 'pro',
+    evidenceHighlights: ['butterfly breaking free', 'spirit rises to claim its destiny'],
+    temptingReason: 'The uplifting rhyme scheme and inspirational tone resemble affirmations found in gift books and popular greeting cards.',
+    counterexample: 'Human greeting card writers frequently combine butterflies and destiny in inspirational verse, so stock symbolism alone is not machine-exclusive.',
     category: 'Poetry',
   },
   {
@@ -5175,6 +5316,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, delayed, concretely detailed moment of recognized impact points toward human.',
     concept: 'Specific lived detail',
     difficulty: 'pro',
+    evidenceHighlights: ['thank you card two years later', 'taped inside my locker'],
+    temptingReason: 'The touching story of an unexpected thank-you card fits heartwarming medical inspirational posts.',
+    counterexample: 'Inspirational content generators frequently produce hospital thank-you card anecdotes, so delayed gratitude alone is not conclusive.',
     category: 'Inspiration',
   },
   {
@@ -5185,6 +5329,9 @@ export const ITEMS: Item[] = [
     explanation: 'A smooth "seeds we plant" metaphor with no actual effort, person, or outcome ever described.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['seeds we plant today', 'stopped watching for them'],
+    temptingReason: 'The comforting gardening metaphor reads like advice from a mindful mentor urging long-term patience.',
+    counterexample: 'Human mindfulness teachers and educators lean heavily on agricultural growth metaphors, so gentle parables are an ambiguous signal.',
     category: 'Inspiration',
   },
   {
@@ -5266,6 +5413,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, physical, dated local artifact with a precise year points toward human historical noticing.',
     concept: 'Specific cultural nuance',
     difficulty: 'pro',
+    evidenceHighlights: ['faded waterline painted on the old courthouse', '1937 flood reached'],
+    temptingReason: 'The exact year and landmark details could have been pulled from an online local history encyclopedia.',
+    counterexample: 'AI query tools can effortlessly retrieve regional flood dates and historical markers, making specific municipal trivia an uncertain test.',
     category: 'History',
   },
   {
@@ -5350,6 +5500,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, data-driven observation about one\'s own sleep with genuine confusion is typically human.',
     concept: 'Specific lived detail',
     difficulty: 'pro',
+    evidenceHighlights: ['sleep tracker says I woke up during REM', 'unrelated dream fragments this morning'],
+    temptingReason: 'The integration of biometric sleep data with dream theory sounds like a lifestyle tech journalist.',
+    counterexample: 'Smart health assistant apps frequently generate commentary linking REM interruptions to vivid dreams, so sleep data references are an uncertain indicator.',
     category: 'Science',
   },
   {
@@ -5437,6 +5590,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, dated reunion with an honest admission of early rustiness points toward human.',
     concept: 'Specific lived detail',
     difficulty: 'pro',
+    evidenceHighlights: ['rusty for the first two songs', 'clicked like nothing had changed'],
+    temptingReason: 'The narrative arc of initial clumsiness followed by effortless musical chemistry is a classic storytelling pattern.',
+    counterexample: 'Music fiction generated by AI often relies on the rusty band reunion trope, making musical nostalgia an incomplete clue.',
     category: 'Music',
   },
   {
@@ -5526,6 +5682,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, real imbalance in texting effort with honest uncertainty about meaning points toward human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['three paragraphs about today', 'got back just "oof"'],
+    temptingReason: 'The asymmetrical texting effort joke is a widely shared comedic meme across social platforms.',
+    counterexample: 'Language models often generate relatable jokes about getting one-word replies to long texts, so texting frustration remains inconclusive.',
     category: 'Chat',
   },
   {
@@ -5536,6 +5695,9 @@ export const ITEMS: Item[] = [
     explanation: 'An unnaturally deliberate, formal justification for a delayed text reply nobody actually sends.',
     concept: 'Register mismatch (overly formal)',
     difficulty: 'pro',
+    evidenceHighlights: ['thoughtful response it deserves', 'reply more fully once I have reflected'],
+    temptingReason: 'The courteous courtesy note seems like an unusually conscientious friend managing texting boundaries.',
+    counterexample: 'Overly polite human texters sometimes send formal delay notices to avoid appearing rude, so polite delay messages are not unique to machines.',
     category: 'Chat',
   },
   {
@@ -5546,6 +5708,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, self-aware confession about a common writing shortcut points toward human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['conclusion basically just restates my intro', 'choosing to believe nobody will notice'],
+    temptingReason: 'The cynical student admission about restating introductions reads like a scripted essay tip meme.',
+    counterexample: 'Student-oriented AI tools frequently joke about recycling introductions into conclusions, so writing shortcut admissions are an uncertain test.',
     category: 'Essay',
   },
   {
@@ -5556,6 +5721,9 @@ export const ITEMS: Item[] = [
     explanation: 'A smooth, academic-sounding synthesis closer with no actual idea from the essay referenced.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['synthesizing these ideas', 'richer set of questions'],
+    temptingReason: 'The academic phrasing mirrors standard conclusion paragraphs taught in undergraduate essay composition.',
+    counterexample: 'Human college students regularly conclude papers with the trope of leaving questions open, so formulaic academic wrap-ups are not exclusive to AI.',
     category: 'Essay',
   },
   {
@@ -5566,6 +5734,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, oddly exact window of forgetting with an honest reaction points toward human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['forgot our anniversary for about four hours', 'spent the rest of the day overcompensating'],
+    temptingReason: 'The humorous panic of temporarily forgetting an anniversary is a classic sitcom trope.',
+    counterexample: 'Comedy chatbots regularly produce stories about panicking over forgotten anniversaries, so relatable marital mishaps point both ways.',
     category: 'Life',
   },
   {
@@ -5576,6 +5747,9 @@ export const ITEMS: Item[] = [
     explanation: 'A smooth, quotable redefinition of the ordinary with no actual moment or object described.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['ordinary is simply the sacred', 'disguised well enough that we stop noticing'],
+    temptingReason: 'The spiritual perspective on noticing everyday wonders evokes meditative essays by nature writers.',
+    counterexample: 'Human contemplative essayists frequently contrast the mundane with the sacred, making poetic philosophy an uncertain indicator.',
     category: 'Life',
   },
   {
@@ -5612,6 +5786,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, quietly devastating detail about fading memory with a concrete verification points toward human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['tried to remember what her voice actually sounded like', 'play an old voicemail just to check'],
+    temptingReason: 'The heartbreaking detail of auditory memory fading could easily be written by a literary writing assistant.',
+    counterexample: 'Advanced AI creative writing platforms frequently explore fading memories of voices and voicemails, so poignant grief details are inconclusive.',
     category: 'Journal',
   },
   {
@@ -5622,6 +5799,9 @@ export const ITEMS: Item[] = [
     explanation: 'A vague "days blur together" journal line with no specific day, task, or feeling actually described.',
     concept: 'Universal platitude',
     difficulty: 'pro',
+    evidenceHighlights: ['days have begun to blur together', 'indistinguishable from the one before it'],
+    temptingReason: 'The melancholy reflection on monotonous routine feels like a poignant personal confession in a human diary.',
+    counterexample: 'Human diarists suffering burnout frequently write about indistinguishable days, so expressions of monotony point both ways.',
     category: 'Journal',
   },
   {
@@ -5645,6 +5825,9 @@ export const ITEMS: Item[] = [
     explanation: 'A smooth, quotable claim equating listening with "generosity" with no actual conversation referenced.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['True listening', 'deeper form of generosity'],
+    temptingReason: 'The compassionate insight into active listening sounds like heartfelt relationship counseling.',
+    counterexample: 'Human therapists and counselors regularly describe attentive listening as an act of generosity, so warm interpersonal advice is inconclusive.',
     category: 'Advice',
   },
   {
@@ -5655,6 +5838,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, self-aware admission of a small social strategy with genuine honesty is typically human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['muted him instead of unfollowing', 'notification to tell him'],
+    temptingReason: 'The pragmatic digital boundary calculation reads like a relatable piece of contemporary internet commentary.',
+    counterexample: 'Social commentary bots frequently analyze the etiquette of muting versus unfollowing, so digital tactical admissions are an imperfect clue.',
     category: 'Social',
   },
   {
@@ -5717,6 +5903,9 @@ export const ITEMS: Item[] = [
     explanation: 'Vague, formal reassurance language about "complexities" with no actual issue or timeline named.',
     concept: 'Register mismatch (overly formal)',
     difficulty: 'pro',
+    evidenceHighlights: ['navigating the complexities of this project', 'continued flexibility is sincerely appreciated'],
+    temptingReason: 'The soothing corporate boilerplate resembles customary project management updates sent during client delays.',
+    counterexample: 'Human project managers write vague corporate reassurances all the time, so diplomatic boilerplate indicates professional setting rather than origin.',
     category: 'Email',
   },
   {
@@ -5727,6 +5916,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, quietly touching gesture with a precise delayed timeframe points toward human.',
     concept: 'Specific lived detail',
     difficulty: 'pro',
+    evidenceHighlights: ['mentioned liking a specific author once', 'used copy of one of his books on my desk'],
+    temptingReason: 'The thoughtful, quiet gesture by a dedicated teacher resembles a sentimental school story scripted for emotional impact.',
+    counterexample: 'AI story prompts frequently depict thoughtful educators leaving books on desks, so quiet classroom kindness does not confirm human origin.',
     category: 'School',
   },
   {
@@ -5737,6 +5929,9 @@ export const ITEMS: Item[] = [
     explanation: 'A sweeping, abstract sociological claim about classrooms with no specific class or student described.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['microcosm of society', 'social dynamic plays out in miniature'],
+    temptingReason: 'The analytical sociological observation sounds like an academic reflection from an experienced educator.',
+    counterexample: 'Human educational theorists routinely call the classroom a societal microcosm, so standard educational theory does not reveal the author.',
     category: 'School',
   },
   {
@@ -5747,6 +5942,9 @@ export const ITEMS: Item[] = [
     explanation: 'A plain, unembellished admission with no attempt to dress up a simple mistake points toward human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'pro',
+    evidenceHighlights: ['set three alarms and ignored all of them', 'there is no interesting reason'],
+    temptingReason: 'The disarmingly honest confession about sleeping through alarms could be a generated anti-excuse template.',
+    counterexample: 'Modern messaging assistants can draft plain anti-excuses that refuse embellishment, so blunt candor is not machine-proof.',
     category: 'Excuse',
   },
   {
@@ -5757,6 +5955,9 @@ export const ITEMS: Item[] = [
     explanation: 'An unnecessarily formal, roundabout way of saying "I overslept" that no one actually talks like.',
     concept: 'Register mismatch (overly formal)',
     difficulty: 'pro',
+    evidenceHighlights: ['regrettable oversight on my part', 'failed to allocate sufficient time'],
+    temptingReason: 'The contrite, formal explanation could be a student trying desperately to sound respectful after arriving late.',
+    counterexample: 'Anxious human students frequently adopt exaggerated formality when apologizing to strict professors, making stiff apologies an uncertain tell.',
     category: 'Excuse',
   },
   {
@@ -5767,6 +5968,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, oddly funny long-running family dispute with a believable detail points toward human.',
     concept: 'Specific lived detail',
     difficulty: 'pro',
+    evidenceHighlights: ['argued about whose version of the stew is correct', 'neither has ever actually tasted the other\'s'],
+    temptingReason: 'The absurd family culinary feud with a witty punchline reads like comedy writing for an essay collection.',
+    counterexample: 'Creative AI assistants can easily craft witty family squabbles about recipes, so sharp observational humor remains inconclusive.',
     category: 'Food',
   },
   {
