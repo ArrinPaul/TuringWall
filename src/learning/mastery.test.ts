@@ -106,4 +106,25 @@ describe('Daily Challenge and Practice Deck Selection', () => {
     expect(deck).toHaveLength(2);
     expect(deck.map((i) => i.id)).toEqual(['3', '5']);
   });
+
+  it('never serves the exact item id most recently missed in daily challenge when an alternative exists', () => {
+    const initialMap = loadMastery();
+    initialMap['Buzzword padding'].tier = 'shaky';
+    // '1' and '2' both belong to 'Buzzword padding'. If '1' was recently missed, '2' should be selected.
+    const deck = selectDailyChallengeDeck(mockItems, initialMap, 5, () => 0.1, ['1']);
+    const buzzwordItem = deck.find((i) => i.concept === 'Buzzword padding');
+    expect(buzzwordItem).toBeDefined();
+    expect(buzzwordItem?.id).toBe('2');
+    expect(buzzwordItem?.id).not.toBe('1');
+  });
+
+  it('falls back gracefully to the only item when a concept has only 1 item and it was missed', () => {
+    const initialMap = loadMastery();
+    initialMap['Formulaic symmetry'].tier = 'shaky';
+    // Item '6' is the only item for 'Formulaic symmetry'
+    const deck = selectDailyChallengeDeck(mockItems, initialMap, 5, () => 0.1, ['6']);
+    const item = deck.find((i) => i.concept === 'Formulaic symmetry');
+    expect(item).toBeDefined();
+    expect(item?.id).toBe('6');
+  });
 });

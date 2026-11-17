@@ -80,7 +80,7 @@ export interface GameState {
 
 function poolFor(items: Item[], mode: PracticeMode, masteryMap: MasteryMap, missedIds: string[]): Item[] {
   if (mode === 'daily-challenge') {
-    return selectDailyChallengeDeck(items, masteryMap, 5);
+    return selectDailyChallengeDeck(items, masteryMap, 5, Math.random, missedIds);
   }
   if (mode === 'weak-tells') {
     return selectWeakTellsDeck(items, masteryMap, 10);

@@ -280,14 +280,20 @@ export function selectMissedQuestionsDeck(items: Item[], missedIds: string[], co
 /**
  * Builds a Daily Challenge deck:
  * Exactly 5 rounds composed of:
- * - 3 previously missed or due concepts (with varied examples across content types)
- * - 2 new concepts
+ * - <= 3 review or due concepts (with varied examples across content types, avoiding recently missed item IDs)
+ * - <= 2 new concepts
+ *
+ * Variety rules:
+ * - Never serve the exact item IDs most recently missed when an alternative exists for that concept.
+ * - When choosing an alternative for a due concept, prefer an item with a different kind or category than the missed one.
+ * - Fall back gracefully if a concept only has 1 item in total.
  */
 export function selectDailyChallengeDeck(
   items: Item[],
   map: MasteryMap,
   count = 5,
-  rng: () => number = Math.random
+  rng: () => number = Math.random,
+  recentlyMissedIds: string[] = []
 ): Item[] {
   const due = getDueConcepts(map);
   const weak = getWeakConcepts(map);
@@ -297,38 +303,78 @@ export function selectDailyChallengeDeck(
     .filter((m) => m.tier === 'new')
     .map((m) => m.concept);
 
+  const missedSet = new Set(recentlyMissedIds);
+
+  function pickVariedItemForConcept(concept: string): Item | null {
+    const conceptItems = items.filter((i) => i.concept === concept);
+    if (conceptItems.length === 0) return null;
+    if (conceptItems.length === 1) return conceptItems[0];
+
+    const missedOfConcept = conceptItems.filter((i) => missedSet.has(i.id));
+    const nonMissed = conceptItems.filter((i) => !missedSet.has(i.id));
+
+    // If all items for this concept were in the missed list, fall back to any
+    const pool = nonMissed.length > 0 ? nonMissed : conceptItems;
+
+    // If there was a missed item, prefer a different kind or category
+    if (missedOfConcept.length > 0) {
+      const lastMissed = missedOfConcept[missedOfConcept.length - 1];
+      const differentKindOrCat = pool.filter(
+        (i) => i.kind !== lastMissed.kind || i.category !== lastMissed.category
+      );
+      if (differentKindOrCat.length > 0) {
+        return differentKindOrCat[Math.floor(rng() * differentKindOrCat.length)];
+      }
+    }
+
+    return pool[Math.floor(rng() * pool.length)];
+  }
+
   const selectedItems: Item[] = [];
   const usedConcepts = new Set<string>();
 
   // Pick up to 3 review items
-  const reviewCandidates = items.filter((i) => reviewPoolConcepts.includes(i.concept));
-  const shuffledReview = [...reviewCandidates].sort(() => rng() - 0.5);
-
-  for (const item of shuffledReview) {
-    if (!usedConcepts.has(item.concept)) {
-      selectedItems.push(item);
-      usedConcepts.add(item.concept);
-    }
+  const shuffledReviewConcepts = [...reviewPoolConcepts].sort(() => rng() - 0.5);
+  for (const concept of shuffledReviewConcepts) {
     if (selectedItems.length >= 3) break;
+    if (!usedConcepts.has(concept)) {
+      const item = pickVariedItemForConcept(concept);
+      if (item && !selectedItems.some((s) => s.id === item.id)) {
+        selectedItems.push(item);
+        usedConcepts.add(concept);
+      }
+    }
   }
 
   // Pick up to 2 new concept items
-  const newCandidates = items.filter((i) => newConcepts.includes(i.concept));
-  const shuffledNew = [...newCandidates].sort(() => rng() - 0.5);
-
-  for (const item of shuffledNew) {
-    if (!usedConcepts.has(item.concept)) {
-      selectedItems.push(item);
-      usedConcepts.add(item.concept);
-    }
+  const shuffledNewConcepts = [...newConcepts].sort(() => rng() - 0.5);
+  for (const concept of shuffledNewConcepts) {
     if (selectedItems.length >= count) break;
+    if (!usedConcepts.has(concept)) {
+      const item = pickVariedItemForConcept(concept);
+      if (item && !selectedItems.some((s) => s.id === item.id)) {
+        selectedItems.push(item);
+        usedConcepts.add(concept);
+      }
+    }
   }
 
   // Backfill if needed
   if (selectedItems.length < count) {
-    const remaining = items.filter((i) => !selectedItems.some((s) => s.id === i.id));
-    const extra = [...remaining].sort(() => rng() - 0.5).slice(0, count - selectedItems.length);
-    selectedItems.push(...extra);
+    const remaining = items.filter(
+      (i) => !selectedItems.some((s) => s.id === i.id) && !missedSet.has(i.id)
+    );
+    const fallbackPool =
+      remaining.length >= count - selectedItems.length
+        ? remaining
+        : items.filter((i) => !selectedItems.some((s) => s.id === i.id));
+    const shuffledRemaining = [...fallbackPool].sort(() => rng() - 0.5);
+    for (const item of shuffledRemaining) {
+      if (selectedItems.length >= count) break;
+      if (!selectedItems.some((s) => s.id === item.id)) {
+        selectedItems.push(item);
+      }
+    }
   }
 
   return selectedItems.sort(() => rng() - 0.5);
