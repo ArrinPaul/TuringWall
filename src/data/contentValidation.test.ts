@@ -58,6 +58,17 @@ describe('content validation', () => {
       expect(item.temptingReason?.trim().length, `${item.id}: missing temptingReason`).toBeGreaterThan(0);
       expect(item.counterexample?.trim().length, `${item.id}: missing counterexample`).toBeGreaterThan(0);
     }
-    expect(textItems.length).toBe(583);
+    expect(textItems.length).toBe(611);
+  });
+
+  it('every concept in the Field Guide has at least 8 items in the question bank', () => {
+    const counts = new Map<string, number>();
+    for (const c of allConcepts()) counts.set(c, 0);
+    for (const item of ITEMS) {
+      counts.set(item.concept, (counts.get(item.concept) ?? 0) + 1);
+    }
+    for (const [concept, count] of counts) {
+      expect(count, `concept "${concept}" has only ${count} items (minimum 8 required)`).toBeGreaterThanOrEqual(8);
+    }
   });
 });
