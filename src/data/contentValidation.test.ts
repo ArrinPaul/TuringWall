@@ -58,6 +58,6 @@ describe('content validation', () => {
       expect(item.temptingReason?.trim().length, `${item.id}: missing temptingReason`).toBeGreaterThan(0);
       expect(item.counterexample?.trim().length, `${item.id}: missing counterexample`).toBeGreaterThan(0);
     }
-    expect(textItems.length).toBe(534);
+    expect(textItems.length).toBe(555);
   });
 });
