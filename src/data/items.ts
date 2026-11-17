@@ -1,12 +1,20 @@
 import type { Item } from './types';
 
-import abstractArtUrl from '../assets/images/abstract-art.png';
+import abstractArtUrl from '../assets/images/abstract-art.webp';
 import sunsetLandscapeUrl from '../assets/images/sunset-landscape.jpg';
 import cyberPortraitUrl from '../assets/images/cyber-portrait.jpg';
 import coffeeCupUrl from '../assets/images/coffee-cup.jpg';
 import deepSeaHybridUrl from '../assets/images/deep-sea-hybrid.jpg';
 import cyberCityUrl from '../assets/images/cyber-city.jpg';
 import origamiCraneUrl from '../assets/images/origami-crane.jpg';
+import roseWindowUrl from '../assets/images/rose-window.webp';
+import mistyForestUrl from '../assets/images/misty-forest.webp';
+import streetMotionUrl from '../assets/images/street-motion.webp';
+import weatheredWoodUrl from '../assets/images/weathered-wood.webp';
+import fractalPalaceUrl from '../assets/images/fractal-palace.webp';
+import astronautHorseUrl from '../assets/images/astronaut-horse.webp';
+import hexCityUrl from '../assets/images/hex-city.webp';
+import rhinoSuitUrl from '../assets/images/rhino-suit.webp';
 
 export const ITEMS: Item[] = [
   // 1. Text items ported from v1
@@ -498,6 +506,130 @@ export const ITEMS: Item[] = [
     evidenceHighlights: ['paper grain texture', 'soft shadow and slightly uneven folds'],
     temptingReason: 'The soft pastel gradient and clean backdrop look like a render.',
     counterexample: 'Studio photographers use soft light and clean backdrops, and 3D renders can add fake grain.',
+    category: 'Art',
+  },
+  {
+    id: 'img-rose-window',
+    kind: 'image',
+    src: roseWindowUrl,
+    caption: 'Gothic Rose Window',
+    alt: 'Detailed stained glass rose window in a medieval cathedral with concentric stone tracery radiating from a central roundel.',
+    isAI: false,
+    explanation: 'Natural human stonemasonry variance, hand-cut glass panes, and subtle uneven lead lines show traditional architectural craftsmanship.',
+    concept: 'Formulaic symmetry',
+    difficulty: 'medium',
+    evidenceHighlights: ['hand-cut glass panes', 'uneven lead lines between petals'],
+    temptingReason: 'The intricate mathematical circular geometry looks like a computational geometric pattern.',
+    counterexample: 'Gothic master builders employed strict geometry and compass work to achieve formal visual symmetry.',
+    credit: 'Image: Eusebius / Wikimedia Commons, CC BY-SA 3.0',
+    category: 'Art',
+  },
+  {
+    id: 'img-misty-forest',
+    kind: 'image',
+    src: mistyForestUrl,
+    caption: 'Misty Forest Morning',
+    alt: 'Sunlight filtering through thick ground fog across dark vertical tree trunks in a dense autumn woodland.',
+    isAI: false,
+    explanation: 'Genuine atmospheric light scattering and real airborne moisture droplets reacting naturally with morning sun rays.',
+    concept: 'Natural atmospheric imperfection',
+    difficulty: 'easy',
+    evidenceHighlights: ['diffuse sunbeams scattering through moisture', 'soft shadows on damp forest floor'],
+    temptingReason: 'The dramatic golden light rays resemble popular fantasy forest wallpapers.',
+    counterexample: 'Modern image filters can simulate atmospheric fog and god-rays on real photographs.',
+    credit: 'Image: Adrian Michael / Wikimedia Commons, CC BY-SA 3.0',
+    category: 'Art',
+  },
+  {
+    id: 'img-street-motion',
+    kind: 'image',
+    src: streetMotionUrl,
+    caption: 'Pedestrians at Shibuya Night Crossing',
+    alt: 'Blurred pedestrians crossing a brightly lit city street at night under towering neon billboards with streaks of light.',
+    isAI: false,
+    explanation: 'Physical camera shutter motion blur where stationary street signs remain crisp while moving feet and coats blur smoothly.',
+    concept: 'Natural photographic imperfection',
+    difficulty: 'hard',
+    evidenceHighlights: ['directional motion trails on walking legs', 'sharp stationary street curb and signage'],
+    temptingReason: 'The vibrant neon colors and motion streaks look like styled cyber aesthetic artwork.',
+    counterexample: 'Visual artists can paint directional motion blur and neon reflections by hand or with software brushes.',
+    credit: 'Image: Dick Thomas Johnson / Wikimedia Commons, CC BY-SA 2.0',
+    category: 'Art',
+  },
+  {
+    id: 'img-weathered-wood',
+    kind: 'image',
+    src: weatheredWoodUrl,
+    caption: 'Aged Timber Plank Macro',
+    alt: 'Close-up texture of weathered grey wood showing deep longitudinal fissures, rough splintered grain, and peeling surface fibers.',
+    isAI: false,
+    explanation: 'True biological material decay with deep cellular cracking along tree rings and random seasonal weathering marks.',
+    concept: 'Visible material imperfection',
+    difficulty: 'medium',
+    evidenceHighlights: ['natural split fissures along annual rings', 'fine weathered splintering at board edges'],
+    temptingReason: 'Photorealistic texture shaders in 3D modeling packages can reproduce high-resolution wood grain.',
+    counterexample: 'Detailed texture scans of real wood can be applied to virtual surfaces, mimicking natural material wear.',
+    credit: 'Image: Colin / Wikimedia Commons, CC BY 4.0',
+    category: 'Art',
+  },
+  {
+    id: 'img-fractal-palace',
+    kind: 'image',
+    src: fractalPalaceUrl,
+    caption: 'Monolithic Tower Architecture',
+    alt: 'A colossal dark stepped tower rising into clouded skies, surrounded by thousands of identical mirrored flying buttresses and arched balconies.',
+    isAI: true,
+    explanation: 'Uncanny fractal repetition where windows and buttresses duplicate across multiple scales without structural load paths.',
+    concept: 'Formulaic symmetry',
+    difficulty: 'hard',
+    evidenceHighlights: ['identical repeating arch clusters', 'columns that duplicate infinitely without structural support'],
+    temptingReason: 'Complex baroque or brutalist architecture displays dense, mathematically structured repeating columns.',
+    counterexample: 'Human 3D environment artists use procedural scatter tools to populate massive background buildings.',
+    category: 'Art',
+  },
+  {
+    id: 'img-astronaut-horse',
+    kind: 'image',
+    src: astronautHorseUrl,
+    caption: 'Space Rider in Desert',
+    alt: 'A figure in a white spacesuit riding a brown horse across an arid desert landscape under a clear blue sky.',
+    isAI: true,
+    explanation: 'Notice the surreal vector merge where the spacesuit fabric blurs into the horse saddle with illogical harness physics.',
+    concept: 'Nonsensical generative blending',
+    difficulty: 'easy',
+    evidenceHighlights: ['stirrup straps that disappear into the horse flank', 'visor reflection not matching the surrounding horizon'],
+    temptingReason: 'Surrealist human painters and modern photo composite artists often create dreamlike conceptual juxtapositions.',
+    counterexample: 'Photoshop matte painters intentionally composite astronauts onto animals for humorous advertising posters.',
+    category: 'Art',
+  },
+  {
+    id: 'img-hex-city',
+    kind: 'image',
+    src: hexCityUrl,
+    caption: 'Dense Futuristic Skyline',
+    alt: 'A sprawling metropolis of glowing skyscrapers and multi-level skyways drenched in teal and violet neon reflections.',
+    isAI: true,
+    explanation: 'Repeating rectangular window grids melt and distort as they recede into the distance, with garbled signage characters.',
+    concept: 'Repetitive grid patterning',
+    difficulty: 'pro',
+    evidenceHighlights: ['window grids that melt into smeared horizontal streaks', 'unreadable repeating neon letterforms'],
+    temptingReason: 'Dense East Asian cityscapes and matte paintings have thousands of layered neon signs and window rows.',
+    counterexample: 'Human sci-fi illustrators sometimes use custom brush stamps to paint distant skyscraper windows quickly.',
+    category: 'Art',
+  },
+  {
+    id: 'img-rhino-suit',
+    kind: 'image',
+    src: rhinoSuitUrl,
+    caption: 'Dressed Rhinoceros Portrait',
+    alt: 'An upright rhinoceros with a textured grey horn wearing a patterned blue collared shirt against a warm neutral backdrop.',
+    isAI: true,
+    explanation: 'Anatomical inconsistencies: the thick folded animal hide dissolves directly into woven textile seams with impossible shoulder anatomy.',
+    concept: 'Seamless organic-mechanical blending',
+    difficulty: 'medium',
+    evidenceHighlights: ['skin folds blending directly into shirt collar threads', 'horns that emerge with blurry base textures'],
+    temptingReason: 'Anthropomorphic animal illustrations have a long and storied tradition in children\'s literature and fantasy art.',
+    counterexample: 'Traditional human illustrators frequently paint animals in human clothing with stylized anatomical liberties.',
     category: 'Art',
   },
 
