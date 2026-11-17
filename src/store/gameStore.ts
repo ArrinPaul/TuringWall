@@ -2,8 +2,33 @@ import { create, type UseBoundStore, type StoreApi } from 'zustand';
 import type { Item, SessionMode } from '../data/types';
 import { ITEMS } from '../data/items';
 import { createDeck, type Deck } from '../game/deck';
-import { createStats, applyGuess, hitMilestone, accuracyPercent, DIFFICULTY_POINTS, type Stats } from '../game/scoring';
+import {
+  createStats,
+  applyDetailedGuess,
+  calculateRoundPoints,
+  hitMilestone,
+  accuracyPercent,
+  type Stats,
+} from '../game/scoring';
 import { addEntry, loadLeaderboard, type SessionLength } from '../leaderboard/leaderboard';
+import type {
+  ConfidenceLevel,
+  PredictionChoice,
+  PracticeMode,
+  RoundResult,
+} from '../learning/types';
+import {
+  loadMastery,
+  saveMastery,
+  loadMissedQuestionIds,
+  saveMissedQuestionIds,
+  applyRoundToMastery,
+  selectWeakTellsDeck,
+  selectMissedQuestionsDeck,
+  selectDailyChallengeDeck,
+  type MasteryMap,
+} from '../learning/mastery';
+import { getCandidateTells } from '../character/fieldGuide';
 
 export type Screen = 'attract' | 'select' | 'playing' | 'revealed' | 'stats';
 
@@ -14,16 +39,20 @@ export interface GameState {
   screen: Screen;
   playerName: string;
   difficulty: SessionMode | null;
+  practiceMode: PracticeMode | null;
   roundsTarget: SessionLength;
   clearedModes: SessionMode[];
   current: Item | null;
+  candidateTells: string[];
   stats: Stats;
   lastGuessCorrect: boolean | null;
+  lastRoundResult: RoundResult | null;
   milestoneHit: boolean;
+  masteryMap: MasteryMap;
+  missedQuestionIds: string[];
   /** Set once a completed session's score beats every prior score on this same length+tier board. */
   newPersonalBest: boolean;
-  /** True once this session's result has been written to the leaderboard — guards against double-saving
-   * (e.g. "Next round" vs jumping straight to "Stats" on the final round) and against saving nothing at all. */
+  /** True once this session's result has been written to the leaderboard — guards against double-saving. */
   sessionSaved: boolean;
   guessSeq: number;
   /** Unique concept tags encountered this session, in first-seen order — the session's "syllabus". */
@@ -31,37 +60,46 @@ export interface GameState {
   setPlayerName: (name: string) => void;
   setRoundsTarget: (n: SessionLength) => void;
   goToSelect: () => void;
-  startRound: (mode: SessionMode) => void;
+  startRound: (mode: PracticeMode) => void;
+  startTellPractice: (concept: string) => void;
   guess: (guess: 'human' | 'ai') => void;
+  detailedGuess: (
+    prediction: PredictionChoice,
+    confidence: ConfidenceLevel,
+    selectedTell: string | null
+  ) => void;
   next: () => void;
   showStats: () => void;
+  replayMissedSession: () => void;
   returnToAttract: () => void;
 }
 
-function poolFor(items: Item[], mode: SessionMode): Item[] {
+function poolFor(items: Item[], mode: PracticeMode, masteryMap: MasteryMap, missedIds: string[]): Item[] {
+  if (mode === 'daily-challenge') {
+    return selectDailyChallengeDeck(items, masteryMap, 5);
+  }
+  if (mode === 'weak-tells') {
+    return selectWeakTellsDeck(items, masteryMap, 10);
+  }
+  if (mode === 'review-missed') {
+    return selectMissedQuestionsDeck(items, missedIds, 10);
+  }
   if (mode === 'mixed') return items;
   const filtered = items.filter((i) => i.difficulty === mode);
   return filtered.length > 0 ? filtered : items;
 }
 
-/** Fields the leaderboard-save step contributes to state — applied once, from wherever the
- * session actually ends (via "Next round" on the last reveal, or by jumping straight to Stats). */
 interface FinalizePatch {
   sessionSaved: true;
   newPersonalBest: boolean;
   clearedModes: SessionMode[];
 }
 
-/** Pure-ish: if this session just completed and hasn't been saved yet, records it on the
- * length+tier leaderboard and returns the state patch to apply; otherwise returns null. */
 function finalizeSessionIfComplete(state: GameState): FinalizePatch | null {
   if (state.sessionSaved) return null;
   if (state.stats.roundsPlayed < state.roundsTarget) return null;
   if (!state.difficulty) return null;
 
-  // Compare against this exact length+tier board *before* inserting this
-  // session's own entry, so "new best" means beating someone else's run
-  // (or being the first to clear this tier at this length at all).
   const priorSameTier = loadLeaderboard(state.roundsTarget).filter((e) => e.difficulty === state.difficulty);
   const priorBest = priorSameTier.length > 0 ? Math.max(...priorSameTier.map((e) => e.score)) : null;
   const isNewBest = priorBest !== null && state.stats.score > priorBest;
@@ -96,12 +134,17 @@ export function createGameStore(
     screen: 'attract',
     playerName: '',
     difficulty: null,
+    practiceMode: null,
     roundsTarget: DEFAULT_ROUNDS,
     clearedModes: [],
     current: null,
-    stats: createStats(),
+    candidateTells: [],
+    stats: createStats(true),
     lastGuessCorrect: null,
+    lastRoundResult: null,
     milestoneHit: false,
+    masteryMap: loadMastery(),
+    missedQuestionIds: loadMissedQuestionIds(),
     newPersonalBest: false,
     sessionSaved: false,
     guessSeq: 0,
@@ -119,15 +162,28 @@ export function createGameStore(
       set({ screen: 'select' });
     },
 
-    startRound: (mode: SessionMode) => {
-      deck = createDeck(poolFor(items, mode), rng);
+    startRound: (mode: PracticeMode) => {
+      const state = get();
+      const isSpecialPractice = mode === 'daily-challenge' || mode === 'weak-tells' || mode === 'review-missed';
+      const targetRounds = mode === 'daily-challenge' ? 5 : state.roundsTarget;
+
+      const itemsPool = poolFor(items, mode, state.masteryMap, state.missedQuestionIds);
+      deck = createDeck(itemsPool, rng);
       const firstItem = deck.next();
+      const candidateTells = firstItem ? getCandidateTells(firstItem.concept, 4, rng) : [];
+
+      const sessionDifficulty: SessionMode | null = isSpecialPractice ? 'mixed' : (mode as SessionMode);
+
       set({
         screen: 'playing',
-        difficulty: mode,
+        difficulty: sessionDifficulty,
+        practiceMode: mode,
+        roundsTarget: targetRounds as SessionLength,
         current: firstItem,
-        stats: createStats(),
+        candidateTells,
+        stats: createStats(true),
         lastGuessCorrect: null,
+        lastRoundResult: null,
         milestoneHit: false,
         newPersonalBest: false,
         sessionSaved: false,
@@ -135,31 +191,104 @@ export function createGameStore(
       });
     },
 
-    guess: (g: 'human' | 'ai') => {
+    startTellPractice: (concept: string) => {
+      const matchingItems = items.filter((i) => i.concept === concept);
+      const pool = matchingItems.length > 0 ? matchingItems : items;
+      deck = createDeck(pool, rng);
+      const firstItem = deck.next();
+      const candidateTells = firstItem ? getCandidateTells(firstItem.concept, 4, rng) : [];
+
+      set({
+        screen: 'playing',
+        difficulty: 'mixed',
+        practiceMode: 'weak-tells',
+        roundsTarget: 5,
+        current: firstItem,
+        candidateTells,
+        stats: createStats(true),
+        lastGuessCorrect: null,
+        lastRoundResult: null,
+        milestoneHit: false,
+        newPersonalBest: false,
+        sessionSaved: false,
+        conceptsSeen: [],
+      });
+    },
+
+    detailedGuess: (
+      prediction: PredictionChoice,
+      confidence: ConfidenceLevel = 'medium',
+      selectedTell: string | null = null
+    ) => {
       const state = get();
       if (state.screen !== 'playing' || !state.current) {
         return;
       }
 
-      const correct = (g === 'ai') === state.current.isAI;
+      const isUnsure = prediction === 'unsure';
+      const actualSource: 'human' | 'ai' = state.current.isAI ? 'ai' : 'human';
+      const isCorrect = !isUnsure && prediction === actualSource;
+      const tellCorrect = Boolean(selectedTell && selectedTell === state.current.concept);
+      const points = calculateRoundPoints(
+        state.current.difficulty,
+        isCorrect,
+        isUnsure,
+        confidence,
+        tellCorrect
+      );
+
+      const roundResult: RoundResult = {
+        itemId: state.current.id,
+        concept: state.current.concept,
+        difficulty: state.current.difficulty,
+        category: state.current.category,
+        prediction,
+        actualSource,
+        isCorrect,
+        isUnsure,
+        confidence,
+        selectedTell,
+        tellCorrect,
+        pointsAwarded: points,
+        timestamp: Date.now(),
+      };
+
       const prevStreak = state.stats.streak;
-      // Points come from the item's own tier, not the session mode, so a
-      // Mixed session still rewards a hard item more than an easy one.
-      const points = DIFFICULTY_POINTS[state.current.difficulty];
-      const nextStats = applyGuess(state.stats, correct, points);
+      const nextStats = applyDetailedGuess(state.stats, roundResult);
       const isMilestone = hitMilestone(prevStreak, nextStats.streak);
-      const concept = state.current.concept;
+
+      // Update mastery and missed questions
+      const { nextMap } = applyRoundToMastery(state.masteryMap, roundResult);
+      saveMastery(nextMap);
+
+      let nextMissed = state.missedQuestionIds;
+      if (!isCorrect && !isUnsure) {
+        if (!nextMissed.includes(state.current.id)) {
+          nextMissed = [...nextMissed, state.current.id];
+          saveMissedQuestionIds(nextMissed);
+        }
+      } else if (isCorrect) {
+        nextMissed = nextMissed.filter((id) => id !== state.current?.id);
+        saveMissedQuestionIds(nextMissed);
+      }
 
       set({
         stats: nextStats,
-        lastGuessCorrect: correct,
+        lastGuessCorrect: isCorrect,
+        lastRoundResult: roundResult,
         milestoneHit: isMilestone,
+        masteryMap: nextMap,
+        missedQuestionIds: nextMissed,
         guessSeq: state.guessSeq + 1,
         screen: 'revealed',
-        conceptsSeen: state.conceptsSeen.includes(concept)
+        conceptsSeen: state.conceptsSeen.includes(state.current.concept)
           ? state.conceptsSeen
-          : [...state.conceptsSeen, concept],
+          : [...state.conceptsSeen, state.current.concept],
       });
+    },
+
+    guess: (g: 'human' | 'ai') => {
+      get().detailedGuess(g, 'medium', null);
     },
 
     next: () => {
@@ -179,25 +308,36 @@ export function createGameStore(
       }
 
       if (!deck) {
-        deck = createDeck(state.difficulty ? poolFor(items, state.difficulty) : items, rng);
+        const fallbackPool = poolFor(
+          items,
+          state.practiceMode || state.difficulty || 'mixed',
+          state.masteryMap,
+          state.missedQuestionIds
+        );
+        deck = createDeck(fallbackPool, rng);
       }
+
       const nextItem = deck.next();
+      const candidateTells = nextItem ? getCandidateTells(nextItem.concept, 4, rng) : [];
 
       set({
         screen: 'playing',
         current: nextItem,
+        candidateTells,
+        lastRoundResult: null,
         milestoneHit: false,
       });
     },
 
     showStats: () => {
-      // Jumping straight to Stats from the final round's reveal (instead of
-      // clicking "Next round") must still save the session — this is exactly
-      // the gap that let a completed session disappear without ever landing
-      // on the leaderboard.
       const state = get();
       const patch = finalizeSessionIfComplete(state);
       set({ screen: 'stats', ...(patch ?? {}) });
+    },
+
+    replayMissedSession: () => {
+      const state = get();
+      state.startRound('review-missed');
     },
 
     returnToAttract: () => {
@@ -206,11 +346,14 @@ export function createGameStore(
         screen: 'attract',
         playerName: '',
         difficulty: null,
+        practiceMode: null,
         roundsTarget: DEFAULT_ROUNDS,
         clearedModes: [],
         current: null,
-        stats: createStats(),
+        candidateTells: [],
+        stats: createStats(true),
         lastGuessCorrect: null,
+        lastRoundResult: null,
         milestoneHit: false,
         newPersonalBest: false,
         sessionSaved: false,

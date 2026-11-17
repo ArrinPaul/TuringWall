@@ -288,4 +288,32 @@ describe('gameStore', () => {
     store.getState().returnToAttract();
     expect(store.getState().conceptsSeen).toEqual([]);
   });
+
+  it('detailedGuess records prediction, confidence, tell and updates mastery', () => {
+    const store = createGameStore(fixtureItems, () => 0);
+    store.getState().startRound('easy');
+    const current = store.getState().current!;
+    store.getState().detailedGuess(current.isAI ? 'ai' : 'human', 'high', current.concept);
+    const s = store.getState();
+    expect(s.screen).toBe('revealed');
+    expect(s.lastRoundResult?.confidence).toBe('high');
+    expect(s.lastRoundResult?.tellCorrect).toBe(true);
+    expect(s.stats.tellCorrectCount).toBe(1);
+    expect(s.stats.score).toBeGreaterThan(0);
+  });
+
+  it('detailedGuess with unsure preserves streak and awards calibrated safe points', () => {
+    const store = createGameStore(fixtureItems, () => 0);
+    store.getState().startRound('easy');
+    const current = store.getState().current!;
+    // first round correct
+    store.getState().detailedGuess(current.isAI ? 'ai' : 'human', 'medium', current.concept);
+    expect(store.getState().stats.streak).toBe(1);
+
+    store.getState().next();
+    // second round unsure
+    store.getState().detailedGuess('unsure', 'low', null);
+    expect(store.getState().stats.streak).toBe(1); // Not broken!
+    expect(store.getState().stats.unsureCount).toBe(1);
+  });
 });

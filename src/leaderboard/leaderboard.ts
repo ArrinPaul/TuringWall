@@ -13,6 +13,51 @@ export interface LeaderboardEntry {
   timestamp: number;
   /** Which session length this run was played at — the board it belongs on. */
   roundsTarget: SessionLength;
+  /** Calibration index (0 - 100) */
+  calibration?: number;
+  /** Tell identification accuracy % */
+  tellAccuracy?: number;
+  /** Concepts mastered count */
+  conceptsMastered?: number;
+  /** Completed session indicator */
+  completed?: boolean;
+}
+
+export type LeaderboardSortView =
+  | 'score'
+  | 'accuracy'
+  | 'calibration'
+  | 'streak'
+  | 'mastered';
+
+/**
+ * Sorts entries by view metric to decouple raw points from learning quality.
+ */
+export function sortLeaderboard(
+  entries: LeaderboardEntry[],
+  view: LeaderboardSortView = 'score'
+): LeaderboardEntry[] {
+  return [...entries].sort((a, b) => {
+    switch (view) {
+      case 'accuracy':
+        return b.accuracy - a.accuracy || b.score - a.score;
+      case 'calibration': {
+        const calA = a.calibration ?? a.accuracy;
+        const calB = b.calibration ?? b.accuracy;
+        return calB - calA || b.score - a.score;
+      }
+      case 'streak':
+        return b.bestStreak - a.bestStreak || b.score - a.score;
+      case 'mastered': {
+        const masA = a.conceptsMastered ?? 0;
+        const masB = b.conceptsMastered ?? 0;
+        return masB - masA || b.score - a.score;
+      }
+      case 'score':
+      default:
+        return b.score - a.score;
+    }
+  });
 }
 
 const STORAGE_KEY = 'real-or-ai-wall:leaderboard:v2';

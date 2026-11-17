@@ -22,6 +22,14 @@ export interface BaseItem {
   /** How obvious the tell is: easy items are blatant, pro items are genuinely close calls. */
   difficulty: Difficulty;
   category?: string;
+  /** Exact phrases, words, or visual markers that provide evidence for the tell */
+  evidenceHighlights?: string[];
+  /** Why someone might be tempted by the opposite guess */
+  temptingReason?: string;
+  /** Example or note illustrating when this tell can be misleading */
+  counterexample?: string;
+  /** Takeaway advice for this specific case */
+  rememberThis?: string;
 }
 
 export interface TextItem extends BaseItem {

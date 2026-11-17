@@ -1,5 +1,20 @@
 import { describe, it, expect } from 'vitest';
-import { createStats, applyGuess, accuracyPercent, hitMilestone, STREAK_MILESTONES, getRank, getStreakLabel, DIFFICULTY_POINTS } from './scoring';
+import {
+  createStats,
+  applyGuess,
+  applyDetailedGuess,
+  calculateRoundPoints,
+  calculateCalibrationScore,
+  getStrongestAndWeakestTells,
+  tellAccuracyPercent,
+  accuracyPercent,
+  hitMilestone,
+  STREAK_MILESTONES,
+  getRank,
+  getStreakLabel,
+  DIFFICULTY_POINTS,
+} from './scoring';
+import type { RoundResult } from '../learning/types';
 
 describe('createStats', () => {
   it('starts all fields at zero', () => {
@@ -86,5 +101,101 @@ describe('getStreakLabel', () => {
     expect(getStreakLabel(8)).toBe('Consistent detector');
     expect(getStreakLabel(12)).toBe('Near-perfect run');
     expect(getStreakLabel(20)).toBe('Near-perfect run');
+  });
+});
+
+describe('calculateRoundPoints and applyDetailedGuess', () => {
+  it('awards points for difficulty tier plus bonus for high confidence and tell', () => {
+    const points = calculateRoundPoints('hard', true, false, 'high', true);
+    // 3 base + 1 high-conf + 1 tell = 5
+    expect(points).toBe(5);
+  });
+
+  it('awards partial credit when tell is correctly identified even if source guess was wrong', () => {
+    const points = calculateRoundPoints('medium', false, false, 'low', true);
+    expect(points).toBe(1);
+  });
+
+  it('awards safe points for unsure without breaking streak in applyDetailedGuess', () => {
+    const initial = createStats(true);
+    initial.streak = 2;
+    initial.bestStreak = 2;
+
+    const roundResult: RoundResult = {
+      itemId: 'x',
+      concept: 'Buzzword padding',
+      difficulty: 'easy',
+      prediction: 'unsure',
+      actualSource: 'ai',
+      isCorrect: false,
+      isUnsure: true,
+      confidence: 'low',
+      selectedTell: 'Buzzword padding',
+      tellCorrect: true,
+      pointsAwarded: 2, // 1 safe + 1 tell
+      timestamp: Date.now(),
+    };
+
+    const next = applyDetailedGuess(initial, roundResult);
+    expect(next.streak).toBe(2); // Streak preserved!
+    expect(next.score).toBe(2);
+    expect(next.unsureCount).toBe(1);
+    expect(next.tellCorrectCount).toBe(1);
+  });
+
+  it('calculates calibration score appropriately', () => {
+    const results: RoundResult[] = [
+      {
+        itemId: '1',
+        concept: 'c1',
+        difficulty: 'easy',
+        prediction: 'human',
+        actualSource: 'human',
+        isCorrect: true,
+        isUnsure: false,
+        confidence: 'high',
+        selectedTell: 'c1',
+        tellCorrect: true,
+        pointsAwarded: 2,
+        timestamp: Date.now(),
+      },
+    ];
+    expect(calculateCalibrationScore(results)).toBe(100);
+  });
+
+  it('determines strongest and weakest tells from results', () => {
+    const results: RoundResult[] = [
+      {
+        itemId: '1',
+        concept: 'Strong concept',
+        difficulty: 'easy',
+        prediction: 'human',
+        actualSource: 'human',
+        isCorrect: true,
+        isUnsure: false,
+        confidence: 'high',
+        selectedTell: 'Strong concept',
+        tellCorrect: true,
+        pointsAwarded: 2,
+        timestamp: Date.now(),
+      },
+      {
+        itemId: '2',
+        concept: 'Weak concept',
+        difficulty: 'easy',
+        prediction: 'ai',
+        actualSource: 'human',
+        isCorrect: false,
+        isUnsure: false,
+        confidence: 'high',
+        selectedTell: 'other',
+        tellCorrect: false,
+        pointsAwarded: 0,
+        timestamp: Date.now(),
+      },
+    ];
+    const { strongest, weakest } = getStrongestAndWeakestTells(results);
+    expect(strongest?.concept).toBe('Strong concept');
+    expect(weakest?.concept).toBe('Weak concept');
   });
 });
