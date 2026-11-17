@@ -25,6 +25,7 @@ import { SignalAvatar } from './SignalAvatar';
 import { closingLine, type SignalMood } from '../character/signal';
 import { CONCEPT_DEFINITIONS, getConceptDetail, EDUCATIONAL_DISCLAIMER } from '../character/fieldGuide';
 import { loadMastery, getMasteryCounts } from '../learning/mastery';
+import { getSessionCounts } from '../learning/sessions';
 
 interface StatsScreenProps {
   stats: Stats;
@@ -124,6 +125,7 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
   const showNudge = nextTier && accuracy >= 80;
 
   const masteryCounts = getMasteryCounts(loadMastery());
+  const sessionCounts = React.useMemo(() => getSessionCounts(), []);
   const tellAnalysis = getStrongestAndWeakestTells(stats.results || []);
 
   const highConfidenceMisses = (stats.results || []).filter(
@@ -509,7 +511,7 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
             {hasPlayedSession ? (
               <div className="space-y-4">
                 <span className="text-signal font-mono text-xs uppercase tracking-wider font-600 block">
-                  Your Session Results ({isCompletedSession ? 'Full Completion' : 'Practice In-Progress'})
+                  Your Session Results ({isCompletedSession ? 'Completed Session' : 'Abandoned Session'})
                 </span>
 
                 <div className="bg-panel border border-panel-line p-5">
@@ -715,37 +717,47 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
               </div>
             )}
 
-            {/* Community Overview */}
+            {/* Device-Wide Statistics */}
             <div className="space-y-3">
               <span className="text-signal font-mono text-xs uppercase tracking-wider font-600 block">
-                Community Stall Statistics
+                This Device &middot; Session History &amp; Activity
               </span>
 
-              <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 font-mono text-center">
-                <div className="bg-panel border border-panel-line p-4">
-                  <span className="text-muted text-[10px] uppercase tracking-wider block">Today's Sessions</span>
+              <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2.5 font-mono text-center">
+                <div className="bg-panel border border-panel-line p-3">
+                  <span className="text-muted text-[10px] uppercase tracking-wider block">Completed</span>
+                  <span className="text-2xl sm:text-3xl font-700 text-good mt-1 block">{sessionCounts.completed}</span>
+                </div>
+
+                <div className="bg-panel border border-panel-line p-3">
+                  <span className="text-muted text-[10px] uppercase tracking-wider block">Abandoned</span>
+                  <span className="text-2xl sm:text-3xl font-700 text-bad mt-1 block">{sessionCounts.abandoned}</span>
+                </div>
+
+                <div className="bg-panel border border-panel-line p-3">
+                  <span className="text-muted text-[10px] uppercase tracking-wider block">Today's Runs</span>
                   <span className="text-2xl sm:text-3xl font-700 text-paper mt-1 block">{todaysGamesCount}</span>
                 </div>
 
-                <div className="bg-panel border border-panel-line p-4">
+                <div className="bg-panel border border-panel-line p-3">
                   <span className="text-muted text-[10px] uppercase tracking-wider block">All-Time Runs</span>
                   <span className="text-2xl sm:text-3xl font-700 text-paper mt-1 block">{totalGamesCount}</span>
                 </div>
 
-                <div className="bg-panel border border-panel-line p-4">
-                  <span className="text-muted text-[10px] uppercase tracking-wider block">Community Accuracy</span>
+                <div className="bg-panel border border-panel-line p-3">
+                  <span className="text-muted text-[10px] uppercase tracking-wider block">Avg Accuracy</span>
                   <span className="text-2xl sm:text-3xl font-700 text-signal mt-1 block">
                     {avgCommunityAccuracy !== null ? `${avgCommunityAccuracy}%` : 'N/A'}
                   </span>
                 </div>
 
-                <div className="bg-panel border border-panel-line p-4">
-                  <span className="text-muted text-[10px] uppercase tracking-wider block">Best Stall Streak</span>
+                <div className="bg-panel border border-panel-line p-3">
+                  <span className="text-muted text-[10px] uppercase tracking-wider block">Best Streak</span>
                   <span className="text-2xl sm:text-3xl font-700 text-good mt-1 block">{maxCommunityStreak}</span>
                 </div>
 
-                <div className="bg-panel border border-panel-line p-4">
-                  <span className="text-muted text-[10px] uppercase tracking-wider block">Mastered Tells Total</span>
+                <div className="bg-panel border border-panel-line p-3">
+                  <span className="text-muted text-[10px] uppercase tracking-wider block">Mastered Tells</span>
                   <span className="text-2xl sm:text-3xl font-700 text-signal mt-1 block">{masteryCounts.mastered}</span>
                 </div>
               </div>

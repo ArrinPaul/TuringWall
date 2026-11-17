@@ -39,6 +39,14 @@ describe('withEntry', () => {
     expect(result.length).toBe(50);
     expect(result[0].name).toBe('newcomer');
   });
+
+  it('excludes entries that are abandoned or completed: false', () => {
+    const existing = [makeEntry({ name: 'Valid', score: 10 })];
+    const abandoned = makeEntry({ name: 'Abandoned', score: 99, completed: false });
+    const result = withEntry(existing, abandoned);
+    expect(result).toHaveLength(1);
+    expect(result[0].name).toBe('Valid');
+  });
 });
 
 describe('topEntries', () => {

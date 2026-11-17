@@ -71,6 +71,9 @@ function emptyStore(): LeaderboardStore {
 
 /** Pure: inserts an entry, re-sorts by score (desc), and caps the list. Exported for testing. */
 export function withEntry(entries: LeaderboardEntry[], entry: LeaderboardEntry): LeaderboardEntry[] {
+  if (entry.completed === false) {
+    return entries;
+  }
   return [...entries, entry].sort((a, b) => b.score - a.score).slice(0, MAX_ENTRIES);
 }
 
@@ -133,7 +136,7 @@ function loadStore(): LeaderboardStore {
       for (const length of SESSION_LENGTHS) {
         const bucket = (parsed as Record<string, unknown>)[String(length)];
         if (Array.isArray(bucket)) {
-          store[length] = bucket;
+          store[length] = bucket.filter((e: LeaderboardEntry) => Boolean(e && e.completed !== false));
         }
       }
     }

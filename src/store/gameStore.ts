@@ -8,9 +8,11 @@ import {
   calculateRoundPoints,
   hitMilestone,
   accuracyPercent,
+  calculateCalibrationScore,
   type Stats,
 } from '../game/scoring';
 import { addEntry, loadLeaderboard, type SessionLength } from '../leaderboard/leaderboard';
+import { recordSession } from '../learning/sessions';
 import type {
   ConfidenceLevel,
   PredictionChoice,
@@ -57,6 +59,8 @@ export interface GameState {
   guessSeq: number;
   /** Unique concept tags encountered this session, in first-seen order — the session's "syllabus". */
   conceptsSeen: string[];
+  sessionId: string;
+  sessionStartedAt: number;
   setPlayerName: (name: string) => void;
   setRoundsTarget: (n: SessionLength) => void;
   goToSelect: () => void;
@@ -95,6 +99,33 @@ interface FinalizePatch {
   clearedModes: SessionMode[];
 }
 
+function recordAbandonedIfMidSession(state: GameState): void {
+  if (
+    state.stats.roundsPlayed > 0 &&
+    state.stats.roundsPlayed < state.roundsTarget &&
+    !state.sessionSaved &&
+    state.sessionId
+  ) {
+    const tellAcc =
+      state.stats.roundsPlayed > 0
+        ? Math.round(((state.stats.tellCorrectCount ?? 0) / state.stats.roundsPlayed) * 100)
+        : 0;
+    const calScore = calculateCalibrationScore(state.stats.results || []);
+    recordSession({
+      id: state.sessionId,
+      startedAt: state.sessionStartedAt || Date.now(),
+      mode: state.difficulty || 'mixed',
+      roundsTarget: state.roundsTarget,
+      roundsPlayed: state.stats.roundsPlayed,
+      status: 'abandoned',
+      sourceAccuracy: accuracyPercent(state.stats),
+      tellAccuracy: tellAcc,
+      calibration: calScore,
+      score: state.stats.score,
+    });
+  }
+}
+
 function finalizeSessionIfComplete(state: GameState): FinalizePatch | null {
   if (state.sessionSaved) return null;
   if (state.stats.roundsPlayed < state.roundsTarget) return null;
@@ -112,7 +143,28 @@ function finalizeSessionIfComplete(state: GameState): FinalizePatch | null {
     bestStreak: state.stats.bestStreak,
     timestamp: Date.now(),
     roundsTarget: state.roundsTarget,
+    completed: true,
   });
+
+  if (state.sessionId) {
+    const tellAcc =
+      state.stats.roundsPlayed > 0
+        ? Math.round(((state.stats.tellCorrectCount ?? 0) / state.stats.roundsPlayed) * 100)
+        : 0;
+    const calScore = calculateCalibrationScore(state.stats.results || []);
+    recordSession({
+      id: state.sessionId,
+      startedAt: state.sessionStartedAt || Date.now(),
+      mode: state.difficulty,
+      roundsTarget: state.roundsTarget,
+      roundsPlayed: state.stats.roundsPlayed,
+      status: 'completed',
+      sourceAccuracy: accuracyPercent(state.stats),
+      tellAccuracy: tellAcc,
+      calibration: calScore,
+      score: state.stats.score,
+    });
+  }
 
   return {
     sessionSaved: true,
@@ -149,6 +201,8 @@ export function createGameStore(
     sessionSaved: false,
     guessSeq: 0,
     conceptsSeen: [],
+    sessionId: '',
+    sessionStartedAt: 0,
 
     setPlayerName: (name: string) => {
       set({ playerName: name });
@@ -159,11 +213,13 @@ export function createGameStore(
     },
 
     goToSelect: () => {
+      recordAbandonedIfMidSession(get());
       set({ screen: 'select' });
     },
 
     startRound: (mode: PracticeMode) => {
       const state = get();
+      recordAbandonedIfMidSession(state);
       const isSpecialPractice = mode === 'daily-challenge' || mode === 'weak-tells' || mode === 'review-missed';
       const targetRounds = mode === 'daily-challenge' ? 5 : state.roundsTarget;
 
@@ -173,9 +229,13 @@ export function createGameStore(
       const candidateTells = firstItem ? getCandidateTells(firstItem.concept, 4, rng) : [];
 
       const sessionDifficulty: SessionMode | null = isSpecialPractice ? 'mixed' : (mode as SessionMode);
+      const now = Date.now();
+      const newSessionId = `sess_${now}_${Math.floor(rng() * 1000000)}`;
 
       set({
         screen: 'playing',
+        sessionId: newSessionId,
+        sessionStartedAt: now,
         difficulty: sessionDifficulty,
         practiceMode: mode,
         roundsTarget: targetRounds as SessionLength,
@@ -192,14 +252,20 @@ export function createGameStore(
     },
 
     startTellPractice: (concept: string) => {
+      const state = get();
+      recordAbandonedIfMidSession(state);
       const matchingItems = items.filter((i) => i.concept === concept);
       const pool = matchingItems.length > 0 ? matchingItems : items;
       deck = createDeck(pool, rng);
       const firstItem = deck.next();
       const candidateTells = firstItem ? getCandidateTells(firstItem.concept, 4, rng) : [];
+      const now = Date.now();
+      const newSessionId = `sess_${now}_${Math.floor(rng() * 1000000)}`;
 
       set({
         screen: 'playing',
+        sessionId: newSessionId,
+        sessionStartedAt: now,
         difficulty: 'mixed',
         practiceMode: 'weak-tells',
         roundsTarget: 5,
@@ -331,6 +397,7 @@ export function createGameStore(
 
     showStats: () => {
       const state = get();
+      recordAbandonedIfMidSession(state);
       const patch = finalizeSessionIfComplete(state);
       set({ screen: 'stats', ...(patch ?? {}) });
     },
@@ -341,9 +408,12 @@ export function createGameStore(
     },
 
     returnToAttract: () => {
+      recordAbandonedIfMidSession(get());
       deck = null;
       set({
         screen: 'attract',
+        sessionId: '',
+        sessionStartedAt: 0,
         playerName: '',
         difficulty: null,
         practiceMode: null,

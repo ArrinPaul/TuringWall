@@ -1,6 +1,7 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { createGameStore } from './gameStore';
 import { loadLeaderboard } from '../leaderboard/leaderboard';
+import { loadSessionHistory, getSessionCounts } from '../learning/sessions';
 
 const fixtureItems = [
   { id: 'a', kind: 'text' as const, text: 'A', isAI: false, explanation: 'x', concept: 'concept-a', difficulty: 'easy' as const },
@@ -315,5 +316,54 @@ describe('gameStore', () => {
     store.getState().detailedGuess('unsure', 'low', null);
     expect(store.getState().stats.streak).toBe(1); // Not broken!
     expect(store.getState().stats.unsureCount).toBe(1);
+  });
+
+  it('records an abandoned session and creates 0 leaderboard entries when quitting mid-session', () => {
+    const store = createGameStore(fixtureItems, () => 0);
+    store.getState().setRoundsTarget(10);
+    store.getState().startRound('easy');
+
+    // Play 3 rounds out of 10
+    for (let i = 0; i < 3; i++) {
+      const current = store.getState().current!;
+      store.getState().guess(current.isAI ? 'ai' : 'human');
+      store.getState().next();
+    }
+
+    // Quit mid-session back to attract
+    store.getState().returnToAttract();
+
+    const history = loadSessionHistory();
+    expect(history).toHaveLength(1);
+    expect(history[0].status).toBe('abandoned');
+    expect(history[0].roundsPlayed).toBe(3);
+    expect(history[0].roundsTarget).toBe(10);
+
+    // Leaderboard should have 0 entries
+    expect(loadLeaderboard(10)).toHaveLength(0);
+    expect(getSessionCounts().abandoned).toBe(1);
+    expect(getSessionCounts().completed).toBe(0);
+  });
+
+  it('records a completed session and adds to leaderboard when completing all rounds', () => {
+    const store = createGameStore(fixtureItems, () => 0);
+    store.getState().setRoundsTarget(3);
+    store.getState().startRound('easy');
+
+    for (let i = 0; i < 3; i++) {
+      const current = store.getState().current!;
+      store.getState().guess(current.isAI ? 'ai' : 'human');
+      store.getState().next();
+    }
+
+    const history = loadSessionHistory();
+    expect(history).toHaveLength(1);
+    expect(history[0].status).toBe('completed');
+    expect(history[0].roundsPlayed).toBe(3);
+
+    // Leaderboard has 1 entry
+    expect(loadLeaderboard(3)).toHaveLength(1);
+    expect(getSessionCounts().completed).toBe(1);
+    expect(getSessionCounts().abandoned).toBe(0);
   });
 });
