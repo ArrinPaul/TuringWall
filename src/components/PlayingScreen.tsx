@@ -74,6 +74,7 @@ export const PlayingScreen: React.FC<PlayingScreenProps> = ({
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (submitted) return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return; // leave browser shortcuts alone
 
       if (e.key === 'c' || e.key === 'C') {
         e.preventDefault();
@@ -216,7 +217,7 @@ export const PlayingScreen: React.FC<PlayingScreenProps> = ({
                 <div className="w-full max-w-md h-40 sm:h-48 md:h-56 overflow-hidden border border-panel-line bg-ink flex items-center justify-center shadow-md">
                   <img
                     src={item.src}
-                    alt={item.caption || 'Investigate this image sample'}
+                    alt={item.alt || item.caption || 'Investigate this image sample'}
                     onError={() => setImageError(true)}
                     className="w-full h-full object-cover"
                   />

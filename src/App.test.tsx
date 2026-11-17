@@ -1,3 +1,4 @@
+import { MASTERY_STORAGE_KEY } from './learning/mastery';
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { render, screen, fireEvent, act } from '@testing-library/react';
 import { createGameStore } from './store/gameStore';
@@ -247,5 +248,61 @@ describe('round keyboard shortcuts (regression)', () => {
     fireEvent.keyDown(window, { code: 'Space', key: ' ' });
     expect(store.getState().screen).toBe('revealed');
     expect(store.getState().lastRoundResult?.prediction).toBe('ai');
+  });
+});
+
+describe('browser shortcuts are not hijacked', () => {
+  beforeEach(() => {
+    window.history.pushState(null, '', '/');
+  });
+
+  it('Ctrl+M and Ctrl+F are left to the browser', () => {
+    render(<App store={createGameStore(fixtureItems, () => 0)} />);
+    const m = new KeyboardEvent('keydown', { key: 'm', ctrlKey: true, bubbles: true, cancelable: true });
+    window.dispatchEvent(m);
+    const f = new KeyboardEvent('keydown', { key: 'f', ctrlKey: true, bubbles: true, cancelable: true });
+    window.dispatchEvent(f);
+    expect(m.defaultPrevented).toBe(false);
+    expect(f.defaultPrevented).toBe(false);
+  });
+
+  it('Ctrl+P on the reveal screen is not swallowed', () => {
+    render(<App store={createGameStore(fixtureItems, () => 0)} />);
+    startEasyRound();
+    fireEvent.click(screen.getByText('Human'));
+    fireEvent.click(screen.getByText(/Reveal Verdict/i));
+    const p = new KeyboardEvent('keydown', { key: 'p', ctrlKey: true, bubbles: true, cancelable: true });
+    window.dispatchEvent(p);
+    expect(p.defaultPrevented).toBe(false);
+  });
+
+  it('announces points and streak after a guess', () => {
+    render(<App store={createGameStore(fixtureItems, () => 0)} />);
+    startEasyRound();
+    fireEvent.click(screen.getByText('Human'));
+    fireEvent.click(screen.getByText(/Reveal Verdict/i));
+    const live = document.querySelector('[aria-live="polite"]');
+    expect(live?.textContent).toMatch(/points\. Score \d+/);
+  });
+});
+
+describe('due-for-review badge', () => {
+  beforeEach(() => {
+    window.history.pushState(null, '', '/');
+    localStorage.clear();
+  });
+
+  it('shows no badge on a fresh profile', () => {
+    render(<App store={createGameStore(fixtureItems, () => 0)} />);
+    expect(screen.queryByTestId('due-badge')).not.toBeInTheDocument();
+  });
+
+  it('shows how many concepts are due once one is overdue', () => {
+    localStorage.setItem(
+      MASTERY_STORAGE_KEY,
+      JSON.stringify({ 'Buzzword padding': { concept: 'Buzzword padding', tier: 'shaky', nextReview: 1 } })
+    );
+    render(<App store={createGameStore(fixtureItems, () => 0)} />);
+    expect(screen.getByTestId('due-badge')).toHaveTextContent('1 due for review');
   });
 });

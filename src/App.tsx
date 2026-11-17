@@ -89,6 +89,10 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
   // Keyboard shortcuts: Mute [M], Fullscreen [F]
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Never hijack browser shortcuts (Ctrl+F find, Ctrl+M, Cmd+F ...).
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      // While the Field Guide (or any modal) is open, keep global shortcuts quiet.
+      if (document.querySelector('[role="dialog"][aria-modal="true"]')) return;
       if (e.key === 'm' || e.key === 'M') {
         e.preventDefault();
         handleToggleMute();
@@ -135,15 +139,17 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
       return `Round ${(stats.roundsPlayed % roundsTarget) + 1} of ${roundsTarget}. New sample to analyze.`;
     }
     if (screen === 'revealed' && current) {
+      const points = lastRoundResult ? ` ${lastRoundResult.pointsAwarded >= 0 ? '+' : ''}${lastRoundResult.pointsAwarded} points. Score ${stats.score}.` : '';
+      const streak = stats.streak > 1 ? ` Streak: ${stats.streak} in a row.` : stats.streak === 0 && lastGuessCorrect === false ? ' Streak reset.' : '';
       return `Verdict: ${lastGuessCorrect ? 'Correct' : 'Not quite'}. It was ${
         current.isAI ? 'AI-generated' : 'human-made'
-      }. Tell: ${current.concept}.`;
+      }.${points}${streak} Tell: ${current.concept}.`;
     }
     if (screen === 'stats') {
       return `Session complete. Score: ${stats.score}. Accuracy: ${stats.correctCount} of ${stats.roundsPlayed}.`;
     }
     return '';
-  }, [screen, current, lastGuessCorrect, stats, roundsTarget]);
+  }, [screen, current, lastGuessCorrect, lastRoundResult, stats, roundsTarget]);
 
   return (
     <MotionConfig reducedMotion="user">
