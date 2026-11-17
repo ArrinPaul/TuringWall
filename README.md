@@ -312,6 +312,19 @@ TuringWall/
 
 ---
 
+## Data, Privacy & Persistence
+
+Everything is stored locally in the player's browser (`localStorage`); there is no backend and nothing is sent to a server.
+
+- **Leaderboard entries**: display name (blank becomes "Anonymous"), score, accuracy, best streak, tier, round count, timestamp. Names are only visible on that device. Leave the name blank to play anonymously.
+- **Concept mastery**: per-concept correct/incorrect counts, tell-identification counts, last-practiced and next-review timestamps.
+- **Missed questions**: item IDs queued for "Review missed rounds".
+- **Sound preference**: stored via the mute toggle.
+- **Reduced motion**: follows the OS `prefers-reduced-motion` setting (CSS and framer-motion); confetti is skipped when it is set.
+- **Old records**: entries missing newer fields are read with safe defaults; clearing site data resets everything.
+
+The architecture is local-first so a future server-backed leaderboard can replace `src/leaderboard/leaderboard.ts` without touching the UI.
+
 ## Security & Reliability
 
 - **100% Client-Side:** No remote APIs, databases, or third-party tracking scripts are invoked during gameplay.
