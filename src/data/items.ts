@@ -145,6 +145,9 @@ export const ITEMS: Item[] = [
     explanation: 'Candid developer humor and weary warnings are quintessentially human.',
     concept: 'Candid developer voice',
     difficulty: 'hard',
+    evidenceHighlights: ['temporary patch for the race condition', 'unless you want everything to crash'],
+    temptingReason: 'The dramatic warning about race conditions is a common software engineering meme that language models frequently emulate.',
+    counterexample: 'AI code generators trained on GitHub repositories can replicate weary warnings about fragile patches, making developer humor an incomplete clue.',
     category: 'Code',
   },
   {
@@ -252,6 +255,9 @@ export const ITEMS: Item[] = [
     explanation: 'Honest, balanced human review with casual colloquial nuance.',
     concept: 'Balanced honest nuance',
     difficulty: 'hard',
+    evidenceHighlights: ['way too salty honestly', 'chili oil actually saved the entire dish'],
+    temptingReason: 'The balanced contrast between an oversalted base and a redeeming condiment looks like a structured pros-and-cons review summary.',
+    counterexample: 'Food delivery bots frequently generate balanced trade-offs about salty dishes and sauces, so a split opinion alone decides nothing.',
     category: 'Review',
   },
   {
@@ -328,6 +334,9 @@ export const ITEMS: Item[] = [
     explanation: '"Grand tapestry of human chronicles" is one of the most recognizable generative AI essay tropes.',
     concept: 'Grand rhetorical cliché',
     difficulty: 'hard',
+    evidenceHighlights: ['grand tapestry of human chronicles', 'continually reshaped destiny'],
+    temptingReason: 'The sweeping rhetorical phrasing sounds like a grand introduction to a classic historical documentary.',
+    counterexample: 'Nineteenth-century human historians frequently used grand tapestry metaphors in historiography, so elevated rhetorical style is not conclusive.',
     category: 'Essay',
   },
   {
@@ -588,6 +597,9 @@ export const ITEMS: Item[] = [
     explanation: 'The smooth "not just a choice, but a necessity" transition is a recognizable AI essay rhythm.',
     concept: 'Grand rhetorical cliché',
     difficulty: 'hard',
+    evidenceHighlights: ['not just a choice, but a necessity', 'increasingly interconnected world'],
+    temptingReason: 'The persuasive environmental framing mirrors corporate sustainability reports and policy whitepapers.',
+    counterexample: 'Human policy advocates and sustainability directors write this exact transition constantly, so formulaic rhetoric is an ambiguous clue.',
     category: 'Essay',
   },
   {
@@ -598,6 +610,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, self-deprecating failure with a concrete pivot reads as human.',
     concept: 'Messy real-life specificity',
     difficulty: 'hard',
+    evidenceHighlights: ['turned into a weird glue situation', 'ordering pizza instead'],
+    temptingReason: 'The self-deprecating pasta disaster and pivot to pizza is a classic social media cooking comedy trope.',
+    counterexample: 'Chatbots trained on casual internet humor frequently joke about ruining homemade pasta and ordering pizza, making comedic kitchen fails inconclusive.',
     category: 'Food',
   },
   {
@@ -944,6 +959,9 @@ export const ITEMS: Item[] = [
     explanation: 'A balanced-sounding, sweeping claim with no specific country or example cited.',
     concept: 'Grand rhetorical cliché',
     difficulty: 'hard',
+    evidenceHighlights: ['economic promise', 'cultural particularities that once defined nations'],
+    temptingReason: 'The balanced socio-economic assessment sounds like an analytical op-ed from an international affairs journal.',
+    counterexample: 'Human political scientists and journalists frequently frame globalization debates with this precise contrast, making academic balance inconclusive.',
     category: 'Essay',
   },
   {
@@ -974,6 +992,9 @@ export const ITEMS: Item[] = [
     explanation: 'A bizarre, specific, and oddly charming real-world chain of events is hard for AI to invent unprompted.',
     concept: 'Bizarre mundane specificity',
     difficulty: 'hard',
+    evidenceHighlights: ['howling along to the ice cream truck jingle', 'whole street is doing it'],
+    temptingReason: 'The charming pet neighborhood chain reaction feels like a viral pet story engineered for social media traction.',
+    counterexample: 'Language models often generate wholesome neighborhood pet stories when asked for cute content, so domestic charm alone is inconclusive.',
     category: 'Social',
   },
   {
@@ -1014,6 +1035,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific kitchen disaster with a self-deprecating punchline is typically human humor.',
     concept: 'Messy real-life specificity',
     difficulty: 'hard',
+    evidenceHighlights: ['burnt the rice so bad the smoke alarm went off', 'kitchen smells like regret'],
+    temptingReason: 'The punchy punchline about a kitchen smelling like regret reads like a polished comedic one-liner.',
+    counterexample: 'Humor generation models often produce punchy one-liners about burnt rice and regret, so self-deprecating wit alone is not conclusive.',
     category: 'Food',
   },
   {
@@ -1482,6 +1506,9 @@ export const ITEMS: Item[] = [
     explanation: 'A sweeping, unfalsifiable claim about "true art" with no specific artwork mentioned.',
     concept: 'Grand rhetorical cliché',
     difficulty: 'hard',
+    evidenceHighlights: ['transcends the boundaries of language', 'speak directly to the soul'],
+    temptingReason: 'The idealistic appreciation of artistic universality reads like an introduction to an art history textbook.',
+    counterexample: 'Human museum docents and art educators frequently celebrate art as a universal language, so universalist aesthetic claims decide nothing.',
     category: 'Essay',
   },
   {
@@ -1502,6 +1529,9 @@ export const ITEMS: Item[] = [
     explanation: 'The "not merely X but Y" escalation is a familiar AI essay rhythm layered over an empty claim.',
     concept: 'Grand rhetorical cliché',
     difficulty: 'hard',
+    evidenceHighlights: ['not merely power', 'catalyst for lasting transformation'],
+    temptingReason: 'The philosophical enhancement of a famous proverb sounds like a commencement speech or leadership essay.',
+    counterexample: 'Human keynote speakers routinely reframe proverbs like knowledge is power with transformative escalations, making rhetorical flair an uncertain indicator.',
     category: 'Essay',
   },
   {
@@ -1648,6 +1678,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, socially awkward real-world moment with mutual avoidance is typically human.',
     concept: 'Bizarre mundane specificity',
     difficulty: 'hard',
+    evidenceHighlights: ['middle school at the pharmacy', 'both pretended to be very busy on our phones'],
+    temptingReason: 'The relatable avoidance of an old acquaintance is a widely recognized social awkwardness trope.',
+    counterexample: 'Chatbots frequently generate relatable awkward encounters in public spaces, so comedic social avoidance points both ways.',
     category: 'Life',
   },
   {
@@ -1808,6 +1841,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, dryly observed classroom scene with no exaggeration points toward human.',
     concept: 'Grounded real-world context',
     difficulty: 'hard',
+    evidenceHighlights: ['substitute today who just put on a random documentary', 'sat in the back grading something else'],
+    temptingReason: 'The humorous depiction of a disengaged substitute teacher reads like a stock scenario from a high school comedy.',
+    counterexample: 'Language models frequently generate comedy sketches about disengaged substitute teachers, so relatable school tropes remain only suggestive.',
     category: 'School',
   },
   {
@@ -1990,6 +2026,9 @@ export const ITEMS: Item[] = [
     explanation: 'Vague strategic language with no actual opportunity, metric, or plan specified.',
     concept: 'Buzzword padding',
     difficulty: 'hard',
+    evidenceHighlights: ['prudent to pivot our strategy', 'better capture emerging opportunities'],
+    temptingReason: 'The cautious strategic suggestion sounds like a senior corporate strategist writing a quarterly memo.',
+    counterexample: 'Human management consultants frequently rely on strategic buzzwords like pivot and emerging opportunities, so corporate jargon is inconclusive.',
     category: 'Email',
   },
   {
@@ -2000,6 +2039,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, slightly exaggerated but believable excuse for lateness is typically human.',
     concept: 'Messy real-life specificity',
     difficulty: 'hard',
+    evidenceHighlights: ['sorry for the late reply', 'buried under forty other unread emails'],
+    temptingReason: 'The casual excuse about overflowing inboxes could easily be a generated auto-reply for workplace communications.',
+    counterexample: 'Smart email assistants frequently draft colloquial apologies about buried messages, so informal email excuses are an ambiguous tell.',
     category: 'Email',
   },
   {
@@ -2134,6 +2176,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, time-bound complaint about a before/after change points toward human frustration.',
     concept: 'Balanced honest nuance',
     difficulty: 'hard',
+    evidenceHighlights: ['used to love this app', 'search bar basically unusable'],
+    temptingReason: 'The succinct bug report and plea for a patch mirror automated app-store feedback templates.',
+    counterexample: 'Automated software feedback tools frequently generate standardized update complaints, so concise consumer grievance is only an ambiguous clue.',
     category: 'Review',
   },
   {
@@ -2330,6 +2375,9 @@ export const ITEMS: Item[] = [
     explanation: 'A small, specific personal ritual with self-aware irony is a typical human detail.',
     concept: 'Bizarre mundane specificity',
     difficulty: 'hard',
+    evidenceHighlights: ['same chipped mug again', 'have six nicer ones'],
+    temptingReason: 'The cozy reflection on clinging to an imperfect favorite mug resembles an aesthetic lifestyle essay prompt.',
+    counterexample: 'AI creative writing tools frequently generate cozy domestic micro-essays about chipped mugs, making nostalgic habits an uncertain indicator.',
     category: 'Journal',
   },
   {
@@ -2470,6 +2518,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, slightly odd but genuinely practical trick from lived experience points toward human.',
     concept: 'Grounded real-world context',
     difficulty: 'hard',
+    evidenceHighlights: ['pick one friendly face in the crowd', 'actually calms you down'],
+    temptingReason: 'The straightforward public speaking tip resembles standard advice found on automated career coaching sites.',
+    counterexample: 'Public speaking coaches and AI career tips frequently recommend looking at one friendly face, so standard presentation advice is an uncertain signal.',
     category: 'Advice',
   },
   {
@@ -2493,6 +2544,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, oddly practical tip born from a messy real situation points toward human.',
     concept: 'Grounded real-world context',
     difficulty: 'hard',
+    evidenceHighlights: ['splitting rent with a breakup in the mix', 'settle the deposit money'],
+    temptingReason: 'The pragmatic advice on navigating roommate breakups could easily be synthesized by an advice column bot.',
+    counterexample: 'Lifestyle chatbots routinely produce practical tips on lease agreements after breakups, so practical domestic advice does not verify the author.',
     category: 'Advice',
   },
   {
@@ -2656,6 +2710,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific running gag with an exact number is a human social observation.',
     concept: 'Bizarre mundane specificity',
     difficulty: 'hard',
+    evidenceHighlights: ['renamed our group chat for the ninth time', 'basically a running tally'],
+    temptingReason: 'The humorous count of repeated group chat renames fits common internet meme formats about friend dynamics.',
+    counterexample: 'Social AI models regularly simulate friend group banter about chat names, so digital humor alone is not conclusive.',
     category: 'Social',
   },
   {
@@ -2810,6 +2867,9 @@ export const ITEMS: Item[] = [
     explanation: 'The "reimagines / elevates comfort food" phrase shows up across countless AI menu descriptions.',
     concept: 'Buzzword padding',
     difficulty: 'hard',
+    evidenceHighlights: ['reimagines comfort food', 'elevating familiar flavors'],
+    temptingReason: 'The trendy menu copy reads like a description from a chic gastropub or modern bistro.',
+    counterexample: 'Human culinary marketing copywriters have used elevated comfort food language for years, so trendy gastronomic phrasing is not machine-exclusive.',
     category: 'Food',
   },
   {
@@ -2820,6 +2880,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific improvisation around a real gap in instructions points toward human.',
     concept: 'Messy real-life specificity',
     difficulty: 'hard',
+    evidenceHighlights: ['recipe never said when to add the garlic', 'somehow fine'],
+    temptingReason: 'The humorous improvisation around a missing recipe instruction fits common food blog comedy formats.',
+    counterexample: 'AI food writers frequently generate relatable jokes about recipes forgetting garlic instructions, so culinary improvisation alone is inconclusive.',
     category: 'Food',
   },
   {
@@ -2962,6 +3025,9 @@ export const ITEMS: Item[] = [
     explanation: 'An unvarnished, honest confession about copy-pasted code is a typical developer clue.',
     concept: 'Candid developer voice',
     difficulty: 'hard',
+    evidenceHighlights: ['copied this from stack overflow', 'works, no idea why'],
+    temptingReason: 'The admission of copying code from Stack Overflow without understanding it is an iconic internet developer joke.',
+    counterexample: 'Coding assistants frequently synthesize self-mocking comments about Stack Overflow code snippets, so humorous confessions point both directions.',
     category: 'Code',
   },
   {
@@ -2972,6 +3038,9 @@ export const ITEMS: Item[] = [
     explanation: 'The "zero performance overhead" claim is technically implausible — a telltale AI confidence tell.',
     concept: 'Hallucinated/impossible claims',
     difficulty: 'hard',
+    evidenceHighlights: ['elegant abstraction layer', 'zero performance overhead'],
+    temptingReason: 'The sophisticated architectural claim sounds like an ambitious framework developer advertising a performant library.',
+    counterexample: 'Human software developers sometimes make overly optimistic claims about zero overhead in documentation, so performance hype is an imperfect filter.',
     category: 'Code',
   },
   {
@@ -2982,6 +3051,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, relatable developer frustration with real exasperation points toward human.',
     concept: 'Candid developer voice',
     difficulty: 'hard',
+    evidenceHighlights: ['spent three hours on this', 'it was a missing semicolon'],
+    temptingReason: 'Losing hours to a missing semicolon is one of the most famous programming tropes on the internet.',
+    counterexample: 'Language models frequently generate missing semicolon complaints when prompted for programmer humor, making humorous exhaustion an ambiguous clue.',
     category: 'Code',
   },
   {
@@ -3135,6 +3207,9 @@ export const ITEMS: Item[] = [
     explanation: 'Vague, polished retail language naming no actual item in the "collection".',
     concept: 'Buzzword padding',
     difficulty: 'hard',
+    evidenceHighlights: ['thoughtfully curated collection', 'timeless style meets uncompromising quality'],
+    temptingReason: 'The polished retail copy mirrors high-end boutique fashion catalogs and luxury brand websites.',
+    counterexample: 'Human fashion marketers routinely write copy about curated timeless style, making retail platitudes an ambiguous signal.',
     category: 'Marketing',
   },
   {
@@ -3145,6 +3220,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, logistical, context-dependent announcement points toward human small-business communication.',
     concept: 'Grounded real-world context',
     difficulty: 'hard',
+    evidenceHighlights: ['outside the stadium friday instead of our usual spot', 'game that night'],
+    temptingReason: 'The straightforward schedule update reads like an automated social media alert sent by a local food vendor.',
+    counterexample: 'Local business management software can automate game-day schedule announcements, so logistical schedule notices are inconclusive.',
     category: 'Marketing',
   },
   {
@@ -3155,6 +3233,9 @@ export const ITEMS: Item[] = [
     explanation: 'Stacked vague praise words ("excellence", "uncompromising", "quality you can trust") with no specifics.',
     concept: 'Buzzword padding',
     difficulty: 'hard',
+    evidenceHighlights: ['Crafted with excellence', 'uncompromising attention to detail'],
+    temptingReason: 'The confident declaration of quality sounds like an established heritage brand reassuring consumers.',
+    counterexample: 'Human advertising agencies churn out vague slogans about craftsmanship and excellence every day, so marketing fluff decides nothing.',
     category: 'Marketing',
   },
   {
@@ -3432,6 +3513,9 @@ export const ITEMS: Item[] = [
     explanation: 'A grandiose claim about "eroding trust" with no actual repeated incident described.',
     concept: 'Grand rhetorical cliché',
     difficulty: 'hard',
+    evidenceHighlights: ['troubling erosion of the trust', 'brand once commanded'],
+    temptingReason: 'The articulate, measured expression of consumer grievance sounds like an educated customer drafting a formal complaint.',
+    counterexample: 'Human consumers frequently write articulate complaint letters citing eroded trust, so elevated consumer rhetoric is not machine-specific.',
     category: 'Complaint',
   },
   {
@@ -3452,6 +3536,9 @@ export const ITEMS: Item[] = [
     explanation: 'Grand, bureaucratic language about "systemic shortcomings" with no actual incident ever named.',
     concept: 'Grand rhetorical cliché',
     difficulty: 'hard',
+    evidenceHighlights: ['systemic shortcomings', 'urgent institutional accountability'],
+    temptingReason: 'The formal accountability language reads like a statement from an ombudsman or consumer advocacy group.',
+    counterexample: 'Human consumer advocates and lawyers routinely demand institutional accountability for systemic shortcomings, making formal grievances inconclusive.',
     category: 'Complaint',
   },
   {
@@ -3586,6 +3673,9 @@ export const ITEMS: Item[] = [
     explanation: 'The "silent witness" framing is a generic, melodramatic phrase applied to unnamed ruins.',
     concept: 'Grand rhetorical cliché',
     difficulty: 'hard',
+    evidenceHighlights: ['silent witness to the rise and fall', 'once-great civilization'],
+    temptingReason: 'The evocative historical imagery echoes romantic travel guides exploring archaeological sites.',
+    counterexample: 'Human travel writers and popular historians have called ancient ruins silent witnesses for centuries, so stock historical imagery is an ambiguous clue.',
     category: 'History',
   },
   {
@@ -3606,6 +3696,9 @@ export const ITEMS: Item[] = [
     explanation: 'A generic "cautionary tale for generations" ending with no specific lesson or event named.',
     concept: 'Grand rhetorical cliché',
     difficulty: 'hard',
+    evidenceHighlights: ['enduring cautionary tale', 'generations yet to come'],
+    temptingReason: 'The solemn historical warning sounds like the closing thought of a serious historical documentary.',
+    counterexample: 'Human history educators frequently conclude lessons by calling historical tragedies cautionary tales, so solemn didactic summaries are inconclusive.',
     category: 'History',
   },
   {
@@ -3736,6 +3829,9 @@ export const ITEMS: Item[] = [
     explanation: 'A sweeping, vague claim about cosmic scale with no specific star, galaxy, or figure cited.',
     concept: 'Grand rhetorical cliché',
     difficulty: 'hard',
+    evidenceHighlights: ['vastness of the cosmos humbles us', 'small place in an infinite universe'],
+    temptingReason: 'The philosophical awe regarding cosmic scale mirrors beloved science essays by popular astronomers.',
+    counterexample: 'Human science communicators frequently write about cosmic scale humbling humanity, so poetic scientific awe is not machine-exclusive.',
     category: 'Science',
   },
   {
@@ -3746,6 +3842,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific teaching moment with a concrete analogy and honest uncertainty point toward human.',
     concept: 'Grounded real-world context',
     difficulty: 'hard',
+    evidenceHighlights: ['explaining herd immunity to my cousin', 'chickenpox party analogy'],
+    temptingReason: 'The relatable everyday explanation of epidemiology sounds like a pedagogical scenario crafted for science communication.',
+    counterexample: 'AI science communication tutors frequently produce relatable analogies for herd immunity, so accessible explanations point in both directions.',
     category: 'Science',
   },
   {
@@ -3883,6 +3982,9 @@ export const ITEMS: Item[] = [
     explanation: 'Vague "sonic landscape" review language naming no actual track, lyric, or sound.',
     concept: 'Generic pretty imagery',
     difficulty: 'hard',
+    evidenceHighlights: ['sonic landscape', 'cohesive emotional journey'],
+    temptingReason: 'The sophisticated critical terminology sounds like an excerpt from a reputable music review magazine.',
+    counterexample: 'Human music journalists frequently use terms like sonic landscape and emotional journey, so elevated album critique is inconclusive.',
     category: 'Music',
   },
   {
@@ -3903,6 +4005,9 @@ export const ITEMS: Item[] = [
     explanation: 'A poetic, vague closing line about "resonance lingering" with no actual piece of music named.',
     concept: 'Generic pretty imagery',
     difficulty: 'hard',
+    evidenceHighlights: ['resonance lingers quietly', 'space it once filled'],
+    temptingReason: 'The lyrical reflection on lingering acoustic beauty reads like a sensitive concert review.',
+    counterexample: 'Human concert reviewers regularly describe lingering resonances poetically, making flowery musical reflection an uncertain signal.',
     category: 'Music',
   },
   {
@@ -4020,6 +4125,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, precise observation connecting two physical artifacts points toward human poetic noticing.',
     concept: 'Grounded emotional metaphor',
     difficulty: 'hard',
+    evidenceHighlights: ['slants the same way on the recipe card', 'last birthday card she ever signed'],
+    temptingReason: 'The delicate pairing of nostalgic domestic handwriting artifacts resembles a crafted creative writing exercise.',
+    counterexample: 'Creative AI writing models frequently generate bittersweet scenes about mothers\' handwriting, so poignant domestic imagery points both ways.',
     category: 'Poetry',
   },
   {
@@ -4040,6 +4148,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, understated ritual detail with honest ambiguity points toward human poetry.',
     concept: 'Grounded emotional metaphor',
     difficulty: 'hard',
+    evidenceHighlights: ['set a plate at the empty chair', 'habit nobody wants to break'],
+    temptingReason: 'The holiday grief ritual is a familiar emotional motif that could be generated by an emotional storytelling prompt.',
+    counterexample: 'AI emotional fiction regularly incorporates empty holiday chairs to evoke sentimentality, so traditional mourning motifs are not conclusive.',
     category: 'Poetry',
   },
   {
@@ -4335,6 +4446,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, believable cross-cultural moment with a concrete resolution points toward human.',
     concept: 'Grounded real-world context',
     difficulty: 'hard',
+    evidenceHighlights: ['conversation with a shopkeeper in two different languages', 'somehow worked out fine'],
+    temptingReason: 'The heartwarming cross-cultural miscommunication anecdote fits familiar travel blog storytelling conventions.',
+    counterexample: 'Travel writing generated by AI frequently features friendly language barrier charades in foreign shops, making cross-cultural warmth an ambiguous clue.',
     category: 'Travel',
   },
   {
@@ -4462,6 +4576,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, small locker-room detail that stretches into a season-long joke points toward human.',
     concept: 'Bizarre mundane specificity',
     difficulty: 'hard',
+    evidenceHighlights: ['rookie used a veteran\'s locker', 'nobody told him for a week'],
+    temptingReason: 'The classic rookie hazing anecdote reads like a scripted locker-room vignette from a sports comedy.',
+    counterexample: 'Sports fiction generated by AI frequently draws on locker-room initiation tropes, so athletic folklore remains only suggestive.',
     category: 'Sports',
   },
   {
@@ -4472,6 +4589,9 @@ export const ITEMS: Item[] = [
     explanation: 'The "forged in the crucible" sports cliché with no specific legend or game ever named.',
     concept: 'Grand rhetorical cliché',
     difficulty: 'hard',
+    evidenceHighlights: ['forged in the crucible of pressure', 'not born in comfort'],
+    temptingReason: 'The dramatic athletic contrast sounds like an inspirational speech from a championship sports documentary.',
+    counterexample: 'Human sports commentators love using the crucible metaphor for high-pressure finals, so dramatic sports rhetoric is an uncertain signal.',
     category: 'Sports',
   },
   {
@@ -4622,6 +4742,9 @@ export const ITEMS: Item[] = [
     explanation: 'Startup-pitch buzzwords ("disrupt", "visionary") stacked with no actual product or market named.',
     concept: 'Buzzword padding',
     difficulty: 'hard',
+    evidenceHighlights: ['disrupt the industry', 'relentless innovation and bold, visionary thinking'],
+    temptingReason: 'The ambitious declaration captures the energetic spirit of a Silicon Valley startup pitch deck.',
+    counterexample: 'Human tech founders regularly fill pitch decks with disrupt and relentless innovation clichés, so startup jargon is only a clue.',
     category: 'Work',
   },
   {
@@ -4642,6 +4765,9 @@ export const ITEMS: Item[] = [
     explanation: 'Generic "culture-first" corporate language with no concrete policy or example cited.',
     concept: 'Buzzword padding',
     difficulty: 'hard',
+    evidenceHighlights: ['culture-first mindset', 'every voice is valued'],
+    temptingReason: 'The warm organizational philosophy sounds like an inclusive statement from a human resources director.',
+    counterexample: 'Human corporate culture committees frequently draft mission statements about valued voices, making HR platitudes an uncertain indicator.',
     category: 'Work',
   },
   {
@@ -4739,6 +4865,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, practical piece of family advice with a concrete predicted moment points toward human.',
     concept: 'Grounded real-world context',
     difficulty: 'hard',
+    evidenceHighlights: ['unpacking in your dorm', 'call your mother more than you think you need to'],
+    temptingReason: 'The classic parental advice note for college freshmen follows a well-worn sentimental tradition.',
+    counterexample: 'AI letter generators frequently craft tear-jerking dorm move-in notes from fathers, so classic parental advice is not conclusive.',
     category: 'Letter',
   },
   {
@@ -4834,6 +4963,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, superstitious detail tied to a concrete past result points toward human.',
     concept: 'Bizarre mundane specificity',
     difficulty: 'hard',
+    evidenceHighlights: ['practice jersey with a hole in the collar', 'won the finals in'],
+    temptingReason: 'The superstitious athlete narrative fits traditional cinematic sports storytelling conventions.',
+    counterexample: 'AI sports narratives routinely employ superstitious lucky clothing tropes, making athletic rituals an ambiguous clue.',
     category: 'Sports',
   },
   {
@@ -4941,6 +5073,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, believable office mishap with a collective unspoken reaction points toward human.',
     concept: 'Bizarre mundane specificity',
     difficulty: 'hard',
+    evidenceHighlights: ['boss accidentally hit reply all', 'pretending not to have read it'],
+    temptingReason: 'The catastrophic corporate reply-all mistake is a famous office comedy trope easily generated on demand.',
+    counterexample: 'Corporate humor bots frequently generate workplace reply-all disasters, so office blunders alone do not verify the author.',
     category: 'Work',
   },
   {
@@ -4951,6 +5086,9 @@ export const ITEMS: Item[] = [
     explanation: 'Buzzword-heavy corporate self-help language with no actual setback or innovation described.',
     concept: 'Buzzword padding',
     difficulty: 'hard',
+    evidenceHighlights: ['growth mindset', 'setbacks are reframed as catalysts for innovation'],
+    temptingReason: 'The organizational psychology framing sounds like an executive coaching book on resilience.',
+    counterexample: 'Human corporate trainers and executive coaches constantly use growth mindset terminology, so psychological buzzwords are not machine-specific.',
     category: 'Work',
   },
   {
@@ -5162,6 +5300,9 @@ export const ITEMS: Item[] = [
     explanation: 'Grandiose, abstract corporate-complaint language with no actual incident or policy named.',
     concept: 'Grand rhetorical cliché',
     difficulty: 'hard',
+    evidenceHighlights: ['glaring disregard for the basic principles', 'operational integrity'],
+    temptingReason: 'The stern, professional reprimand sounds like an executive reprimanding a failing contractor.',
+    counterexample: 'Disappointed human business clients frequently cite operational integrity in breach notifications, making sharp corporate complaints inconclusive.',
     category: 'Complaint',
   },
   {
@@ -5449,6 +5590,9 @@ export const ITEMS: Item[] = [
     explanation: 'A vague "unbroken chain of generations" claim with no specific family, place, or era named.',
     concept: 'Grand rhetorical cliché',
     difficulty: 'hard',
+    evidenceHighlights: ['links in an unbroken chain', 'stretching back through the generations'],
+    temptingReason: 'The poignant reflection on ancestral heritage sounds like a personal speech at a family reunion.',
+    counterexample: 'Human genealogists and memorial speakers regularly use the unbroken chain metaphor, so sentimental ancestral imagery is an ambiguous clue.',
     category: 'History',
   },
   {
@@ -5536,6 +5680,9 @@ export const ITEMS: Item[] = [
     explanation: 'A sweeping, content-free "frontier beckons" science cliché with no specific field named.',
     concept: 'Grand rhetorical cliché',
     difficulty: 'hard',
+    evidenceHighlights: ['frontier of the unknown beckons', 'deeper understanding'],
+    temptingReason: 'The inspiring vision of human discovery sounds like a mission manifesto from a space exploration agency.',
+    counterexample: 'Human science advocates and aerospace agencies frequently use frontier metaphors to promote exploration, making visionary rhetoric inconclusive.',
     category: 'Science',
   },
   {
@@ -5626,6 +5773,9 @@ export const ITEMS: Item[] = [
     explanation: 'A smooth, triple-clause music platitude naming no actual chord, song, or artist whatsoever.',
     concept: 'Generic pretty imagery',
     difficulty: 'hard',
+    evidenceHighlights: ['Every chord tells a story', 'small act of courage'],
+    temptingReason: 'The romantic framing of musicianship echoes affectionate artist biographies and album liner notes.',
+    counterexample: 'Human music essayists often romanticize songwriting as courage and storytelling, so emotional musical commentary is not machine-exclusive.',
     category: 'Music',
   },
   {
