@@ -85,6 +85,12 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
     return () => window.removeEventListener('popstate', handlePopState);
   }, [showStats, returnToAttract]);
 
+  useEffect(() => {
+    if (typeof store.getState().preloadItems === 'function') {
+      void store.getState().preloadItems();
+    }
+  }, [store]);
+
   const handleToggleMute = () => {
     const nextVal = toggleSoundMuted();
     setMuted(nextVal);
@@ -216,6 +222,17 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
       </div>
 
       <AnimatePresence mode="wait">
+        {screen === 'loading' && (
+          <div
+            key="loading"
+            data-testid="loading-screen"
+            className="flex flex-col items-center justify-center p-8 font-mono text-center min-h-[50vh]"
+          >
+            <div className="w-8 h-8 border-2 border-signal border-t-transparent rounded-full animate-spin mb-4" />
+            <div className="text-sm uppercase tracking-wider text-muted">Loading question bank...</div>
+          </div>
+        )}
+
         {screen === 'attract' && (
           <AttractScreen
             key="attract"

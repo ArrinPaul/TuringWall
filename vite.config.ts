@@ -9,6 +9,17 @@ import tailwindcss from '@tailwindcss/vite';
 // gives the same "offline after first load" outcome without that build step.
 export default defineConfig({
   plugins: [react(), tailwindcss() as any],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            return 'vendor';
+          }
+        },
+      },
+    },
+  },
   test: {
     environment: 'jsdom',
     setupFiles: ['./src/setupTests.ts'],

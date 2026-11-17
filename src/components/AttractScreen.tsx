@@ -6,9 +6,6 @@ import { pickLine, pickSpectatorLine } from '../character/signal';
 import { FieldGuide } from './FieldGuide';
 import { allConcepts } from '../character/fieldGuide';
 import { loadMastery, getDueConcepts } from '../learning/mastery';
-import { ITEMS } from '../data/items';
-import type { TextItem } from '../data/types';
-
 interface AttractScreenProps {
   onStart: () => void;
   onStartDailyChallenge?: () => void;
@@ -16,10 +13,17 @@ interface AttractScreenProps {
   onPracticeTell?: (concept: string) => void;
 }
 
+const SAMPLE_QUOTES = [
+  'Every round is a real sample. No tricks.',
+  'Keys placed under the planter. The pet has been fed.',
+  'hey leaving keys under the blue pot. dog already fed',
+  'We need to steer the corporate ship into uncharted waters so we can plant our flag on solid ground.',
+  "The left wing mirrors the right wing's flight, the shadows match the morning light.",
+  'The legislation is a trojan horse wrapped in red tape, designed to choke off small innovators.',
+];
+
 function pickSampleQuote(): string {
-  const textItems = ITEMS.filter((i): i is TextItem => i.kind === 'text');
-  const pick = textItems[Math.floor(Math.random() * textItems.length)];
-  return pick ? pick.text : 'Every round is a real sample. No tricks.';
+  return SAMPLE_QUOTES[Math.floor(Math.random() * SAMPLE_QUOTES.length)] ?? SAMPLE_QUOTES[0];
 }
 
 export const AttractScreen: React.FC<AttractScreenProps> = ({

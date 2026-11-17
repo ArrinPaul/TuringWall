@@ -366,4 +366,36 @@ describe('gameStore', () => {
     expect(getSessionCounts().completed).toBe(1);
     expect(getSessionCounts().abandoned).toBe(0);
   });
+
+  it('supports lazy-loading items via an async provider function', async () => {
+    let resolveItems!: (items: typeof fixtureItems) => void;
+    const asyncProvider = () =>
+      new Promise<typeof fixtureItems>((res) => {
+        resolveItems = res;
+      });
+
+    const store = createGameStore(asyncProvider, () => 0);
+    expect(store.getState().screen).toBe('attract');
+
+    // Trigger round before items are loaded
+    store.getState().startRound('easy');
+    expect(store.getState().screen).toBe('loading');
+
+    // Resolve the items promise
+    resolveItems(fixtureItems);
+    await Promise.resolve();
+    await Promise.resolve();
+
+    expect(store.getState().screen).toBe('playing');
+    expect(['a', 'b']).toContain(store.getState().current?.id);
+  });
+
+  it('preloadItems resolves items in the background so startRound plays immediately', async () => {
+    const asyncProvider = () => Promise.resolve(fixtureItems);
+    const store = createGameStore(asyncProvider, () => 0);
+
+    await store.getState().preloadItems();
+    store.getState().startRound('easy');
+    expect(store.getState().screen).toBe('playing');
+  });
 });

@@ -335,4 +335,29 @@ describe('settings dialog and preferences persistence', () => {
     const stored = JSON.parse(localStorage.getItem('real-or-ai-wall:prefs:v1') ?? '{}');
     expect(stored.sound).toBe(false);
   });
+
+  it('displays the loading screen when items are still being fetched', async () => {
+    let resolveItems!: (items: typeof fixtureItems) => void;
+    const asyncProvider = () =>
+      new Promise<typeof fixtureItems>((res) => {
+        resolveItems = res;
+      });
+
+    const store = createGameStore(asyncProvider, () => 0);
+    render(<App store={store} />);
+
+    act(() => {
+      store.getState().startRound('easy');
+    });
+
+    expect(screen.getByTestId('loading-screen')).toBeInTheDocument();
+    expect(screen.getByText(/loading question bank/i)).toBeInTheDocument();
+
+    await act(async () => {
+      resolveItems(fixtureItems);
+    });
+
+    expect(screen.queryByTestId('loading-screen')).not.toBeInTheDocument();
+    expect(screen.getByText(/quote a|quote b/i)).toBeInTheDocument();
+  });
 });

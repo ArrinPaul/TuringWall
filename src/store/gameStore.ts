@@ -1,6 +1,5 @@
 import { create, type UseBoundStore, type StoreApi } from 'zustand';
 import type { Item, SessionMode } from '../data/types';
-import { ITEMS } from '../data/items';
 import { createDeck, type Deck } from '../game/deck';
 import {
   createStats,
@@ -32,7 +31,7 @@ import {
 } from '../learning/mastery';
 import { getCandidateTells } from '../character/fieldGuide';
 
-export type Screen = 'attract' | 'select' | 'playing' | 'revealed' | 'stats';
+export type Screen = 'attract' | 'select' | 'playing' | 'revealed' | 'stats' | 'loading';
 
 export const ROUNDS_OPTIONS = [3, 5, 7, 10] as const satisfies readonly SessionLength[];
 export const DEFAULT_ROUNDS: SessionLength = 10;
@@ -76,6 +75,7 @@ export interface GameState {
   showStats: () => void;
   replayMissedSession: () => void;
   returnToAttract: () => void;
+  preloadItems: () => Promise<Item[]>;
 }
 
 function poolFor(items: Item[], mode: PracticeMode, masteryMap: MasteryMap, missedIds: string[]): Item[] {
@@ -176,11 +176,30 @@ function finalizeSessionIfComplete(state: GameState): FinalizePatch | null {
   };
 }
 
+export type ItemsProvider = Item[] | (() => Promise<Item[]>);
+
 export function createGameStore(
-  items: Item[],
+  itemsProvider: ItemsProvider,
   rng: () => number = Math.random
 ): UseBoundStore<StoreApi<GameState>> {
   let deck: Deck<Item> | null = null;
+  let cachedItems: Item[] | null = Array.isArray(itemsProvider) ? itemsProvider : null;
+  let loadingPromise: Promise<Item[]> | null = null;
+
+  const ensureItems = (): Promise<Item[]> => {
+    if (cachedItems) return Promise.resolve(cachedItems);
+    if (loadingPromise) return loadingPromise;
+    if (typeof itemsProvider === 'function') {
+      loadingPromise = itemsProvider().then((loaded) => {
+        cachedItems = loaded;
+        loadingPromise = null;
+        return loaded;
+      });
+      return loadingPromise;
+    }
+    cachedItems = itemsProvider;
+    return Promise.resolve(cachedItems);
+  };
 
   return create<GameState>((set, get) => ({
     screen: 'attract',
@@ -204,6 +223,8 @@ export function createGameStore(
     sessionId: '',
     sessionStartedAt: 0,
 
+    preloadItems: () => ensureItems(),
+
     setPlayerName: (name: string) => {
       set({ playerName: name });
     },
@@ -214,71 +235,93 @@ export function createGameStore(
 
     goToSelect: () => {
       recordAbandonedIfMidSession(get());
+      void ensureItems();
       set({ screen: 'select' });
     },
 
     startRound: (mode: PracticeMode) => {
       const state = get();
       recordAbandonedIfMidSession(state);
-      const isSpecialPractice = mode === 'daily-challenge' || mode === 'weak-tells' || mode === 'review-missed';
-      const targetRounds = mode === 'daily-challenge' ? 5 : state.roundsTarget;
 
-      const itemsPool = poolFor(items, mode, state.masteryMap, state.missedQuestionIds);
-      deck = createDeck(itemsPool, rng);
-      const firstItem = deck.next();
-      const candidateTells = firstItem ? getCandidateTells(firstItem.concept, 4, rng) : [];
+      const setupDeckAndPlay = (loadedItems: Item[]) => {
+        const isSpecialPractice =
+          mode === 'daily-challenge' || mode === 'weak-tells' || mode === 'review-missed';
+        const targetRounds = mode === 'daily-challenge' ? 5 : get().roundsTarget;
 
-      const sessionDifficulty: SessionMode | null = isSpecialPractice ? 'mixed' : (mode as SessionMode);
-      const now = Date.now();
-      const newSessionId = `sess_${now}_${Math.floor(rng() * 1000000)}`;
+        const itemsPool = poolFor(loadedItems, mode, get().masteryMap, get().missedQuestionIds);
+        deck = createDeck(itemsPool, rng);
+        const firstItem = deck.next();
+        const candidateTells = firstItem ? getCandidateTells(firstItem.concept, 4, rng) : [];
 
-      set({
-        screen: 'playing',
-        sessionId: newSessionId,
-        sessionStartedAt: now,
-        difficulty: sessionDifficulty,
-        practiceMode: mode,
-        roundsTarget: targetRounds as SessionLength,
-        current: firstItem,
-        candidateTells,
-        stats: createStats(true),
-        lastGuessCorrect: null,
-        lastRoundResult: null,
-        milestoneHit: false,
-        newPersonalBest: false,
-        sessionSaved: false,
-        conceptsSeen: [],
-      });
+        const sessionDifficulty: SessionMode | null = isSpecialPractice ? 'mixed' : (mode as SessionMode);
+        const now = Date.now();
+        const newSessionId = `sess_${now}_${Math.floor(rng() * 1000000)}`;
+
+        set({
+          screen: 'playing',
+          sessionId: newSessionId,
+          sessionStartedAt: now,
+          difficulty: sessionDifficulty,
+          practiceMode: mode,
+          roundsTarget: targetRounds as SessionLength,
+          current: firstItem,
+          candidateTells,
+          stats: createStats(true),
+          lastGuessCorrect: null,
+          lastRoundResult: null,
+          milestoneHit: false,
+          newPersonalBest: false,
+          sessionSaved: false,
+          conceptsSeen: [],
+        });
+      };
+
+      if (cachedItems) {
+        setupDeckAndPlay(cachedItems);
+      } else {
+        set({ screen: 'loading' });
+        void ensureItems().then(setupDeckAndPlay);
+      }
     },
 
     startTellPractice: (concept: string) => {
       const state = get();
       recordAbandonedIfMidSession(state);
-      const matchingItems = items.filter((i) => i.concept === concept);
-      const pool = matchingItems.length > 0 ? matchingItems : items;
-      deck = createDeck(pool, rng);
-      const firstItem = deck.next();
-      const candidateTells = firstItem ? getCandidateTells(firstItem.concept, 4, rng) : [];
-      const now = Date.now();
-      const newSessionId = `sess_${now}_${Math.floor(rng() * 1000000)}`;
 
-      set({
-        screen: 'playing',
-        sessionId: newSessionId,
-        sessionStartedAt: now,
-        difficulty: 'mixed',
-        practiceMode: 'weak-tells',
-        roundsTarget: 5,
-        current: firstItem,
-        candidateTells,
-        stats: createStats(true),
-        lastGuessCorrect: null,
-        lastRoundResult: null,
-        milestoneHit: false,
-        newPersonalBest: false,
-        sessionSaved: false,
-        conceptsSeen: [],
-      });
+      const setupPracticeAndPlay = (loadedItems: Item[]) => {
+        const matchingItems = loadedItems.filter((i) => i.concept === concept);
+        const pool = matchingItems.length > 0 ? matchingItems : loadedItems;
+        deck = createDeck(pool, rng);
+        const firstItem = deck.next();
+        const candidateTells = firstItem ? getCandidateTells(firstItem.concept, 4, rng) : [];
+        const now = Date.now();
+        const newSessionId = `sess_${now}_${Math.floor(rng() * 1000000)}`;
+
+        set({
+          screen: 'playing',
+          sessionId: newSessionId,
+          sessionStartedAt: now,
+          difficulty: 'mixed',
+          practiceMode: 'weak-tells',
+          roundsTarget: 5,
+          current: firstItem,
+          candidateTells,
+          stats: createStats(true),
+          lastGuessCorrect: null,
+          lastRoundResult: null,
+          milestoneHit: false,
+          newPersonalBest: false,
+          sessionSaved: false,
+          conceptsSeen: [],
+        });
+      };
+
+      if (cachedItems) {
+        setupPracticeAndPlay(cachedItems);
+      } else {
+        set({ screen: 'loading' });
+        void ensureItems().then(setupPracticeAndPlay);
+      }
     },
 
     detailedGuess: (
@@ -374,8 +417,9 @@ export function createGameStore(
       }
 
       if (!deck) {
+        const fallbackItems = cachedItems ?? [];
         const fallbackPool = poolFor(
-          items,
+          fallbackItems,
           state.practiceMode || state.difficulty || 'mixed',
           state.masteryMap,
           state.missedQuestionIds
@@ -433,4 +477,6 @@ export function createGameStore(
   }));
 }
 
-export const useGameStore = createGameStore(ITEMS);
+export const useGameStore = createGameStore(() =>
+  import('../data/items').then((m) => m.ITEMS)
+);
