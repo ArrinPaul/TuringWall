@@ -27,8 +27,11 @@ import { CONCEPT_DEFINITIONS, getConceptDetail, EDUCATIONAL_DISCLAIMER } from '.
 import { loadMastery, getMasteryCounts } from '../learning/mastery';
 import { getSessionCounts, loadSessionHistory } from '../learning/sessions';
 import { calculateProgressComparison } from '../learning/progress';
+import { loadPreferences } from '../prefs/prefs';
+import { buildShareText } from '../learning/share';
 
 interface StatsScreenProps {
+  playerName?: string;
   stats: Stats;
   difficulty: SessionMode | null;
   roundsTarget: SessionLength;
@@ -62,6 +65,7 @@ function formatDate(ts: number): string {
 }
 
 export const StatsScreen: React.FC<StatsScreenProps> = ({
+  playerName,
   stats,
   difficulty,
   roundsTarget,
@@ -79,6 +83,9 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
   const calibrationScore = calculateCalibrationScore(stats.results || []);
   const rank = getRank(accuracy);
 
+  const prefs = loadPreferences();
+  const showNameInShare = Boolean(prefs.showNameOnLeaderboard && playerName?.trim());
+
   const [allBoards] = useState(() => loadAllLeaderboards());
   const [activeLength, setActiveLength] = useState<SessionLength>(roundsTarget);
   const [filterMode, setFilterMode] = useState<'today' | 'all'>('today');
@@ -91,7 +98,16 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
   const [copiedShare, setCopiedShare] = useState(false);
 
   const handleShareResult = async () => {
-    const shareText = `TuringWall: Real or AI?\n${difficulty ? `${difficulty.toUpperCase()} tier` : 'Practice'} · ${stats.roundsPlayed} questions\nScore: ${stats.score} pts · Accuracy: ${accuracy}% · Calibration: ${calibrationScore}%\nRank: ${rank.title}\nhttps://turing-wall.vercel.app/`;
+    const shareText = buildShareText({
+      difficulty,
+      roundsPlayed: stats.roundsPlayed,
+      score: stats.score,
+      accuracy,
+      calibration: calibrationScore,
+      rankTitle: rank.title,
+      playerName,
+      showNameOnLeaderboard: prefs.showNameOnLeaderboard,
+    });
     try {
       if (navigator?.clipboard?.writeText) {
         await navigator.clipboard.writeText(shareText);
@@ -296,6 +312,12 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
             </button>
           </div>
         </header>
+
+        {hasPlayedSession && (
+          <div data-testid="share-privacy-note" className="w-full text-right text-[11px] font-mono text-muted -mt-3">
+            This share text contains: score, accuracy, calibration — {showNameInShare ? playerName?.trim() : 'no name'}
+          </div>
+        )}
 
         {/* =========================================================================
             VIEW 1: MULTI-METRIC LEADERBOARD VIEW
@@ -833,8 +855,16 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
         <h1 style={{ fontFamily: 'Fraunces, Georgia, serif', fontSize: '28px', marginBottom: '4px' }}>
           Real or AI? &mdash; Session Takeaway
         </h1>
+        {showNameInShare && (
+          <p style={{ fontSize: '14px', marginBottom: '4px', fontWeight: 600 }}>
+            Player: {playerName?.trim()}
+          </p>
+        )}
         <p className="print-rule" style={{ borderBottom: '1px solid', paddingBottom: '8px', marginBottom: '12px', fontSize: '13px' }}>
           {difficulty ? `${difficulty} tier` : 'Session'} &middot; {roundsTarget} questions &middot; {rank.title}
+        </p>
+        <p style={{ fontSize: '11px', color: '#666', marginBottom: '8px' }}>
+          {showNameInShare ? 'Player name included per device preferences.' : 'Private takeaway: no player name included.'}
         </p>
         <p style={{ fontSize: '12px', marginTop: '12px' }}>{EDUCATIONAL_DISCLAIMER}</p>
       </div>

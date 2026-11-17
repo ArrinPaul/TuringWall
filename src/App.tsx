@@ -267,6 +267,7 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
         {screen === 'stats' && (
           <StatsScreen
             key="stats"
+            playerName={playerName}
             stats={stats}
             difficulty={difficulty}
             roundsTarget={roundsTarget}
