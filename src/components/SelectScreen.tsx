@@ -274,7 +274,7 @@ export const SelectScreen: React.FC<SelectScreenProps> = ({
               <button
                 type="button"
                 onClick={() => goTo(0)}
-                className="mt-6 text-muted hover:text-paper font-mono text-xs uppercase tracking-wider cursor-pointer"
+                className="mt-6 min-h-10 px-2 text-muted hover:text-paper font-mono text-xs uppercase tracking-wider cursor-pointer"
               >
                 &larr; Back
               </button>
@@ -332,7 +332,7 @@ export const SelectScreen: React.FC<SelectScreenProps> = ({
               <button
                 type="button"
                 onClick={() => goTo(1)}
-                className="mt-6 text-muted hover:text-paper font-mono text-xs uppercase tracking-wider cursor-pointer"
+                className="mt-6 min-h-10 px-2 text-muted hover:text-paper font-mono text-xs uppercase tracking-wider cursor-pointer"
               >
                 &larr; Back
               </button>

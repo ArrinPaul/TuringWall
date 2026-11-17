@@ -247,7 +247,7 @@ export const PlayingScreen: React.FC<PlayingScreenProps> = ({
           <button
             type="button"
             onClick={() => setShowClue((prev) => !prev)}
-            className="text-[11px] font-mono text-muted hover:text-signal transition-colors flex items-center gap-1.5 cursor-pointer"
+            className="min-h-10 text-[11px] font-mono text-muted hover:text-signal transition-colors flex items-center gap-1.5 cursor-pointer"
             aria-expanded={showClue}
           >
             <span>{showClue ? '▲ Hide stall clue [C]' : '🔍 Need an investigative clue? [C]'}</span>
@@ -358,7 +358,7 @@ export const PlayingScreen: React.FC<PlayingScreenProps> = ({
                 <button
                   type="button"
                   onClick={() => setSelectedPrediction(null)}
-                  className="text-[11px] text-muted hover:text-paper font-mono uppercase underline cursor-pointer"
+                  className="min-h-10 px-2 text-[11px] text-muted hover:text-paper font-mono uppercase underline cursor-pointer"
                 >
                   Change [Esc]
                 </button>
@@ -423,7 +423,7 @@ export const PlayingScreen: React.FC<PlayingScreenProps> = ({
                 <button
                   type="button"
                   onClick={() => setSelectedTell(null)}
-                  className={`text-xs font-mono text-muted hover:text-paper cursor-pointer ${
+                  className={`min-h-10 px-2 text-xs font-mono text-muted hover:text-paper cursor-pointer ${
                     selectedTell === null ? 'opacity-50 pointer-events-none' : ''
                   }`}
                 >

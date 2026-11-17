@@ -296,7 +296,7 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
                     key={len}
                     type="button"
                     onClick={() => setActiveLength(len)}
-                    className={`px-3 py-1.5 font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer shrink-0 ${
+                    className={`min-h-10 px-3 py-1.5 font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer shrink-0 ${
                       activeLength === len
                         ? 'bg-signal text-ink font-600'
                         : 'bg-ink/50 text-muted hover:text-paper border border-panel-line'
@@ -312,7 +312,7 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
                   <button
                     type="button"
                     onClick={() => setFilterMode('today')}
-                    className={`px-2.5 py-1 transition-colors cursor-pointer ${
+                    className={`min-h-10 px-3 py-1 transition-colors cursor-pointer ${
                       filterMode === 'today' ? 'bg-signal text-ink font-600' : 'text-muted hover:text-paper'
                     }`}
                   >
@@ -321,7 +321,7 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
                   <button
                     type="button"
                     onClick={() => setFilterMode('all')}
-                    className={`px-2.5 py-1 transition-colors cursor-pointer ${
+                    className={`min-h-10 px-3 py-1 transition-colors cursor-pointer ${
                       filterMode === 'all' ? 'bg-signal text-ink font-600' : 'text-muted hover:text-paper'
                     }`}
                   >
@@ -347,7 +347,7 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
                   key={tab.id}
                   type="button"
                   onClick={() => setSortView(tab.id)}
-                  className={`px-2.5 py-1 border transition-colors cursor-pointer uppercase ${
+                  className={`min-h-10 px-3 py-1 border transition-colors cursor-pointer uppercase ${
                     sortView === tab.id
                       ? 'bg-signal text-ink border-signal font-600'
                       : 'bg-ink/60 border-panel-line text-muted hover:text-paper'
@@ -455,7 +455,7 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
                   <button
                     type="button"
                     onClick={onPlayAgain}
-                    className="mt-4 px-4 py-2 bg-signal text-ink font-body font-600 text-xs uppercase tracking-wider cursor-pointer hover:bg-signal-dim transition-colors"
+                    className="mt-4 min-h-11 px-4 py-2 bg-signal text-ink font-body font-600 text-xs uppercase tracking-wider cursor-pointer hover:bg-signal-dim transition-colors"
                   >
                     Start a {activeLength}-Question Game
                   </button>
