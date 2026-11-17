@@ -13,7 +13,6 @@ import {
 import {
   addEntry,
   loadLeaderboard,
-  loadAllLeaderboards,
   withEntry,
   formatAsText,
   roomStanding,
@@ -21,9 +20,9 @@ import {
   type LeaderboardEntry,
   type SessionLength,
 } from '../leaderboard/leaderboard';
-import { createGameStore, type GameState, ROUNDS_OPTIONS } from '../store/gameStore';
+import { createGameStore } from '../store/gameStore';
 import { ITEMS } from '../data/items';
-import type { Item, SessionMode, Difficulty } from '../data/types';
+import type { Item, SessionMode } from '../data/types';
 
 describe('Game Simulation and Stress Tests', () => {
   beforeEach(() => {

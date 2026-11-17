@@ -1,12 +1,9 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect } from 'vitest';
 import {
   loadMastery,
   calculateNextTier,
   calculateNextReviewTime,
   applyRoundToMastery,
-  getDueConcepts,
-  getWeakConcepts,
-  getMasteryCounts,
   selectDailyChallengeDeck,
   selectWeakTellsDeck,
   selectMissedQuestionsDeck,

@@ -83,7 +83,9 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
   const [sortView, setSortView] = useState<LeaderboardSortView>('score');
 
   // View state: toggle between 'leaderboard' and 'analysis'
-  const [viewMode, setViewMode] = useState<'leaderboard' | 'analysis'>('leaderboard');
+  const [viewMode, setViewMode] = useState<'leaderboard' | 'analysis'>(() =>
+    typeof window !== 'undefined' && window.location.hash === '#analysis' ? 'analysis' : 'leaderboard'
+  );
   const [copiedShare, setCopiedShare] = useState(false);
 
   const handleShareResult = async () => {
@@ -159,13 +161,6 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
       celebratePersonalBest();
     }
   }, [newPersonalBest]);
-
-  // Check URL hash on mount
-  useEffect(() => {
-    if (typeof window !== 'undefined' && window.location.hash === '#analysis') {
-      setViewMode('analysis');
-    }
-  }, []);
 
   // Keyboard shortcut
   useEffect(() => {

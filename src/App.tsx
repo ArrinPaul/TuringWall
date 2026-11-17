@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, MotionConfig } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { useGameStore } from './store/gameStore';
@@ -129,21 +129,20 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
     }
   }, [guessSeq, lastGuessCorrect, milestoneHit]);
 
-  const [announcement, setAnnouncement] = useState('');
-
-  // Screen reader live updates
-  useEffect(() => {
+  // Screen reader live updates, derived from state (no effect needed)
+  const announcement = useMemo(() => {
     if (screen === 'playing' && current) {
-      setAnnouncement(`Round ${(stats.roundsPlayed % roundsTarget) + 1} of ${roundsTarget}. New sample to analyze.`);
-    } else if (screen === 'revealed' && current) {
-      setAnnouncement(
-        `Verdict: ${lastGuessCorrect ? 'Correct' : 'Not quite'}. It was ${
-          current.isAI ? 'AI-generated' : 'human-made'
-        }. Tell: ${current.concept}.`
-      );
-    } else if (screen === 'stats') {
-      setAnnouncement(`Session complete. Score: ${stats.score}. Accuracy: ${stats.correctCount} of ${stats.roundsPlayed}.`);
+      return `Round ${(stats.roundsPlayed % roundsTarget) + 1} of ${roundsTarget}. New sample to analyze.`;
     }
+    if (screen === 'revealed' && current) {
+      return `Verdict: ${lastGuessCorrect ? 'Correct' : 'Not quite'}. It was ${
+        current.isAI ? 'AI-generated' : 'human-made'
+      }. Tell: ${current.concept}.`;
+    }
+    if (screen === 'stats') {
+      return `Session complete. Score: ${stats.score}. Accuracy: ${stats.correctCount} of ${stats.roundsPlayed}.`;
+    }
+    return '';
   }, [screen, current, lastGuessCorrect, stats, roundsTarget]);
 
   return (
