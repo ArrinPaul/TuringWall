@@ -5,6 +5,7 @@ import { SignalAvatar } from './SignalAvatar';
 import { pickLine, pickSpectatorLine } from '../character/signal';
 import { FieldGuide } from './FieldGuide';
 import { allConcepts } from '../character/fieldGuide';
+import { loadMastery, getDueConcepts } from '../learning/mastery';
 import { ITEMS } from '../data/items';
 import type { TextItem } from '../data/types';
 
@@ -28,6 +29,7 @@ export const AttractScreen: React.FC<AttractScreenProps> = ({
   onPracticeTell,
 }) => {
   const [introLine] = useState(() => pickLine('neutral'));
+  const [dueCount] = useState(() => getDueConcepts(loadMastery()).length);
   const [spectatorLine] = useState(() => pickSpectatorLine());
   const [sampleQuote] = useState(pickSampleQuote);
   const [showGuide, setShowGuide] = useState(false);
@@ -131,6 +133,14 @@ export const AttractScreen: React.FC<AttractScreenProps> = ({
                 >
                   <span className="text-signal font-600">⚡</span>
                   <span>Practice weak tells</span>
+                  {dueCount > 0 && (
+                    <span
+                      data-testid="due-badge"
+                      className="ml-1 px-1.5 py-0.5 bg-signal text-ink text-[10px] font-600 leading-none"
+                    >
+                      {dueCount} due for review
+                    </span>
+                  )}
                 </button>
               )}
 

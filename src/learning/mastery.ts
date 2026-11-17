@@ -2,7 +2,7 @@ import type { ConceptMastery, MasteryTier, RoundResult } from './types';
 import { allConcepts } from '../character/fieldGuide';
 import type { Item } from '../data/types';
 
-const MASTERY_STORAGE_KEY = 'real-or-ai-wall:mastery:v2';
+export const MASTERY_STORAGE_KEY = 'real-or-ai-wall:mastery:v2';
 const MISSED_QUESTIONS_KEY = 'real-or-ai-wall:missed-questions:v2';
 
 export type MasteryMap = Record<string, ConceptMastery>;
