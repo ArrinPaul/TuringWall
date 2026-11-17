@@ -1,6 +1,8 @@
+import { loadPreferences, updatePreferences } from '../prefs/prefs';
+
 let audioCtx: AudioContext | null = null;
 let lastAudioContextClass: unknown = null;
-let soundMuted = false;
+let soundMuted = !loadPreferences().sound;
 
 export function isSoundMuted(): boolean {
   return soundMuted;
@@ -8,10 +10,17 @@ export function isSoundMuted(): boolean {
 
 export function setSoundMuted(muted: boolean): void {
   soundMuted = muted;
+  updatePreferences({ sound: !muted });
 }
 
 export function toggleSoundMuted(): boolean {
   soundMuted = !soundMuted;
+  updatePreferences({ sound: !soundMuted });
+  return soundMuted;
+}
+
+export function syncSoundFromPreferences(): boolean {
+  soundMuted = !loadPreferences().sound;
   return soundMuted;
 }
 

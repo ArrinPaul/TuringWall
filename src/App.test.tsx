@@ -306,3 +306,33 @@ describe('due-for-review badge', () => {
     expect(screen.getByTestId('due-badge')).toHaveTextContent('1 due for review');
   });
 });
+
+describe('settings dialog and preferences persistence', () => {
+  beforeEach(() => {
+    window.history.pushState(null, '', '/');
+    localStorage.clear();
+  });
+
+  it('opens and closes the settings dialog from the top-right button', () => {
+    render(<App store={createGameStore(fixtureItems, () => 0)} />);
+    expect(screen.queryByTestId('settings-panel')).not.toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: /open settings/i }));
+    expect(screen.getByTestId('settings-panel')).toBeInTheDocument();
+
+    fireEvent.click(screen.getByRole('button', { name: /close settings/i }));
+    expect(screen.queryByTestId('settings-panel')).not.toBeInTheDocument();
+  });
+
+  it('toggling mute persists sound preference to localStorage', () => {
+    render(<App store={createGameStore(fixtureItems, () => 0)} />);
+    const soundBtn = screen.getByRole('button', { name: /mute sound/i });
+    expect(soundBtn).toHaveTextContent(/sound on/i);
+
+    fireEvent.click(soundBtn);
+    expect(soundBtn).toHaveTextContent(/sound off/i);
+
+    const stored = JSON.parse(localStorage.getItem('real-or-ai-wall:prefs:v1') ?? '{}');
+    expect(stored.sound).toBe(false);
+  });
+});

@@ -4,12 +4,14 @@ import confetti from 'canvas-confetti';
 import { useGameStore } from './store/gameStore';
 import { useIdleReturn } from './hooks/idle';
 import { useFullscreen } from './hooks/fullscreen';
-import { playTone, isSoundMuted, toggleSoundMuted } from './audio/tone';
+import { playTone, isSoundMuted, toggleSoundMuted, setSoundMuted } from './audio/tone';
+import { loadPreferences, updatePreferences, type UserPreferences } from './prefs/prefs';
 import { AttractScreen } from './components/AttractScreen';
 import { SelectScreen } from './components/SelectScreen';
 import { PlayingScreen } from './components/PlayingScreen';
 import { RevealedPanel } from './components/RevealedPanel';
 import { StatsScreen } from './components/StatsScreen';
+import { SettingsPanel } from './components/SettingsPanel';
 
 interface AppProps {
   store?: typeof useGameStore;
@@ -44,7 +46,9 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
     returnToAttract,
   } = store();
 
+  const [prefs, setPrefs] = useState<UserPreferences>(() => loadPreferences());
   const [muted, setMuted] = useState(isSoundMuted());
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const { isFullscreen, toggleFullscreen } = useFullscreen();
 
   // Support direct URL routing to /leaderboard
@@ -84,6 +88,16 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
   const handleToggleMute = () => {
     const nextVal = toggleSoundMuted();
     setMuted(nextVal);
+    setPrefs((prev) => ({ ...prev, sound: !nextVal }));
+  };
+
+  const handleUpdatePrefs = (partial: Partial<Omit<UserPreferences, 'version'>>) => {
+    const updated = updatePreferences(partial);
+    setPrefs(updated);
+    if (typeof partial.sound === 'boolean') {
+      setSoundMuted(!partial.sound);
+      setMuted(!partial.sound);
+    }
   };
 
   // Keyboard shortcuts: Mute [M], Fullscreen [F]
@@ -115,8 +129,15 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
     if (guessSeq > 0 && lastGuessCorrect !== null) {
       playTone(lastGuessCorrect ? 'correct' : 'incorrect');
 
-      const reduceMotion = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-      if (milestoneHit && !reduceMotion) {
+      const shouldReduceMotion =
+        prefs.motion === 'reduce'
+          ? true
+          : prefs.motion === 'full'
+          ? false
+          : typeof window !== 'undefined' &&
+            Boolean(window.matchMedia?.('(prefers-reduced-motion: reduce)').matches);
+
+      if (milestoneHit && !shouldReduceMotion) {
         try {
           // Brass/ink palette, not the library's default rainbow — stays in the
           // project's existing aesthetic rather than competing with Signal.
@@ -131,7 +152,7 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
         }
       }
     }
-  }, [guessSeq, lastGuessCorrect, milestoneHit]);
+  }, [guessSeq, lastGuessCorrect, milestoneHit, prefs.motion]);
 
   // Screen reader live updates, derived from state (no effect needed)
   const announcement = useMemo(() => {
@@ -151,14 +172,17 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
     return '';
   }, [screen, current, lastGuessCorrect, lastRoundResult, stats, roundsTarget]);
 
+  const reducedMotionSetting =
+    prefs.motion === 'reduce' ? 'always' : prefs.motion === 'full' ? 'never' : 'user';
+
   return (
-    <MotionConfig reducedMotion="user">
+    <MotionConfig reducedMotion={reducedMotionSetting}>
     <main className="w-full h-full min-h-screen bg-ink text-paper font-body flex flex-col items-center justify-center relative">
       {/* Screen reader live updates */}
       <div className="sr-only" aria-live="polite" aria-atomic="true">
         {announcement}
       </div>
-      {/* Floating Sound and Fullscreen Controls */}
+      {/* Floating Sound, Settings, and Fullscreen Controls */}
       <div className="no-print fixed top-2 sm:top-4 right-2 sm:right-4 z-50 flex items-center gap-1.5 sm:gap-2">
         <button
           type="button"
@@ -179,6 +203,15 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
         >
           <span>Sound {muted ? 'off' : 'on'}</span>
           <span className="hidden sm:inline text-muted">[M]</span>
+        </button>
+        <button
+          type="button"
+          onClick={() => setIsSettingsOpen(true)}
+          aria-label="Open settings"
+          className="min-h-9 px-2 sm:px-3 py-1.5 sm:py-2 bg-panel border border-panel-line text-muted hover:text-paper transition-colors text-[10px] sm:text-xs font-mono uppercase tracking-wider flex items-center space-x-1.5 cursor-pointer"
+          title="Settings"
+        >
+          <span>Settings</span>
         </button>
       </div>
 
@@ -246,6 +279,13 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
           />
         )}
       </AnimatePresence>
+
+      <SettingsPanel
+        isOpen={isSettingsOpen}
+        onClose={() => setIsSettingsOpen(false)}
+        prefs={prefs}
+        onUpdatePrefs={handleUpdatePrefs}
+      />
     </main>
     </MotionConfig>
   );

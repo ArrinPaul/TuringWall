@@ -319,8 +319,9 @@ Everything is stored locally in the player's browser (`localStorage`); there is 
 - **Leaderboard entries**: display name (blank becomes "Anonymous"), score, accuracy, best streak, tier, round count, timestamp. Names are only visible on that device. Leave the name blank to play anonymously.
 - **Concept mastery**: per-concept correct/incorrect counts, tell-identification counts, last-practiced and next-review timestamps.
 - **Missed questions**: item IDs queued for "Review missed rounds".
-- **Sound preference**: stored via the mute toggle.
-- **Reduced motion**: follows the OS `prefers-reduced-motion` setting (CSS and framer-motion); confetti is skipped when it is set.
+- **Preferences (`real-or-ai-wall:prefs:v1`)**: sound mute state, motion preference (`system` / `reduce` / `full`), and player name privacy toggle for the leaderboard.
+- **Sound preference**: persisted across reloads via preferences.
+- **Reduced motion**: customizable via the Settings dialog (system default, reduce motion, or full motion); celebratory confetti and animations respect this preference.
 - **Old records**: entries missing newer fields are read with safe defaults; clearing site data resets everything.
 
 The architecture is local-first so a future server-backed leaderboard can replace `src/leaderboard/leaderboard.ts` without touching the UI.

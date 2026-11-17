@@ -1,7 +1,13 @@
-import { describe, it, expect, vi, afterEach } from 'vitest';
-import { playTone, isSoundMuted, setSoundMuted, toggleSoundMuted } from './tone';
+import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest';
+import { playTone, isSoundMuted, setSoundMuted, toggleSoundMuted, syncSoundFromPreferences } from './tone';
+import { loadPreferences, savePreferences } from '../prefs/prefs';
 
 describe('playTone', () => {
+  beforeEach(() => {
+    localStorage.clear();
+    setSoundMuted(false);
+  });
+
   afterEach(() => {
     // @ts-expect-error cleaning up a test-only global
     delete window.AudioContext;
@@ -50,11 +56,26 @@ describe('playTone', () => {
     expect(() => playTone('incorrect')).not.toThrow();
   });
 
-  it('supports muting and unmuting', () => {
+  it('supports muting and unmuting and persists in preferences', () => {
     setSoundMuted(true);
     expect(isSoundMuted()).toBe(true);
+    expect(loadPreferences().sound).toBe(false);
+
     expect(() => playTone('correct')).not.toThrow();
+
     toggleSoundMuted();
     expect(isSoundMuted()).toBe(false);
+    expect(loadPreferences().sound).toBe(true);
+  });
+
+  it('restores sound preference across simulated reloads', () => {
+    savePreferences({
+      version: 1,
+      sound: false,
+      motion: 'system',
+      showNameOnLeaderboard: true,
+    });
+    syncSoundFromPreferences();
+    expect(isSoundMuted()).toBe(true);
   });
 });
