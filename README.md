@@ -316,13 +316,14 @@ TuringWall/
 
 Everything is stored locally in the player's browser (`localStorage`); there is no backend and nothing is sent to a server.
 
-- **Leaderboard entries**: display name (blank becomes "Anonymous"), score, accuracy, best streak, tier, round count, timestamp. Names are only visible on that device. Leave the name blank to play anonymously.
-- **Concept mastery**: per-concept correct/incorrect counts, tell-identification counts, last-practiced and next-review timestamps.
-- **Missed questions**: item IDs queued for "Review missed rounds".
+- **Leaderboard entries (`real-or-ai-wall:leaderboard:v2`)**: display name (blank becomes "Anonymous"), score, accuracy, best streak, tier, round count, timestamp. Names are only visible on that device. Leave the name blank to play anonymously.
+- **Session history (`real-or-ai-wall:sessions:v1`)**: tracks up to 200 completed and abandoned runs (status, rounds target and played, source/tell accuracy, calibration, score) to honestly measure learning drop-offs.
+- **Concept mastery (`real-or-ai-wall:mastery:v2`)**: per-concept correct/incorrect counts, tell-identification counts, last-practiced and next-review timestamps.
+- **Missed questions (`real-or-ai-wall:missed-questions:v2`)**: item IDs queued for "Review missed rounds".
 - **Preferences (`real-or-ai-wall:prefs:v1`)**: sound mute state, motion preference (`system` / `reduce` / `full`), and player name privacy toggle for the leaderboard.
 - **Sound preference**: persisted across reloads via preferences.
 - **Reduced motion**: customizable via the Settings dialog (system default, reduce motion, or full motion); celebratory confetti and animations respect this preference.
-- **Old records**: entries missing newer fields are read with safe defaults; clearing site data resets everything.
+- **Old records**: entries missing newer fields are read with safe defaults (`calibration ?? accuracy`, `conceptsMastered ?? 0`, `completed !== false`); clearing site data resets everything.
 
 The architecture is local-first so a future server-backed leaderboard can replace `src/leaderboard/leaderboard.ts` without touching the UI.
 
