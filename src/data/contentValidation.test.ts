@@ -28,7 +28,12 @@ describe('content validation', () => {
 
   it('image items carry accessible alternative text (caption)', () => {
     for (const item of ITEMS) {
-      if (item.kind === 'image') expect(item.caption.trim().length, item.id).toBeGreaterThan(10);
+      if (item.kind !== 'image') continue;
+      expect(item.caption.trim().length, item.id).toBeGreaterThan(10);
+      expect((item.alt ?? '').trim().length, `${item.id}: missing alt`).toBeGreaterThan(30);
+      expect(`${item.alt} ${item.caption}`, `${item.id}: alt/caption leaks the answer`).not.toMatch(
+        /\b(AI|generated|synthetic|digital art|hybrid|algorithmic|render(ed)?)\b/i
+      );
     }
   });
 
@@ -42,7 +47,14 @@ describe('content validation', () => {
   });
 
   it('explanations do not claim certainty', () => {
-    const banned = /\b(proves?|guarantees?|definitive(ly)?|dead giveaway|sure sign|strong human tell)\b/i;
+    const banned = /\b(proves?|guarantees?|definitive(ly)?|dead giveaway|sure sign|strong human tell|unmistakabl[ey]|genuinely human|textbook AI|classic AI|hallmarks?)\b/i;
     for (const item of ITEMS) expect(item.explanation, item.id).not.toMatch(banned);
+  });
+
+  it('has curated evidence, a tempting-reason and a counterexample on at least 45 text items', () => {
+    const enriched = ITEMS.filter(
+      (i) => i.kind === 'text' && i.evidenceHighlights?.length && i.temptingReason && i.counterexample
+    );
+    expect(enriched.length).toBeGreaterThanOrEqual(45);
   });
 });

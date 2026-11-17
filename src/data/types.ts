@@ -41,6 +41,8 @@ export interface ImageItem extends BaseItem {
   kind: 'image';
   src: string;
   caption: string;
+  /** Neutral description for screen readers. Must not reveal whether the image is AI-made. */
+  alt?: string;
   /** Attribution text, shown on reveal, only when the source license requires it (e.g. CC BY-SA). */
   credit?: string;
 }

@@ -91,6 +91,7 @@ export const RevealedPanel: React.FC<RevealedPanelProps> = ({
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (navigating) return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return; // leave browser shortcuts (Ctrl+P, Ctrl+S ...) alone
       if (e.code === 'Space' || e.code === 'Enter' || e.key === 'ArrowRight') {
         e.preventDefault();
         handleNext();
@@ -244,7 +245,7 @@ export const RevealedPanel: React.FC<RevealedPanelProps> = ({
                   ) : (
                     <img
                       src={item.src}
-                      alt={item.caption}
+                      alt={item.alt || item.caption}
                       onError={() => setThumbError(true)}
                       className="w-14 h-14 object-cover border border-panel-line"
                     />
@@ -289,13 +290,13 @@ export const RevealedPanel: React.FC<RevealedPanelProps> = ({
             </div>
 
             {/* Why the opposite answer was tempting */}
-            {conceptDetail.whyFooled && (
+            {(item.temptingReason || conceptDetail.whyFooled) && (
               <div className="pt-2 border-t border-panel-line/60">
                 <span className="block text-xs uppercase font-mono text-muted tracking-wider mb-1">
                   Why this fooled people
                 </span>
                 <p className="text-muted text-xs sm:text-sm leading-relaxed">
-                  {conceptDetail.whyFooled}
+                  {item.temptingReason || conceptDetail.whyFooled}
                 </p>
               </div>
             )}
@@ -313,13 +314,13 @@ export const RevealedPanel: React.FC<RevealedPanelProps> = ({
             )}
 
             {/* Counterexample: Context matters! */}
-            {conceptDetail.counterexample && (
+            {(item.counterexample || conceptDetail.counterexample) && (
               <div className="pt-2 border-t border-panel-line/60">
                 <span className="block text-xs uppercase font-mono text-signal tracking-wider mb-1">
                   When this signal fails (Counterexample)
                 </span>
                 <p className="text-muted text-xs sm:text-sm leading-relaxed">
-                  {conceptDetail.counterexample}
+                  {item.counterexample || conceptDetail.counterexample}
                 </p>
               </div>
             )}
