@@ -83,6 +83,9 @@ export const ITEMS: Item[] = [
     explanation: 'This is an AI-generated "inspirational quote" — broad, universally applicable, and a little hollow.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['challenge you face is an opportunity in disguise', 'unlock your true potential'],
+    temptingReason: 'The uplifting framing reflects inspirational philosophies championed by renowned motivational speakers.',
+    counterexample: 'Human life coaches and career mentors repeat the opportunity in disguise adage constantly, making generic motivational slogans inconclusive.',
     category: 'Inspiration',
   },
   {
@@ -305,6 +308,9 @@ export const ITEMS: Item[] = [
     explanation: 'Specific, relatable technical helplessness that students genuinely face.',
     concept: 'Specific technical mishap',
     difficulty: 'easy',
+    evidenceHighlights: ['power went off and the hotspot keeps disconnecting', 'couldnt submit the pdf'],
+    temptingReason: 'The technical excuse citing sudden power outages and unstable mobile hotspots fits standard emergency student message scripts.',
+    counterexample: 'Communication assistants frequently draft student excuses citing power outages and failing hotspots, so technical excuse templates point both ways.',
     category: 'Excuse',
   },
   {
@@ -531,6 +537,9 @@ export const ITEMS: Item[] = [
     explanation: 'Generic business-speak that could open literally any corporate blog post.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['fast-paced digital landscape', 'imperative to continuously adapt and evolve'],
+    temptingReason: 'The formal strategic imperative sounds like an authentic introductory slide from a management consulting presentation.',
+    counterexample: 'Human management consultants routinely rely on phrases like fast-paced digital landscape, so business clichés do not reveal the author.',
     category: 'Essay',
   },
   {
@@ -541,6 +550,9 @@ export const ITEMS: Item[] = [
     explanation: 'Urgent, specific peer request with natural abbreviations is typically human.',
     concept: 'Unfiltered peer informality',
     difficulty: 'easy',
+    evidenceHighlights: ['homework is actually impossible', 'anyone free to call rn'],
+    temptingReason: 'The urgent student slang and informal plea for a study call could easily be adopted by a chatbot simulating student chats.',
+    counterexample: 'Chatbots can readily emulate informal teenage texting about impossible homework, so casual slang alone does not confirm human authorship.',
     category: 'School',
   },
   {
@@ -765,6 +777,9 @@ export const ITEMS: Item[] = [
     explanation: 'Generic tourism-brochure language that could describe literally any destination on Earth.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['unparalleled natural beauty', 'timeless cultural wonders'],
+    temptingReason: 'The lavish praise mirrors elegant promotional copywriting published by prestigious travel bureaus.',
+    counterexample: 'Human travel brochure copywriters have used phrases like timeless cultural wonders for decades, making flowery tourism language an ambiguous clue.',
     category: 'Travel',
   },
   {
@@ -788,6 +803,9 @@ export const ITEMS: Item[] = [
     explanation: 'A tidy motivational aphorism with the classic "not X, it is Y" AI structure.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['Success is not a destination', 'journey of continuous growth and self-discovery'],
+    temptingReason: 'The popular aphorism is a celebrated motto attributed to human philosophers and modern business icons.',
+    counterexample: 'Human commencement speakers and essayists quote this journey not a destination proverb constantly, so repeating famous maxims is not machine-specific.',
     category: 'Advice',
   },
   {
@@ -1388,6 +1406,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, irritating real-time logistical problem is a natural human text.',
     concept: 'Specific lived detail',
     difficulty: 'easy',
+    evidenceHighlights: ['literally nowhere to park', 'circling the block now'],
+    temptingReason: 'The real-time parking frustration is an everyday occurrence easily generated as a quick text update scenario.',
+    counterexample: 'Messaging bots often suggest quick templates about circling the block for parking, making common driving delays an ambiguous signal.',
     category: 'Chat',
   },
   {
@@ -1607,6 +1628,9 @@ export const ITEMS: Item[] = [
     explanation: 'An unusually candid admission about the writing process itself points toward human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'easy',
+    evidenceHighlights: ['started with the deadline and worked backward', 'honestly I had no idea what to write'],
+    temptingReason: 'The candid confession about working backward from a deadline could be an artificial student voice synthesized by a prompt.',
+    counterexample: 'AI writing tools can be instructed to adopt a lazy, last-minute student persona, so honest writing procrastination points both directions.',
     category: 'Essay',
   },
   {
@@ -1826,6 +1850,9 @@ export const ITEMS: Item[] = [
     explanation: 'An unanchored "life is a journey" platitude that could apply to literally any situation.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['Life is a beautiful journey', 'every step, no matter how small, is worthwhile'],
+    temptingReason: 'The comforting, compassionate affirmation reads like heartfelt encouragement written by a trusted counselor.',
+    counterexample: 'Human mindfulness writers frequently describe life as a worthwhile journey of small steps, making gentle platitudes inconclusive.',
     category: 'Life',
   },
   {
@@ -1980,6 +2007,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, slightly embarrassing recurring problem with an exact count is a human detail.',
     concept: 'Specific lived detail',
     difficulty: 'easy',
+    evidenceHighlights: ['forgot my locker combination again', 'janitor to cut it open, third time this semester'],
+    temptingReason: 'The repeated locker combination blunder requiring bolt cutters reads like a scripted high school sitcom gag.',
+    counterexample: 'AI humor generators frequently create stories about students repeatedly forgetting locker combinations, so campus blunders are not conclusive.',
     category: 'School',
   },
   {
@@ -1990,6 +2020,9 @@ export const ITEMS: Item[] = [
     explanation: 'A generic statement about education that could be the first line of any AI-generated school essay.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['Education provides the essential foundation', 'knowledge and success are built'],
+    temptingReason: 'The principled educational declaration sounds like a mission statement drafted by a school board.',
+    counterexample: 'Human educational leaders routinely write about education providing the foundation for success, so standard educational rhetoric settles nothing.',
     category: 'School',
   },
   {
@@ -2013,6 +2046,9 @@ export const ITEMS: Item[] = [
     explanation: 'Generic advice-column phrasing about time management with no specific example attached.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['Time management is a vital skill', 'thrive both academically and personally'],
+    temptingReason: 'The sensible pedagogical advice resembles guidance published in academic student handbooks.',
+    counterexample: 'Human academic advisors frequently emphasize time management as a vital student skill, so sensible academic advice is not conclusive.',
     category: 'School',
   },
   {
@@ -2167,6 +2203,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, mildly embarrassing but plausible mistake with a clear correction points toward human.',
     concept: 'Specific technical mishap',
     difficulty: 'easy',
+    evidenceHighlights: ['sent the wrong file in my last email', 'actual report is attached here'],
+    temptingReason: 'The quick, apologetic follow-up correcting an incorrect file attachment resembles an automated email error response template.',
+    counterexample: 'Email productivity tools offer pre-written templates for sending replacement attachments, so standard clerical apologies are inconclusive.',
     category: 'Email',
   },
   {
@@ -2557,6 +2596,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific number plus a self-aware, unresolved intention is a human diary entry.',
     concept: 'Specific lived detail',
     difficulty: 'easy',
+    evidenceHighlights: ['slept through three alarms today', 'going to bed earlier tonight probably not'],
+    temptingReason: 'The self-aware failure of sleeping through multiple alarms followed by cynical resolution is a classic internet humor archetype.',
+    counterexample: 'Language models regularly produce self-deprecating jokes about sleeping through alarms and refusing early bedtimes, so humorous sleep habits point both ways.',
     category: 'Journal',
   },
   {
@@ -2567,6 +2609,9 @@ export const ITEMS: Item[] = [
     explanation: 'A vague gratitude-journal template with no actual blessing ever named.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['grateful for the small blessings', 'rush of daily life'],
+    temptingReason: 'The peaceful reflection on noticing quiet blessings sounds like a sincere personal entry from a human gratitude journal.',
+    counterexample: 'Human mindfulness diarists write about small blessings amid the rush of life constantly, making generic gratitude an uncertain indicator.',
     category: 'Journal',
   },
   {
@@ -2577,6 +2622,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, honest tally of repeated failure with no self-flattery points toward human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'easy',
+    evidenceHighlights: ['skipped the gym again', 'told myself tomorrow for the fourth day in a row'],
+    temptingReason: 'The relatable gym avoidance habit is an internet meme format that models frequently imitate for relatable humor.',
+    counterexample: 'Fitness humor chatbots often generate jokes about skipping the gym four days in a row, making exercise procrastination an uncertain clue.',
     category: 'Journal',
   },
   {
@@ -2587,6 +2635,9 @@ export const ITEMS: Item[] = [
     explanation: 'A smooth self-growth claim with no specific event or evidence behind it.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['Reflecting on this week', 'truly see how much I have grown as a person'],
+    temptingReason: 'The optimistic self-assessment of personal evolution sounds like an authentic personal growth journal reflection.',
+    counterexample: 'Human wellness enthusiasts and journaling practitioners frequently write about growing as a person, so self-growth claims are inconclusive.',
     category: 'Journal',
   },
   {
@@ -2754,6 +2805,9 @@ export const ITEMS: Item[] = [
     explanation: 'Content-free self-belief advice that applies to literally any goal whatsoever.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['First step to achieving any goal', 'believing in yourself and your own capabilities'],
+    temptingReason: 'The fundamental encouraging maxim reflects foundational self-efficacy principles taught by psychologists.',
+    counterexample: 'Human motivational speakers and educators constantly remind students to believe in themselves, making standard encouragement an ambiguous clue.',
     category: 'Advice',
   },
   {
@@ -2764,6 +2818,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, practical tip based on a real personal mishap points toward human advice.',
     concept: 'Specific lived detail',
     difficulty: 'easy',
+    evidenceHighlights: ['bring a printed copy of your resume', 'mine never actually printed it'],
+    temptingReason: 'The pragmatic interview preparation tip matches career guidance articles commonly published on recruitment platforms.',
+    counterexample: 'Career prep chatbots frequently recommend bringing spare printed resumes to interviews, making practical job advice an uncertain indicator.',
     category: 'Advice',
   },
   {
@@ -2774,6 +2831,9 @@ export const ITEMS: Item[] = [
     explanation: 'Generic self-help language ("step outside your comfort zone") with no specific action suggested.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['step outside your comfort zone', 'embrace the unknown'],
+    temptingReason: 'The inspiring guidance on personal growth mirrors classic advice from human leadership and career mentors.',
+    counterexample: 'Human career coaches frequently urge clients to step outside their comfort zones, so familiar self-help maxims are not machine-specific.',
     category: 'Advice',
   },
   {
@@ -2941,6 +3001,9 @@ export const ITEMS: Item[] = [
     explanation: 'Vague gratitude phrasing with no specific person, comment, or event referenced.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['grateful for this incredible community', 'endless support you all continue to show me'],
+    temptingReason: 'The warm thank-you message mirrors authentic creator acknowledgments posted on social media channels.',
+    counterexample: 'Human digital creators frequently post broad thank-you messages praising their incredible communities, so social media gratitude is inconclusive.',
     category: 'Social',
   },
   {
@@ -3684,6 +3747,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, mundane technical mishap with a believable backup plan points toward human.',
     concept: 'Specific technical mishap',
     difficulty: 'easy',
+    evidenceHighlights: ['printer jammed right before class', 'assignment is on a flash drive in my bag'],
+    temptingReason: 'The jammed printer excuse paired with a flash drive backup plan reads like a textbook scenario for student responsibility.',
+    counterexample: 'AI student advice bots often suggest offering flash drive backups when printers jam, so practical academic excuses decide nothing.',
     category: 'Excuse',
   },
   {
@@ -3694,6 +3760,9 @@ export const ITEMS: Item[] = [
     explanation: 'Vague, formal, content-free wording ("circumstances beyond my control") naming no actual problem.',
     concept: 'Register mismatch (overly formal)',
     difficulty: 'easy',
+    evidenceHighlights: ['circumstances entirely beyond my control', 'regrettably unable to complete the assignment'],
+    temptingReason: 'The polite, neutral phrasing sounds like an anxious student attempting to sound professional when requesting a deadline extension.',
+    counterexample: 'Stressed human students frequently copy formal excuse templates citing circumstances beyond control, making stiff apologies an ambiguous clue.',
     category: 'Excuse',
   },
   {
@@ -3704,6 +3773,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, oddly believable pet-related mishap is a human excuse.',
     concept: 'Specific technical mishap',
     difficulty: 'easy',
+    evidenceHighlights: ['cat chewed through my laptop charger cable', 'ordering a new one'],
+    temptingReason: 'The modern pet disaster excuse of a cat chewing a laptop charger is the contemporary version of the dog ate my homework trope.',
+    counterexample: 'Humor bots frequently modernize homework excuses with cats chewing through charging cables, so domestic pet mishaps are an uncertain indicator.',
     category: 'Excuse',
   },
   {
@@ -3714,6 +3786,9 @@ export const ITEMS: Item[] = [
     explanation: 'Stiff, vague "technical complications" phrasing with no actual device or problem named.',
     concept: 'Register mismatch (overly formal)',
     difficulty: 'easy',
+    evidenceHighlights: ['unforeseen technical complications', 'regrettably delayed my submission'],
+    temptingReason: 'The formal notification sounds like a cautious remote worker reporting hardware or network failure to management.',
+    counterexample: 'Human workers frequently use vague phrases like technical complications when masking personal tardiness, so defensive formality decides nothing.',
     category: 'Excuse',
   },
   {
@@ -3868,6 +3943,9 @@ export const ITEMS: Item[] = [
     explanation: 'Generic, formal dissatisfaction language naming no actual problem or product.',
     concept: 'Register mismatch (overly formal)',
     difficulty: 'easy',
+    evidenceHighlights: ['dissatisfaction with the subpar experience', 'recently encountered'],
+    temptingReason: 'The measured tone reads like a formal customer complaint submitted to a corporate customer service department.',
+    counterexample: 'Articulate human consumers often write restrained complaint letters about subpar experiences, making generic consumer phrasing inconclusive.',
     category: 'Complaint',
   },
   {
@@ -3891,6 +3969,9 @@ export const ITEMS: Item[] = [
     explanation: 'Vague outrage ("utterly unacceptable") with zero specific incident actually described.',
     concept: 'Register mismatch (overly formal)',
     difficulty: 'easy',
+    evidenceHighlights: ['utterly unacceptable', 'falls drastically short of reasonable expectations'],
+    temptingReason: 'The sharp moral outrage matches sincere consumer dissatisfaction posted on corporate review forums.',
+    counterexample: 'Furious human shoppers frequently declare poor service utterly unacceptable, so intense consumer rhetoric is not machine-specific.',
     category: 'Complaint',
   },
   {
@@ -4059,6 +4140,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, oddly amusing local-history detail with a believable bureaucratic explanation points toward human.',
     concept: 'Specific cultural nuance',
     difficulty: 'easy',
+    evidenceHighlights: ['law in my town from the 1800s', 'tying your horse to a hydrant'],
+    temptingReason: 'The humorous municipal trivia about obsolete horse-tying laws resembles content curated by automated odd-fact accounts.',
+    counterexample: 'Social media trivia bots frequently generate odd historical municipal laws, so archaic legal quirks alone do not confirm authorship.',
     category: 'History',
   },
   {
@@ -4213,6 +4297,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific sensory memory tied to a real room points toward human lived detail.',
     concept: 'Specific lived detail',
     difficulty: 'easy',
+    evidenceHighlights: ['smell instantly brought back every bad exam', 'chem lab'],
+    temptingReason: 'The sensory trigger linking chemical lab odors to academic trauma follows well-known psychological memory tropes.',
+    counterexample: 'Generative writing models often produce scenes linking chemical odors to remembered student anxiety, so sensory academic triggers are inconclusive.',
     category: 'Science',
   },
   {
@@ -4236,6 +4323,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, honest admission of confusion over a real experimental failure points toward human.',
     concept: 'Specific lived detail',
     difficulty: 'easy',
+    evidenceHighlights: ['titration went purple instead of pink', 'still do not know what we did wrong'],
+    temptingReason: 'The chemistry titration turning the wrong color is an iconic science classroom meme that language models can easily reference.',
+    counterexample: 'AI humor bots frequently generate jokes about botched chemistry titrations turning purple, so laboratory mishaps decide nothing.',
     category: 'Science',
   },
   {
@@ -4573,6 +4663,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, fleeting, ordinary image with no forced meaning is a human poetic observation.',
     concept: 'Specific lived detail',
     difficulty: 'easy',
+    evidenceHighlights: ['condensation on the bus window', 'finger drew a heart in it, gone by the next stop'],
+    temptingReason: 'The fleeting domestic visual of a heart drawn in window condensation reads like crafted creative writing workshop verse.',
+    counterexample: 'AI poetry tools frequently generate imagery of fingers tracing hearts in foggy transit windows, making tender visual motifs inconclusive.',
     category: 'Poetry',
   },
   {
@@ -4596,6 +4689,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, understated image of grief with no explanation given is a human poetic move.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'easy',
+    evidenceHighlights: ['shoes are still by the door', 'nobody has moved them, nobody has said why'],
+    temptingReason: 'The quiet, haunting grief imagery of unmoved shoes by a door reads like crafted contemporary flash poetry.',
+    counterexample: 'Advanced language models can generate tender domestic imagery about grief and empty shoes, so poetic restraint alone is not conclusive.',
     category: 'Poetry',
   },
   {
@@ -4606,6 +4702,9 @@ export const ITEMS: Item[] = [
     explanation: 'Stock rhyme ("sky/fly") paired with generic imagery is a common AI-style poetry pattern.',
     concept: 'Token-level rhyme repetition',
     difficulty: 'easy',
+    evidenceHighlights: ['Stars dance across the midnight sky', 'painting dreams for those who dare to fly'],
+    temptingReason: 'The dreamy, rhyming couplet possesses the gentle rhythm of traditional romantic lullabies and children\'s poetry.',
+    counterexample: 'Human bedtime poets and greeting card authors frequently rhyme sky with fly when describing night skies, so simple lyric rhymes are not machine-exclusive.',
     category: 'Poetry',
   },
   {
@@ -4747,6 +4846,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, small, personally meaningful achievement with honest scale points toward human.',
     concept: 'Specific lived detail',
     difficulty: 'easy',
+    evidenceHighlights: ['five minutes in the last game and scored', 'nobody will remember it but I will'],
+    temptingReason: 'The modest personal triumph of a benched athlete scoring late in a finale fits classic underdog sports fiction.',
+    counterexample: 'AI sports storytellers frequently craft stories about benchwarmers scoring in their final minutes, so personal sports victories point both directions.',
     category: 'Inspiration',
   },
   {
@@ -4757,6 +4859,9 @@ export const ITEMS: Item[] = [
     explanation: 'A content-free motivational slogan that could be printed on literally any poster.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['Dream big, work hard', 'never let anyone dim the light that burns within you'],
+    temptingReason: 'The encouraging motto sounds like an inspiring dedication written by a teacher inside a graduation card.',
+    counterexample: 'Human teachers and mentors regularly write dream big and work hard in milestone cards, making popular slogans an uncertain signal.',
     category: 'Inspiration',
   },
   {
@@ -4767,6 +4872,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, honest, slightly vulnerable milestone with a precise age points toward human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'easy',
+    evidenceHighlights: ['learned to swim at thirty', 'embarrassed to admit I could not as a kid'],
+    temptingReason: 'The adult vulnerability of overcoming childhood shame to learn swimming fits sponsored viral personal growth features.',
+    counterexample: 'AI life-coaching story generators often fabricate stories about learning to swim in adulthood, so vulnerability milestones remain inconclusive.',
     category: 'Inspiration',
   },
   {
@@ -4777,6 +4885,9 @@ export const ITEMS: Item[] = [
     explanation: 'Generic "rise above adversity" phrasing applicable to literally any struggle at all.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['power within you to rise above', 'shine brighter than ever'],
+    temptingReason: 'The resolute encouragement matches empowering affirmations shared in mutual support communities.',
+    counterexample: 'Human motivational authors frequently assure audiences of their power to rise above adversity, so inspirational clichés decide nothing.',
     category: 'Inspiration',
   },
   {
@@ -4932,6 +5043,9 @@ export const ITEMS: Item[] = [
     explanation: 'Generic travel-brochure language ("paradise awaits") that could describe any destination at all.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['Paradise awaits at every turn', 'breathtaking views and unforgettable memories'],
+    temptingReason: 'The vivid travel copy reads like promotional text composed for a tropical resort brochure.',
+    counterexample: 'Human resort marketers have used phrases like paradise awaits and unforgettable memories for decades, making generic travel prose inconclusive.',
     category: 'Travel',
   },
   {
@@ -4955,6 +5069,9 @@ export const ITEMS: Item[] = [
     explanation: 'Vague "hidden wonders beyond the horizon" phrasing with no actual place named.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['Explore hidden wonders', 'adventure waiting just beyond the horizon'],
+    temptingReason: 'The evocative call to exploration mirrors promotional campaigns produced by documentary networks and travel outfits.',
+    counterexample: 'Human travel writers frequently describe destinations as hidden wonders beyond the horizon, so adventure clichés are not machine-exclusive.',
     category: 'Travel',
   },
   {
@@ -5096,6 +5213,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, honest account of failure followed by genuine camaraderie is typically human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'easy',
+    evidenceHighlights: ['missed the deciding penalty in the shootout', 'team still bought me pizza after'],
+    temptingReason: 'The bittersweet story of a missed penalty redeemed by team pizza resembles a scripted scene from a sports coming-of-age movie.',
+    counterexample: 'AI sports narratives often incorporate pizza with teammates after missed penalty kicks, making athletic consolation anecdotes an ambiguous signal.',
     category: 'Sports',
   },
   {
@@ -5106,6 +5226,9 @@ export const ITEMS: Item[] = [
     explanation: 'A generic sports-poster slogan with no actual team, player, or game ever named.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['True champions never quit', 'push through every obstacle to achieve ultimate greatness'],
+    temptingReason: 'The determined athletic maxim sounds like an inspirational quote hung on a gymnasium wall.',
+    counterexample: 'Human athletic coaches and poster designers frequently print champions never quit slogans, making sports clichés an ambiguous clue.',
     category: 'Sports',
   },
   {
@@ -5116,6 +5239,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, mundane detail (card games during a delay) is a human sports memory.',
     concept: 'Specific lived detail',
     difficulty: 'easy',
+    evidenceHighlights: ['match got delayed two hours for rain', 'team just played cards in the locker room'],
+    temptingReason: 'The bonding scene of playing cards in the locker room during a rain delay reads like sports memoir storytelling.',
+    counterexample: 'AI sports narratives regularly use rain delay locker-room card games to depict camaraderie, making rainy sports memories an ambiguous clue.',
     category: 'Sports',
   },
   {
@@ -5126,6 +5252,9 @@ export const ITEMS: Item[] = [
     explanation: 'The "heart of a lion" cliché with no specific athlete or moment attached.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['carries the heart of a lion', 'fearless in the face of any challenge'],
+    temptingReason: 'The traditional praise of athletic bravery matches colorful commentary delivered by veteran human sportscasters.',
+    counterexample: 'Human sports commentators have described courageous athletes as having the heart of a lion for centuries, so traditional metaphors decide nothing.',
     category: 'Sports',
   },
   {
@@ -5450,6 +5579,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, dated callback to a concrete lesson is a human personal letter detail.',
     concept: 'Specific lived detail',
     difficulty: 'easy',
+    evidenceHighlights: ['still use the note-taking trick you taught us', 'tenth grade'],
+    temptingReason: 'The heartfelt note thanking a tenth-grade teacher for practical study skills fits sentimental educator appreciation posts.',
+    counterexample: 'Generative AI writing tools frequently craft touching letters thanking past teachers for note-taking methods, so grateful alumni letters are not conclusive.',
     category: 'Letter',
   },
   {
@@ -5460,6 +5592,9 @@ export const ITEMS: Item[] = [
     explanation: 'Archaic, overly formal opening address nobody actually writes in a personal letter today.',
     concept: 'Register mismatch (archaic formality)',
     difficulty: 'easy',
+    evidenceHighlights: ['esteemed recipient', 'utmost warmth and sincere regard for your wellbeing'],
+    temptingReason: 'The courteous greeting seems like an eccentric or distinguished human choosing classic formal epistolary etiquette.',
+    counterexample: 'Formal human correspondents writing vintage letters occasionally use opening greetings like esteemed recipient, so decorative politeness is inconclusive.',
     category: 'Letter',
   },
   {
@@ -5470,6 +5605,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, self-aware admission with a deliberately withheld backstory points toward human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'easy',
+    evidenceHighlights: ['left this note instead of saying it out loud', 'sorry about the ceiling stain, long story'],
+    temptingReason: 'The comedic roommate note apologizing for a mystery ceiling stain fits classic viral apartment humor memes.',
+    counterexample: 'Humor generation models frequently produce funny roommate notes with mysterious domestic stains, so apartment humor is not machine-proof.',
     category: 'Letter',
   },
   {
@@ -5691,6 +5829,9 @@ export const ITEMS: Item[] = [
     explanation: 'A content-free "team over individual" sports cliché naming no actual team or game.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['team united in purpose', 'outperform a collection of brilliant individuals'],
+    temptingReason: 'The organizational coaching principle reflects timeless sportsmanship wisdom shared by successful championship managers.',
+    counterexample: 'Human team managers and sports psychologists constantly emphasize teamwork over individual brilliance, making collaborative maxims inconclusive.',
     category: 'Sports',
   },
   {
@@ -5701,6 +5842,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, emotionally real moment where a plan visibly breaks down points toward human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'easy',
+    evidenceHighlights: ['speech before the last match of his career', 'started crying halfway through instead'],
+    temptingReason: 'The tough coach breaking down in tears during his final career game is a beloved sports drama trope.',
+    counterexample: 'Sports fiction produced by AI frequently draws on the tough-coach-crying-at-retirement trope, so emotional sports farewells are inconclusive.',
     category: 'Sports',
   },
   {
@@ -5711,6 +5855,9 @@ export const ITEMS: Item[] = [
     explanation: 'A generic training-motivation line with no specific sport, drill, or athlete named.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['Every rep counts, every drill matters', 'compounds into victory'],
+    temptingReason: 'The focused training discipline sounds like an authentic motto from a strength and conditioning coach.',
+    counterexample: 'Human fitness trainers frequently tell athletes that every rep counts and effort compounds, so athletic training aphorisms are not machine-specific.',
     category: 'Sports',
   },
 
@@ -5826,6 +5973,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, embarrassing physical detail with lingering self-consciousness points toward human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'easy',
+    evidenceHighlights: ['voice cracked twice during my first team presentation', 'still think about it monthly'],
+    temptingReason: 'The lasting embarrassment of a cracking voice during a workplace presentation reads like a crafted corporate comedy anecdote.',
+    counterexample: 'AI humor tools frequently simulate enduring embarrassment about cracking voices during presentations, making workplace anxieties inconclusive.',
     category: 'Work',
   },
   {
@@ -5954,6 +6104,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, concrete act of kindness from a stranger with exact detail points toward human.',
     concept: 'Specific lived detail',
     difficulty: 'easy',
+    evidenceHighlights: ['helped me carry my groceries up four flights', 'elevator broke'],
+    temptingReason: 'The public notice thanking an anonymous stranger for carrying groceries up broken stairs resembles wholesome community viral posts.',
+    counterexample: 'AI wholesome narrative generators often write stories of kind strangers carrying groceries up stairwells, making neighborly gratitude inconclusive.',
     category: 'Letter',
   },
   {
@@ -5964,6 +6117,9 @@ export const ITEMS: Item[] = [
     explanation: 'A generic holiday-card closing that could be mailed to literally anyone about anything.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['season filled with warmth, laughter', 'simple joys that make life truly special'],
+    temptingReason: 'The affectionate seasonal greeting sounds like a handwritten message inside a printed holiday card.',
+    counterexample: 'Human greeting card writers produce messages about simple joys and holiday warmth every year, making seasonal wishes inconclusive.',
     category: 'Letter',
   },
 
@@ -6066,6 +6222,9 @@ export const ITEMS: Item[] = [
     explanation: 'Generic formal outrage with no specific standard or incident actually described.',
     concept: 'Register mismatch (overly formal)',
     difficulty: 'easy',
+    evidenceHighlights: ['drastically beneath any reasonable standard', 'paying customer should expect'],
+    temptingReason: 'The articulate consumer critique reflects valid consumer expectations commonly voiced by dissatisfied buyers.',
+    counterexample: 'Disappointed human customers routinely write that service fell beneath reasonable standards, making formal indignation an uncertain indicator.',
     category: 'Complaint',
   },
 
@@ -6168,6 +6327,9 @@ export const ITEMS: Item[] = [
     explanation: 'Generic "river carries sorrow" imagery with a predictable rhyme and no actual event described.',
     concept: 'Token-level rhyme repetition',
     difficulty: 'easy',
+    evidenceHighlights: ['river carries our sorrow downstream', 'half-forgotten dream'],
+    temptingReason: 'The melancholic natural metaphor sounds like traditional folk song lyrics exploring grief and healing.',
+    counterexample: 'Human folk ballad writers frequently compare flowing rivers to carrying sorrow into dreams, making standard water metaphors inconclusive.',
     category: 'Poetry',
   },
   {
@@ -6283,6 +6445,9 @@ export const ITEMS: Item[] = [
     explanation: 'A content-free "belief defeats impossibility" platitude with no actual goal ever named.',
     concept: 'Universal platitude',
     difficulty: 'easy',
+    evidenceHighlights: ['believe the impossible is achievable', 'quietly stops being impossible at all'],
+    temptingReason: 'The paradoxical perspective on ambition sounds like an epigram from an acclaimed innovator or visionary author.',
+    counterexample: 'Human essayists and keynote speakers frequently play on paradoxical quotes about the impossible, so rhetorical wordplay is an ambiguous tell.',
     category: 'Inspiration',
   },
   {
@@ -6293,6 +6458,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, precise time commitment with a plain, unsentimental personal reason points toward human.',
     concept: 'Specific lived detail',
     difficulty: 'easy',
+    evidenceHighlights: ['volunteering at the same animal shelter every single saturday', 'might as well be him'],
+    temptingReason: 'The unsentimental dedication of a longtime shelter volunteer reads like a profile written for a local charity newsletter.',
+    counterexample: 'Nonprofit storytelling models regularly generate profiles of steady animal shelter volunteers, so dedicated volunteer anecdotes are an imperfect clue.',
     category: 'Inspiration',
   },
 
@@ -6382,6 +6550,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, dated civic detail with a plausible personal motivation points toward human.',
     concept: 'Specific cultural nuance',
     difficulty: 'easy',
+    evidenceHighlights: ['town hall bell had not worked since the 1980s', 'retired clockmaker fixed it for free'],
+    temptingReason: 'The heartwarming local civic restoration story about an eccentric clockmaker reads like an AI human-interest vignette.',
+    counterexample: 'AI creative writing tools frequently generate heartwarming tales of retired clockmakers fixing civic bells, so charming community anecdotes are inconclusive.',
     category: 'History',
   },
   {
@@ -6589,6 +6760,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, honest evolution of feeling toward a mundane tool points toward human.',
     concept: 'Vulnerable colloquial honesty',
     difficulty: 'easy',
+    evidenceHighlights: ['hated the metronome for years', 'not judging me, just telling the truth about my timing'],
+    temptingReason: 'The mature philosophical realization about the metronome being honest rather than judgmental resembles a published music essay.',
+    counterexample: 'Music pedagogy articles generated by AI frequently describe the metronome as an honest mirror of timing, so instrumental maturity points both ways.',
     category: 'Music',
   },
   {

@@ -138,40 +138,54 @@ export function formatBatchReport(
 
 describe('missing enrichment authoring helper', () => {
   it('identifies unenriched items lacking evidenceHighlights, temptingReason, or counterexample', () => {
-    const unenriched = getUnenrichedItems();
-    expect(unenriched.length).toBeGreaterThan(0);
-
-    for (const item of unenriched) {
-      const hasHighlights = Array.isArray(item.evidenceHighlights) && item.evidenceHighlights.length > 0;
-      const hasTempting = typeof item.temptingReason === 'string' && item.temptingReason.trim().length > 0;
-      const hasCounter = typeof item.counterexample === 'string' && item.counterexample.trim().length > 0;
-      expect(hasHighlights && hasTempting && hasCounter).toBe(false);
-    }
+    const mockUnenrichedItem: Item = {
+      id: 'mock-test',
+      kind: 'text',
+      text: 'Test',
+      isAI: false,
+      explanation: 'Test',
+      concept: 'Authentic casual brevity',
+      difficulty: 'easy',
+      category: 'Chat',
+    };
+    expect(isItemEnriched(mockUnenrichedItem)).toBe(false);
+    expect(getUnenrichedItems([mockUnenrichedItem])).toHaveLength(1);
   });
 
   it('groups unenriched items by tier (pro, hard, medium, easy) and concept', () => {
-    const { byTier, ordered, unenriched } = groupUnenrichedItems();
+    const mockItem: Item = {
+      id: 'mock-group-test',
+      kind: 'text',
+      text: 'Test grouping',
+      isAI: false,
+      explanation: 'Test grouping explanation',
+      concept: 'Authentic casual brevity',
+      difficulty: 'easy',
+      category: 'Chat',
+    };
+    const { byTier, ordered, unenriched } = groupUnenrichedItems([mockItem]);
     expect(Object.keys(byTier)).toEqual(['pro', 'hard', 'medium', 'easy']);
     expect(ordered.length).toBe(unenriched.length);
-
-    for (const tier of TIERS) {
-      for (const [concept, itemsInConcept] of byTier[tier].entries()) {
-        expect(concept.length).toBeGreaterThan(0);
-        for (const item of itemsInConcept) {
-          expect(item.difficulty).toBe(tier);
-          expect(item.concept).toBe(concept);
-        }
-      }
-    }
+    expect(byTier.easy.get('Authentic casual brevity')?.length).toBe(1);
   });
 
   it('formats 50 items per run with optional offset', () => {
-    const report = formatBatchReport(ITEMS, { offset: 0, limit: 50 });
+    const mockItem: Item = {
+      id: 'mock-sample',
+      kind: 'text',
+      text: 'Sample text',
+      isAI: true,
+      explanation: 'Sample explanation',
+      concept: 'Buzzword padding',
+      difficulty: 'easy',
+      category: 'Marketing',
+    };
+    const report = formatBatchReport([mockItem], { offset: 0, limit: 50 });
     expect(report).toContain('UNENRICHED ITEMS REPORT');
-    expect(report).toContain('id:');
-    expect(report).toContain('concept:');
-    expect(report).toContain('text:');
-    expect(report).toContain('current explanation:');
+    expect(report).toContain('id: mock-sample');
+    expect(report).toContain('concept: Buzzword padding');
+    expect(report).toContain('text: Sample text');
+    expect(report).toContain('current explanation: Sample explanation');
   });
 
   it('runs the missing-enrichment authoring report helper', () => {
