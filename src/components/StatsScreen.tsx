@@ -25,7 +25,8 @@ import { SignalAvatar } from './SignalAvatar';
 import { closingLine, type SignalMood } from '../character/signal';
 import { CONCEPT_DEFINITIONS, getConceptDetail, EDUCATIONAL_DISCLAIMER } from '../character/fieldGuide';
 import { loadMastery, getMasteryCounts } from '../learning/mastery';
-import { getSessionCounts } from '../learning/sessions';
+import { getSessionCounts, loadSessionHistory } from '../learning/sessions';
+import { calculateProgressComparison } from '../learning/progress';
 
 interface StatsScreenProps {
   stats: Stats;
@@ -126,6 +127,24 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
 
   const masteryCounts = getMasteryCounts(loadMastery());
   const sessionCounts = React.useMemo(() => getSessionCounts(), []);
+  const allCompletedSessions = React.useMemo(() => {
+    const history = loadSessionHistory();
+    const completed = history.filter((s) => s.status === 'completed');
+    if (isCompletedSession && completed.length > 0) {
+      return completed.slice(0, -1);
+    }
+    return completed;
+  }, [isCompletedSession]);
+  const progressComparison = hasPlayedSession
+    ? calculateProgressComparison(
+        {
+          sourceAccuracy: accuracy,
+          tellAccuracy,
+          calibration: calibrationScore,
+        },
+        allCompletedSessions
+      )
+    : null;
   const tellAnalysis = getStrongestAndWeakestTells(stats.results || []);
 
   const highConfidenceMisses = (stats.results || []).filter(
@@ -564,6 +583,39 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
                       <span className="text-[10px] text-muted">consecutive</span>
                     </div>
                   </div>
+
+                  {/* Personal Improvement Trend */}
+                  {progressComparison?.hasSufficientHistory && (
+                    <div
+                      data-testid="personal-trend"
+                      className="mt-3 p-3 bg-ink/70 border border-panel-line flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-xs font-mono"
+                    >
+                      <span className="text-signal uppercase text-[11px] tracking-wider font-semibold">
+                        You &middot; Trend vs Recent Runs
+                      </span>
+                      <div className="flex flex-wrap items-center gap-3 text-xs">
+                        <span
+                          className={
+                            (progressComparison.sourceAccuracyDelta?.delta ?? 0) >= 0
+                              ? 'text-good'
+                              : 'text-bad'
+                          }
+                        >
+                          Accuracy: {progressComparison.sourceAccuracyDelta?.formatted}
+                        </span>
+                        <span className="text-panel-line hidden sm:inline">|</span>
+                        <span
+                          className={
+                            (progressComparison.calibrationDelta?.delta ?? 0) >= 0
+                              ? 'text-good'
+                              : 'text-bad'
+                          }
+                        >
+                          Calibration: {progressComparison.calibrationDelta?.formatted}
+                        </span>
+                      </div>
+                    </div>
+                  )}
 
                   {/* Strongest & Weakest Tells */}
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
