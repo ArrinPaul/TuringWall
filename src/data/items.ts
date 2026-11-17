@@ -190,6 +190,9 @@ export const ITEMS: Item[] = [
     explanation: 'Buzzwords like "seamless" and impossible claims like "zero overhead" are common in LLM docstrings — a clue, not proof.',
     concept: 'Hallucinated/impossible claims',
     difficulty: 'pro',
+    evidenceHighlights: ['seamless asynchronous bidirectional event aggregation', 'zero overhead'],
+    temptingReason: 'The dense technical terminology reads like an ambitious open-source library or enterprise middleware spec.',
+    counterexample: 'Human software marketers and overenthusiastic maintainers also boast of zero overhead, so architectural hype is an imperfect filter.',
     category: 'Code',
   },
   {
@@ -620,6 +623,9 @@ export const ITEMS: Item[] = [
     explanation: 'Accurate and clean, but the flat textbook cadence with no personal framing or imprecision is a subtle AI tell.',
     concept: 'Hallucinated/impossible claims',
     difficulty: 'pro',
+    evidenceHighlights: ['correlation between particles that persists', 'regardless of the distance separating them'],
+    temptingReason: 'The clean, rigorous definition reads like an excerpt from a reputable physics encyclopedia or undergraduate textbook.',
+    counterexample: 'Human textbook authors write precise, impersonal scientific definitions every day, so neutral pedagogical clarity is not conclusive.',
     category: 'Essay',
   },
   {
@@ -630,6 +636,9 @@ export const ITEMS: Item[] = [
     explanation: 'Dry sarcasm aimed at a specific shared experience is a genuinely hard register for AI to land naturally.',
     concept: 'Authentic imperfection (typos/slang)',
     difficulty: 'pro',
+    evidenceHighlights: ['oh great', 'all the work alone'],
+    temptingReason: 'The relatable trope of carrying a group project feels like a prompt response an AI could easily generate.',
+    counterexample: 'AI models often mimic student complaints about group work, so relatable frustration alone points both ways.',
     category: 'School',
   },
   {
@@ -640,6 +649,9 @@ export const ITEMS: Item[] = [
     explanation: 'A confident, sweeping historical claim stated with no source or hedge — fluent but suspiciously tidy.',
     concept: 'Grand rhetorical cliché',
     difficulty: 'pro',
+    evidenceHighlights: ['did not merely spread information faster', 'reshaped how entire societies related to truth'],
+    temptingReason: 'The insightful synthesis of historical media impact resembles an academic monograph or high-end documentary.',
+    counterexample: 'Human cultural historians often frame printing revolutions with sweeping rhetorical contrasts, so grand framing alone decides nothing.',
     category: 'History',
   },
   {
@@ -1051,6 +1063,9 @@ export const ITEMS: Item[] = [
     explanation: 'An elegant, quotable distinction with no personal memory behind it — fluent but suspiciously tidy.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['does not merely record the past', 'renegotiates it with each act of recollection'],
+    temptingReason: 'The profound distinction between personal memory and formal history sounds like a celebrated philosophical essay.',
+    counterexample: 'Human philosophers and literary essayists frequently explore the reconstructive nature of memory, so aphoristic brilliance is inconclusive.',
     category: 'Essay',
   },
   {
@@ -1071,6 +1086,9 @@ export const ITEMS: Item[] = [
     explanation: 'A fluent, confident philosophical claim about consciousness stated with no citation or hedge.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['less a singular phenomenon', 'mistaking themselves for a single observer'],
+    temptingReason: 'The neurocognitive thesis reads like a quote from an influential cognitive scientist or philosopher of mind.',
+    counterexample: 'Human researchers in consciousness studies often formulate modular theories of mind this way, so academic depth remains an ambiguous signal.',
     category: 'Science',
   },
   {
@@ -1091,6 +1109,9 @@ export const ITEMS: Item[] = [
     explanation: 'A polished, universal metaphor about grief with no specific loss or person behind it.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['not a stage to pass through', 'weight the body slowly learns to carry differently'],
+    temptingReason: 'The compassionate reframing of mourning possesses the emotional weight of a seasoned grief counselor or memoirist.',
+    counterexample: 'Human essayists often write deeply empathetic metaphors about bereavement, so emotional nuance alone cannot confirm AI authorship.',
     category: 'Life',
   },
   {
@@ -1111,6 +1132,9 @@ export const ITEMS: Item[] = [
     explanation: 'A neat, quotable contrast (map vs. meaning) with no actual place or departure described.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['map can tell you where a place is', 'losing a version of yourself'],
+    temptingReason: 'The poetic juxtaposition of cartography and personal nostalgia sounds like reflective literary travel writing.',
+    counterexample: 'Human travel memoirists frequently contrast geographic coordinates with internal transformation, so romantic reflection is not unique to machines.',
     category: 'Travel',
   },
   {
@@ -1131,6 +1155,9 @@ export const ITEMS: Item[] = [
     explanation: 'A smooth, aphoristic redefinition of nostalgia with no specific memory grounding it.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['rarely about the past itself', 'about the self we were capable of being within it'],
+    temptingReason: 'The psychological observation offers a piercing insight worthy of an acclaimed essay on memory.',
+    counterexample: 'Human cultural commentators regularly analyze nostalgia as longing for a lost identity, so sharp cultural analysis is an inconclusive marker.',
     category: 'Essay',
   },
   {
@@ -1151,6 +1178,9 @@ export const ITEMS: Item[] = [
     explanation: 'A confident, literary claim about the nature of time with no scientific citation or personal anchor.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['less a measured interval', 'narrative the mind constructs to make change bearable'],
+    temptingReason: 'The philosophical exploration of temporal perception sounds like a meditation by a physicist or phenomenologist.',
+    counterexample: 'Human philosophers have analyzed subjective time as psychological narrative for centuries, making conceptual depth an uncertain tell.',
     category: 'Science',
   },
 
@@ -1308,6 +1338,9 @@ export const ITEMS: Item[] = [
     explanation: 'An unnaturally analytical breakdown of texting tone, missing any real voice.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['Having considered your message carefully', 'intended emotional register'],
+    temptingReason: 'The overly precise clarification could come from a neurodivergent or exceptionally formal human communicator.',
+    counterexample: 'Formal or neurodivergent human texters sometimes prefer explicit communication about emotional tone, so stiff phrasing is not an absolute clue.',
     category: 'Chat',
   },
   {
@@ -1462,6 +1495,9 @@ export const ITEMS: Item[] = [
     explanation: 'A smooth, quotable claim about textual silence with no actual text being discussed.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['what a text withholds', 'speaks more loudly than anything it chooses to say'],
+    temptingReason: 'The literary commentary articulates a foundational concept of close reading taught in university literature courses.',
+    counterexample: 'Human literary scholars routinely discuss subtext and textual withholding, so standard literary theory is not machine-specific.',
     category: 'Essay',
   },
   {
@@ -1482,6 +1518,9 @@ export const ITEMS: Item[] = [
     explanation: 'A tidy, quotable "not answers but questions" turn with no actual essay or writer named.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['not in the answers it provides', 'questions it dares to leave open'],
+    temptingReason: 'The thoughtful tribute to open-ended literature resonates with classic pedagogical wisdom from English professors.',
+    counterexample: 'Human educators and critics champion open-ended inquiry constantly, so familiar literary maxims do not reveal the author.',
     category: 'Essay',
   },
 
@@ -1626,6 +1665,9 @@ export const ITEMS: Item[] = [
     explanation: 'A smooth, quotable "not X nor Y but Z" identity claim with nothing specific anchoring it.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['not who we were, nor who we will be', 'somewhere unfinished in between'],
+    temptingReason: 'The existential cadence echoes inspirational quotes found in reflective journals and spiritual literature.',
+    counterexample: 'Human authors and inspirational speakers love antithetical aphorisms about personal evolution, so lyrical philosophy is an ambiguous tell.',
     category: 'Life',
   },
   {
@@ -1777,6 +1819,9 @@ export const ITEMS: Item[] = [
     explanation: 'A polished, defensible claim about grades and growth with no actual student or grade cited.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['Progress is rarely linear', 'arc of a student\'s growth'],
+    temptingReason: 'The compassionate pedagogical perspective reads like holistic feedback from an encouraging teacher.',
+    counterexample: 'Dedicated human educators often remind parents that learning is non-linear, so compassionate pedagogical framing is not machine-exclusive.',
     category: 'School',
   },
   {
@@ -1940,6 +1985,9 @@ export const ITEMS: Item[] = [
     explanation: 'An overly careful preamble before feedback that never actually says anything concrete.',
     concept: 'Overly diplomatic hedging',
     difficulty: 'pro',
+    evidenceHighlights: ['in the spirit of candor', 'mindful of its delicate context'],
+    temptingReason: 'The considerate workplace etiquette sounds like an experienced manager navigating delicate office politics.',
+    counterexample: 'Human corporate managers write cautious disclaimers before critical reviews every day, so diplomatic hedging is only a clue.',
     category: 'Email',
   },
 
@@ -2081,6 +2129,9 @@ export const ITEMS: Item[] = [
     explanation: 'A precise, specific complaint (hallway noise at a named hour) alongside genuine praise points toward human.',
     concept: 'Balanced honest nuance',
     difficulty: 'pro',
+    evidenceHighlights: ['room was clean', 'every hallway conversation at 6am'],
+    temptingReason: 'The balanced structure contrasting clean rooms with morning noise looks like a synthetic pros-and-cons summary.',
+    counterexample: 'AI review generators often simulate balanced feedback, so paired compliments and complaints suggest nuance rather than certainty.',
     category: 'Review',
   },
   {
@@ -2091,6 +2142,9 @@ export const ITEMS: Item[] = [
     explanation: 'A polished, vague critical compliment with no specific work or detail actually discussed.',
     concept: 'Overly diplomatic hedging',
     difficulty: 'pro',
+    evidenceHighlights: ['quiet confidence to this piece', 'rewards patience rather than demanding attention'],
+    temptingReason: 'The thoughtful, contemplative critique reads like an insightful essay from an established arts publication.',
+    counterexample: 'Human art and literary critics often praise subtle works using terms like quiet confidence, so aesthetic restraint does not verify the author.',
     category: 'Review',
   },
   {
@@ -2111,6 +2165,9 @@ export const ITEMS: Item[] = [
     explanation: 'A smooth, confident claim comparing to an unnamed "market" with no specific competitor cited.',
     concept: 'Overly diplomatic hedging',
     difficulty: 'pro',
+    evidenceHighlights: ['understated elegance speaks volumes', 'market saturated with needless, loud excess'],
+    temptingReason: 'The refined product evaluation echoes discerning lifestyle magazines and luxury review outlets.',
+    counterexample: 'Human design reviewers regularly contrast minimalist beauty with garish consumer goods, making understated appraisal an uncertain signal.',
     category: 'Review',
   },
 
@@ -2242,6 +2299,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, mundane memory lapse with an exact, believable timeframe points toward human.',
     concept: 'Bizarre mundane specificity',
     difficulty: 'pro',
+    evidenceHighlights: ['stood there for a solid minute', 'before remembering what'],
+    temptingReason: 'The relatable absentmindedness feels like an engineered micro-story created for social media engagement.',
+    counterexample: 'Prompted language models frequently output lighthearted relatable anecdotes, so a common brain lapse is merely a clue.',
     category: 'Journal',
   },
   {
@@ -2252,6 +2312,9 @@ export const ITEMS: Item[] = [
     explanation: 'A polished "not X but Y" healing aphorism with no specific wound or event grounding it.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['not about becoming whole again', 'live well within the pieces'],
+    temptingReason: 'The gentle therapeutic reframe resembles wisdom from a grief support author or wellness therapist.',
+    counterexample: 'Human therapists and self-help authors write comforting metaphors about brokenness constantly, making therapeutic imagery inconclusive.',
     category: 'Journal',
   },
   {
@@ -2406,6 +2469,9 @@ export const ITEMS: Item[] = [
     explanation: 'A smooth, quotable redefinition of wisdom with no personal story anchoring it.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['less about accumulating experience', 'courage to be transformed by it'],
+    temptingReason: 'The philosophical insight sounds like an epigram from an Eastern philosopher or elder mentor.',
+    counterexample: 'Human essayists and mentors frequently distinguish raw experience from true transformation, so sage aphorisms point both directions.',
     category: 'Advice',
   },
   {
@@ -2550,6 +2616,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, dated, mildly panicked reaction to an old photo points toward human.',
     concept: 'Messy real-life specificity',
     difficulty: 'pro',
+    evidenceHighlights: ['photo from 2016', 'untagging has never felt so urgent'],
+    temptingReason: 'The comedic social media dilemma is a familiar genre of post that could easily be synthesized by an AI.',
+    counterexample: 'Models trained on internet humor can readily simulate social media panic about old photos, so comedic timing alone is not conclusive.',
     category: 'Social',
   },
   {
@@ -2718,6 +2787,9 @@ export const ITEMS: Item[] = [
     explanation: 'Wine-review jargon ("terroir", "unrepeatable") applied with no actual vineyard or year specified.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['true expression of terroir', 'soil and climate converge into something unrepeatable'],
+    temptingReason: 'The technical viticultural appraisal reads like tasting notes penned by a certified master sommelier.',
+    counterexample: 'Human sommeliers and wine critics routinely romanticize terroir and microclimates, so specialized wine terminology is an imperfect test.',
     category: 'Food',
   },
   {
@@ -2728,6 +2800,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, mundane, self-aware disaster with a dry punchline points toward human.',
     concept: 'Bizarre mundane specificity',
     difficulty: 'pro',
+    evidenceHighlights: ['smoke detector making toast', 'bar for disaster in my kitchen is apparently very low'],
+    temptingReason: 'The punchy self-deprecating punchline about kitchen disasters reads like polished comedic writing.',
+    counterexample: 'Chatbots readily produce self-deprecating domestic jokes, meaning punchy humor by itself is inconclusive.',
     category: 'Food',
   },
   {
@@ -2738,6 +2813,9 @@ export const ITEMS: Item[] = [
     explanation: 'Dense, technical flavor-description language with no actual dish or ingredient named.',
     concept: 'Flowery sensory padding',
     difficulty: 'pro',
+    evidenceHighlights: ['Layers of umami depth', 'rewards a patient palate'],
+    temptingReason: 'The sophisticated culinary vocabulary sounds like an excerpt from a professional restaurant critic or gastronomic magazine.',
+    counterexample: 'Human food critics frequently rely on elevated sensory metaphors, so culinary flourish alone does not indicate automated prose.',
     category: 'Food',
   },
 
@@ -2855,6 +2933,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, self-aware long-term compromise with an exact timeframe points toward human.',
     concept: 'Candid developer voice',
     difficulty: 'pro',
+    evidenceHighlights: ['held together with duct tape', 'that ticket is two years old'],
+    temptingReason: 'Jokes about duct tape and neglected backlog tickets are widespread internet developer tropes that models can imitate.',
+    counterexample: 'Modern code assistants frequently generate cynical developer banter when asked, so tech cynicism is not an absolute indicator.',
     category: 'Code',
   },
   {
@@ -2865,6 +2946,9 @@ export const ITEMS: Item[] = [
     explanation: 'A confident, unfalsifiable claim about catching issues "before they ever surface" is an AI overreach tell.',
     concept: 'Hallucinated/impossible claims',
     difficulty: 'pro',
+    evidenceHighlights: ['self-healing, fault-tolerant system', 'autonomously resolves issues before they ever surface'],
+    temptingReason: 'The visionary claim resembles cutting-edge cloud infrastructure documentation from innovative startups.',
+    counterexample: 'Human tech startups often pitch impossible self-healing capabilities in pitch decks, so extravagant technical claims indicate marketing style rather than author.',
     category: 'Code',
   },
   {
@@ -2875,6 +2959,9 @@ export const ITEMS: Item[] = [
     explanation: 'An honest, funny admission about the famous difficulty of naming things points toward human.',
     concept: 'Candid developer voice',
     difficulty: 'pro',
+    evidenceHighlights: ['named this variable "data2"', 'had given up by that point'],
+    temptingReason: 'The complaint about difficult naming conventions is a famous programming meme that AI systems often quote.',
+    counterexample: 'Coding models frequently produce cliché commentary about variable names, so programmer self-deprecation alone is an uncertain signal.',
     category: 'Code',
   },
 
@@ -3009,6 +3096,9 @@ export const ITEMS: Item[] = [
     explanation: 'A plain, specific, almost self-deprecating return policy points toward human small-business voice.',
     concept: 'Direct efficient phrasing',
     difficulty: 'pro',
+    evidenceHighlights: ['no forms', 'too small a team for forms'],
+    temptingReason: 'The breezy, friendly small-business tone could be an intentional voice profile specified in a prompt.',
+    counterexample: 'AI copywriters can be instructed to adopt an unpretentious indie tone, so colloquial simplicity is suggestive rather than final.',
     category: 'Marketing',
   },
   {
@@ -3019,6 +3109,9 @@ export const ITEMS: Item[] = [
     explanation: 'Grandiose brand-heritage language with no actual company history or founding date given.',
     concept: 'Buzzword padding',
     difficulty: 'pro',
+    evidenceHighlights: ['legacy reimagined', 'heritage craftsmanship meets contemporary innovation'],
+    temptingReason: 'The dignified and elegant cadence sounds like established luxury branding copy written by an agency.',
+    counterexample: 'Human marketing copywriters have used phrases like heritage craftsmanship for decades, so corporate puffery alone is not exclusive to machines.',
     category: 'Marketing',
   },
 
@@ -3304,6 +3397,9 @@ export const ITEMS: Item[] = [
     explanation: 'A dramatic, philosophical framing of a complaint with no actual inconvenience ever specified.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['not the inconvenience itself', 'quiet betrayal of expectations it represents'],
+    temptingReason: 'The measured philosophical articulation of disappointment resembles a principled consumer\'s formal feedback.',
+    counterexample: 'Human customers frequently couch grievances in terms of broken trust and breached expectations, so dramatic framing alone decides nothing.',
     category: 'Complaint',
   },
 
@@ -3452,6 +3548,9 @@ export const ITEMS: Item[] = [
     explanation: 'A confident, textbook-sounding philosophical framing of history with no specific era discussed.',
     concept: 'Pseudo-intellectual abstraction',
     difficulty: 'pro',
+    evidenceHighlights: ['not as a straight line but as a dialectic', 'each era answered by its opposite'],
+    temptingReason: 'The Hegelian historical interpretation mirrors serious historiographical analysis from academic lectures.',
+    counterexample: 'Human historians and political theorists routinely discuss cyclical and dialectical models of history, so scholarly framing remains ambiguous.',
     category: 'History',
   },
 
@@ -3868,6 +3967,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, strange, oddly moving true-to-life incident is hard for AI to invent unprompted.',
     concept: 'Bizarre mundane specificity',
     difficulty: 'pro',
+    evidenceHighlights: ['wrong number texted', 'typed "me too" before I could stop myself'],
+    temptingReason: 'The poignant accidental connection resembles an artificial micro-fiction prompt.',
+    counterexample: 'Creative AI tools excel at sentimental two-sentence stories, so emotional resonance is only one indicator among many.',
     category: 'Poetry',
   },
   {
@@ -3878,6 +3980,9 @@ export const ITEMS: Item[] = [
     explanation: 'A smooth, vague "silence after storm" image with a neat rhyme and no actual storm or event.',
     concept: 'Generic pretty imagery',
     difficulty: 'pro',
+    evidenceHighlights: ['silence after the storm', 'quiet language learns to form'],
+    temptingReason: 'The graceful end rhyme and lyrical rhythm resemble classic verse from traditional poetry anthologies.',
+    counterexample: 'Human poets frequently use storm and silence metaphors, so conventional lyrical rhyming is an incomplete clue.',
     category: 'Poetry',
   },
 
@@ -4691,6 +4796,9 @@ export const ITEMS: Item[] = [
     explanation: 'Buzzword stacking ("empowering", "ecosystem") describing nothing concrete about any actual job.',
     concept: 'Buzzword padding',
     difficulty: 'pro',
+    evidenceHighlights: ['empowering every employee', 'organizational ecosystem'],
+    temptingReason: 'The polished corporate values statement sounds like standard executive communication from a human HR department.',
+    counterexample: 'Human corporate communications departments often generate this exact corporate jargon, so buzzwords indicate style rather than origin.',
     category: 'Work',
   },
   {
@@ -4792,6 +4900,9 @@ export const ITEMS: Item[] = [
     explanation: 'A vague, calendar-triggered sentimentality with no actual season, event, or shared memory named.',
     concept: 'Generic pretty imagery',
     difficulty: 'pro',
+    evidenceHighlights: ['As the seasons change', 'how fortunate I am to have you in my life'],
+    temptingReason: 'The warm seasonal reflection sounds like an affectionate greeting card or personal letter from a thoughtful friend.',
+    counterexample: 'Human letter writers often lean on seasonal transitions for sentimental greetings, making generic gratitude an ambiguous signal.',
     category: 'Letter',
   },
   {
@@ -4936,6 +5047,9 @@ export const ITEMS: Item[] = [
     explanation: 'A sweeping, dramatic claim about "institutional indifference" with no specific institution or incident.',
     concept: 'Grand rhetorical cliché',
     difficulty: 'pro',
+    evidenceHighlights: ['not mere inconvenience', 'pattern of institutional indifference'],
+    temptingReason: 'The sharp, formal articulation of grievance sounds like a seasoned consumer advocate or legal notice.',
+    counterexample: 'Articulate human consumers frequently employ elevated rhetoric when escalating formal disputes, making elevated vocabulary an imperfect test.',
     category: 'Complaint',
   },
   {
@@ -4967,6 +5081,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, ordinary visual image with a precise, slightly odd emotional comparison points toward human.',
     concept: 'Grounded emotional metaphor',
     difficulty: 'pro',
+    evidenceHighlights: ['snapping in the wind', 'trying to leave and not quite managing it'],
+    temptingReason: 'The melancholic, inventive metaphor could easily be read as creative output from an advanced literary AI.',
+    counterexample: 'Advanced language models can generate poignant domestic imagery, so an evocative metaphor is an encouraging sign rather than a certainty.',
     category: 'Poetry',
   },
   {
@@ -5243,6 +5360,9 @@ export const ITEMS: Item[] = [
     explanation: 'A poetic, vague "universe whispers secrets" line with no actual scientific finding described.',
     concept: 'Generic pretty imagery',
     difficulty: 'pro',
+    evidenceHighlights: ['universe whispers its secrets', 'patient enough to listen closely'],
+    temptingReason: 'The awe-inspiring contemplation echoes popular science communicators like Carl Sagan.',
+    counterexample: 'Human science enthusiasts often use romantic cosmic phrasing, so poetic depictions of astronomy are not exclusive to machines.',
     category: 'Science',
   },
   {
@@ -5327,6 +5447,9 @@ export const ITEMS: Item[] = [
     explanation: 'A vague, pretty synesthetic metaphor about music with no actual song or instrument named.',
     concept: 'Generic pretty imagery',
     difficulty: 'pro',
+    evidenceHighlights: ['paints the canvas of the soul', 'colors words alone could never capture'],
+    temptingReason: 'The expressive synesthesia evokes romantic musical reviews and album liner notes.',
+    counterexample: 'Human concert reviewers regularly compare musical notes to painted colors, so flowery imagery cannot be viewed as conclusive.',
     category: 'Music',
   },
   {
@@ -5463,6 +5586,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, verifiable technical complaint alongside genuine comparative praise is honest human review.',
     concept: 'Balanced honest nuance',
     difficulty: 'pro',
+    evidenceHighlights: ['battery drops from 80 to 40 percent', 'sitting in my pocket doing nothing'],
+    temptingReason: 'The sharp trade-off between exceptional camera quality and steep battery drain mirrors benchmark summaries.',
+    counterexample: 'Automated tech summaries frequently contrast high-end optics with poor endurance, so a mixed verdict does not settle authorship.',
     category: 'Review',
   },
   {
@@ -5473,6 +5599,9 @@ export const ITEMS: Item[] = [
     explanation: 'A carefully hedged, vague critical compliment naming no actual feature, scene, or flaw.',
     concept: 'Overly diplomatic hedging',
     difficulty: 'pro',
+    evidenceHighlights: ['on balance, a commendable effort', 'occasionally overreaches in its own ambition'],
+    temptingReason: 'The even-handed appraisal reflects the balanced discernment of a veteran cultural critic.',
+    counterexample: 'Human critics frequently temper praise with gentle critiques of ambition, so diplomatic balance alone settles nothing.',
     category: 'Review',
   },
   {
@@ -5503,6 +5632,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, counterintuitive, hard-won relational insight points toward human advice.',
     concept: 'Grounded real-world context',
     difficulty: 'pro',
+    evidenceHighlights: ['resist the urge to fill it', 'actually thinking for once'],
+    temptingReason: 'The punchy interpersonal advice structure looks like a synthesized tip from an online relationship column.',
+    counterexample: 'AI lifestyle blogs frequently summarize conflict resolution strategies, so concise relationship advice points toward human without settling it.',
     category: 'Advice',
   },
   {
@@ -5546,6 +5678,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, candid admission of a real operational problem with a plain explanation points toward human.',
     concept: 'Direct efficient phrasing',
     difficulty: 'pro',
+    evidenceHighlights: ['supplier is two weeks behind', 'rather tell you now than apologize later'],
+    temptingReason: 'The transparent customer service disclosure reads like a standard professional template for supply chain notices.',
+    counterexample: 'Automated e-commerce notification platforms often deliver proactive delay notices, so candid operational updates alone do not verify human authorship.',
     category: 'Marketing',
   },
   {
@@ -5556,6 +5691,9 @@ export const ITEMS: Item[] = [
     explanation: 'A vague "brand promise" statement with no actual product, policy, or commitment specified.',
     concept: 'Buzzword padding',
     difficulty: 'pro',
+    evidenceHighlights: ['brand promise is more than words', 'living commitment woven into everything we create'],
+    temptingReason: 'The earnest mission statement mirrors the lofty manifestos found on authentic corporate websites.',
+    counterexample: 'Human branding agencies write lofty mission statements every day, so corporate platitudes alone do not confirm automated generation.',
     category: 'Marketing',
   },
   {
@@ -5566,6 +5704,9 @@ export const ITEMS: Item[] = [
     explanation: 'A specific, direct admission of a real misjudgment with a concrete alternative points toward human.',
     concept: 'Direct efficient phrasing',
     difficulty: 'pro',
+    evidenceHighlights: ['underestimated how long the testing phase would take', 'pushing it two days'],
+    temptingReason: 'The polite yet direct request to reschedule could be a generated template for workplace negotiations.',
+    counterexample: 'Workplace communication assistants produce concise delay requests routinely, so direct phrasing remains only a partial clue.',
     category: 'Email',
   },
   {
@@ -5636,6 +5777,9 @@ export const ITEMS: Item[] = [
     explanation: 'A vague, poetic claim about food "telling a story" with no actual dish or flavor described.',
     concept: 'Flowery sensory padding',
     difficulty: 'pro',
+    evidenceHighlights: ['tells a story only your palate can translate', 'does not just feed you'],
+    temptingReason: 'The poetic philosophy of cooking mirrors the romantic perspective of high-end chefs and culinary memoirs.',
+    counterexample: 'Passionate human food essayists love the food-as-storytelling metaphor, so grand gastronomic framing is an ambiguous signal.',
     category: 'Food',
   },
   {
@@ -5646,6 +5790,9 @@ export const ITEMS: Item[] = [
     explanation: 'An honest, slightly superstitious developer confession about an unexplained fix points toward human.',
     concept: 'Candid developer voice',
     difficulty: 'pro',
+    evidenceHighlights: ['stopped happening, I did not change anything', 'scared to look too closely'],
+    temptingReason: 'The humorous admission about mysterious bug resolution fits familiar software engineering memes.',
+    counterexample: 'Language models trained on developer forums can replicate superstitious coding commentary, making humorous fatigue an imperfect signal.',
     category: 'Code',
   },
   {
@@ -5656,6 +5803,9 @@ export const ITEMS: Item[] = [
     explanation: 'An impossible claim about anticipating "requirements not yet conceived" is a common AI overreach pattern — a clue, not proof.',
     concept: 'Hallucinated/impossible claims',
     difficulty: 'pro',
+    evidenceHighlights: ['future-proof, infinitely extensible architecture', 'anticipate requirements not yet conceived'],
+    temptingReason: 'The forward-looking technical ambition sounds like an enterprise software framework\'s vision statement.',
+    counterexample: 'Human architects frequently over-promise future-proof extensibility in enterprise documentation, so grandiose scope is only an ambiguous clue.',
     category: 'Code',
   },
 ];
