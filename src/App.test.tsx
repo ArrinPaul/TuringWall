@@ -47,6 +47,7 @@ describe('App', () => {
     render(<App store={createGameStore(fixtureItems, () => 0)} />);
     startEasyRound();
     fireEvent.click(screen.getByText('Human'));
+    fireEvent.click(screen.getByText(/Reveal Verdict/i));
     expect(screen.getByTestId('verdict')).toHaveTextContent(/correct/i);
   });
 
@@ -54,10 +55,63 @@ describe('App', () => {
     const store = createGameStore(fixtureItems, () => 0);
     render(<App store={store} />);
     startEasyRound();
-    const humanBtn = screen.getByText('Human');
-    fireEvent.click(humanBtn);
-    fireEvent.click(humanBtn);
+    fireEvent.click(screen.getByText('Human'));
+    const revealBtn = screen.getByText(/Reveal Verdict/i);
+    fireEvent.click(revealBtn);
+    fireEvent.click(revealBtn);
     expect(store.getState().stats.roundsPlayed).toBe(1);
+  });
+
+  it('completes the full inquiry loop with confidence and tell identification', () => {
+    const store = createGameStore(fixtureItems, () => 0);
+    render(<App store={store} />);
+    startEasyRound();
+    fireEvent.click(screen.getByText('Human'));
+    expect(screen.getByText(/Confidence level:/i)).toBeInTheDocument();
+    fireEvent.click(screen.getByText(/high/i));
+    fireEvent.click(screen.getByText(/Reveal Verdict/i));
+    expect(screen.getByTestId('verdict')).toHaveTextContent(/correct/i);
+    expect(screen.getByText(/The Tell/i)).toBeInTheDocument();
+    expect(screen.getByText(/Educational principle/i)).toBeInTheDocument();
+  });
+
+  it('toggles investigative clue with C key in playing screen', () => {
+    render(<App store={createGameStore(fixtureItems, () => 0)} />);
+    startEasyRound();
+    expect(screen.queryByText(/Stall Field Clue/i)).not.toBeInTheDocument();
+
+    fireEvent.keyDown(window, { key: 'c' });
+    expect(screen.getByText(/Stall Field Clue/i)).toBeInTheDocument();
+
+    fireEvent.keyDown(window, { key: 'c' });
+    expect(screen.queryByText(/Stall Field Clue/i)).not.toBeInTheDocument();
+  });
+
+  it('allows bookmarking / saving question to review with B key on revealed screen', () => {
+    render(<App store={createGameStore(fixtureItems, () => 0)} />);
+    startEasyRound();
+    fireEvent.click(screen.getByText('Human'));
+    fireEvent.click(screen.getByText(/Reveal Verdict/i));
+
+    expect(screen.getByText(/Save \[B\]/i)).toBeInTheDocument();
+    fireEvent.keyDown(window, { key: 'b' });
+    expect(screen.getByText(/Saved \[B\]/i)).toBeInTheDocument();
+  });
+
+  it('launches practice weak tells mode from attract screen', () => {
+    render(<App store={createGameStore(fixtureItems, () => 0)} />);
+    const weakTellsBtn = screen.getByText(/Practice weak tells/i);
+    fireEvent.click(weakTellsBtn);
+    expect(screen.getByTestId('playing-root')).toBeInTheDocument();
+  });
+
+  it('launches practice weak tells mode from select screen step 2', () => {
+    render(<App store={createGameStore(fixtureItems, () => 0)} />);
+    fireEvent.click(screen.getByTestId('attract-root'));
+    fireEvent.click(screen.getByText(/Continue/i));
+    const weakBtn = screen.getByText(/Practice Weak Tells \(Personalized Deck\)/i);
+    fireEvent.click(weakBtn);
+    expect(screen.getByTestId('playing-root')).toBeInTheDocument();
   });
 
   it('a broken image item shows the fallback instead of a broken image', () => {
@@ -157,5 +211,41 @@ describe('App', () => {
 
       window.history.pushState(null, '', '/');
     });
+  });
+});
+
+describe('round keyboard shortcuts (regression)', () => {
+  beforeEach(() => {
+    window.history.pushState(null, '', '/');
+  });
+
+  const setup = () => {
+    const store = createGameStore(fixtureItems, () => 0);
+    render(<App store={store} />);
+    startEasyRound();
+    return store;
+  };
+
+  it('H selects Human, 3 sets high confidence, Enter reveals, S opens stats', () => {
+    const store = setup();
+    fireEvent.keyDown(window, { key: 'h' });
+    expect(screen.getByText(/Confidence level:/i)).toBeInTheDocument();
+    fireEvent.keyDown(window, { key: '3' });
+    fireEvent.keyDown(window, { code: 'Enter', key: 'Enter' });
+    expect(store.getState().screen).toBe('revealed');
+    fireEvent.keyDown(window, { key: 's' });
+    expect(store.getState().screen).toBe('stats');
+  });
+
+  it('A / ArrowLeft / ArrowRight pick a side; Escape backs out; Space submits', () => {
+    const store = setup();
+    fireEvent.keyDown(window, { key: 'ArrowLeft' });
+    expect(screen.getByText(/Confidence level:/i)).toBeInTheDocument();
+    fireEvent.keyDown(window, { key: 'Escape' });
+    expect(screen.queryByText(/Confidence level:/i)).not.toBeInTheDocument();
+    fireEvent.keyDown(window, { key: 'a' });
+    fireEvent.keyDown(window, { code: 'Space', key: ' ' });
+    expect(store.getState().screen).toBe('revealed');
+    expect(store.getState().lastRoundResult?.prediction).toBe('ai');
   });
 });

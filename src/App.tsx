@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { AnimatePresence } from 'framer-motion';
+import { AnimatePresence, MotionConfig } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { useGameStore } from './store/gameStore';
 import { useIdleReturn } from './hooks/idle';
@@ -23,8 +23,10 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
     roundsTarget,
     clearedModes,
     current,
+    candidateTells,
     stats,
     lastGuessCorrect,
+    lastRoundResult,
     milestoneHit,
     newPersonalBest,
     guessSeq,
@@ -33,9 +35,12 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
     setRoundsTarget,
     goToSelect,
     startRound,
+    startTellPractice,
     guess,
+    detailedGuess,
     next,
     showStats,
+    replayMissedSession,
     returnToAttract,
   } = store();
 
@@ -106,7 +111,8 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
     if (guessSeq > 0 && lastGuessCorrect !== null) {
       playTone(lastGuessCorrect ? 'correct' : 'incorrect');
 
-      if (milestoneHit) {
+      const reduceMotion = typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+      if (milestoneHit && !reduceMotion) {
         try {
           // Brass/ink palette, not the library's default rainbow — stays in the
           // project's existing aesthetic rather than competing with Signal.
@@ -123,8 +129,30 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
     }
   }, [guessSeq, lastGuessCorrect, milestoneHit]);
 
+  const [announcement, setAnnouncement] = useState('');
+
+  // Screen reader live updates
+  useEffect(() => {
+    if (screen === 'playing' && current) {
+      setAnnouncement(`Round ${(stats.roundsPlayed % roundsTarget) + 1} of ${roundsTarget}. New sample to analyze.`);
+    } else if (screen === 'revealed' && current) {
+      setAnnouncement(
+        `Verdict: ${lastGuessCorrect ? 'Correct' : 'Not quite'}. It was ${
+          current.isAI ? 'AI-generated' : 'human-made'
+        }. Tell: ${current.concept}.`
+      );
+    } else if (screen === 'stats') {
+      setAnnouncement(`Session complete. Score: ${stats.score}. Accuracy: ${stats.correctCount} of ${stats.roundsPlayed}.`);
+    }
+  }, [screen, current, lastGuessCorrect, stats, roundsTarget]);
+
   return (
+    <MotionConfig reducedMotion="user">
     <main className="w-full h-full min-h-screen bg-ink text-paper font-body flex flex-col items-center justify-center relative">
+      {/* Screen reader live updates */}
+      <div className="sr-only" aria-live="polite" aria-atomic="true">
+        {announcement}
+      </div>
       {/* Floating Sound and Fullscreen Controls */}
       <div className="no-print fixed top-2 sm:top-4 right-2 sm:right-4 z-50 flex items-center gap-1.5 sm:gap-2">
         <button
@@ -151,7 +179,13 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
 
       <AnimatePresence mode="wait">
         {screen === 'attract' && (
-          <AttractScreen key="attract" onStart={goToSelect} />
+          <AttractScreen
+            key="attract"
+            onStart={goToSelect}
+            onStartDailyChallenge={() => startRound('daily-challenge')}
+            onPracticeWeakTells={() => startRound('weak-tells')}
+            onPracticeTell={startTellPractice}
+          />
         )}
 
         {screen === 'select' && (
@@ -170,6 +204,8 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
             key={`playing-${current.id}`}
             item={current}
             onGuess={guess}
+            onDetailedGuess={detailedGuess}
+            candidateTells={candidateTells}
             stats={stats}
             difficulty={difficulty}
             roundsTarget={roundsTarget}
@@ -185,6 +221,8 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
             onNext={next}
             onShowStats={showStats}
             stats={stats}
+            lastRoundResult={lastRoundResult}
+            onPracticeTell={startTellPractice}
           />
         )}
 
@@ -198,10 +236,13 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
             conceptsSeen={conceptsSeen}
             onPlayAgain={goToSelect}
             onStartRound={startRound}
+            onReplayMissed={replayMissedSession}
+            onPracticeTell={startTellPractice}
           />
         )}
       </AnimatePresence>
     </main>
+    </MotionConfig>
   );
 };
 
