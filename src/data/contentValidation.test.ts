@@ -51,10 +51,10 @@ describe('content validation', () => {
     for (const item of ITEMS) expect(item.explanation, item.id).not.toMatch(banned);
   });
 
-  it('has curated evidence, a tempting-reason and a counterexample on at least 287 text items', () => {
+  it('has curated evidence, a tempting-reason and a counterexample on at least 337 text items', () => {
     const enriched = ITEMS.filter(
       (i) => i.kind === 'text' && i.evidenceHighlights?.length && i.temptingReason && i.counterexample
     );
-    expect(enriched.length).toBeGreaterThanOrEqual(287);
+    expect(enriched.length).toBeGreaterThanOrEqual(337);
   });
 });
