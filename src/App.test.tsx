@@ -361,3 +361,36 @@ describe('settings dialog and preferences persistence', () => {
     expect(screen.getByText(/quote a|quote b/i)).toBeInTheDocument();
   });
 });
+
+describe('question bank load failure UI', () => {
+  beforeEach(() => {
+    window.history.pushState(null, '', '/');
+    localStorage.clear();
+  });
+
+  it('shows a retryable alert instead of an endless spinner, then recovers', async () => {
+    let calls = 0;
+    const store = createGameStore(() => {
+      calls++;
+      return calls === 1 ? Promise.reject(new Error('offline')) : Promise.resolve(fixtureItems);
+    }, () => 0);
+    render(<App store={store} />);
+    startEasyRound();
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 30));
+    });
+    expect(screen.queryByTestId('loading-screen')).not.toBeInTheDocument();
+    expect(screen.getByTestId('load-error')).toHaveAttribute('role', 'alert');
+
+    // Retry: the wizard restarts at its first step (the name is kept in the store).
+    fireEvent.click(screen.getByText(/Continue/i));
+    fireEvent.click(screen.getByText('Easy'));
+    fireEvent.click(screen.getByText('10'));
+    await act(async () => {
+      await new Promise((r) => setTimeout(r, 30));
+    });
+    expect(calls).toBe(2);
+    expect(screen.queryByTestId('load-error')).not.toBeInTheDocument();
+    expect(store.getState().screen).toBe('playing');
+  });
+});

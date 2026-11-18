@@ -20,6 +20,7 @@ interface AppProps {
 export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
   const {
     screen,
+    loadError,
     playerName,
     difficulty,
     roundsTarget,
@@ -87,7 +88,9 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
 
   useEffect(() => {
     if (typeof store.getState().preloadItems === 'function') {
-      void store.getState().preloadItems();
+      store.getState().preloadItems().catch(() => {
+        // A failed warm-up is reported when the player starts a round.
+      });
     }
   }, [store]);
 
@@ -220,6 +223,16 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
           <span>Settings</span>
         </button>
       </div>
+
+      {loadError && screen !== 'loading' && (
+        <div
+          role="alert"
+          data-testid="load-error"
+          className="w-full max-w-xl mx-4 mb-4 px-4 py-3 bg-bad-dim border border-bad text-paper font-mono text-xs sm:text-sm"
+        >
+          Couldn&apos;t load the question bank. Check your connection, then start again.
+        </div>
+      )}
 
       <AnimatePresence mode="wait">
         {screen === 'loading' && (

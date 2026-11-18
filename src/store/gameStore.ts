@@ -55,6 +55,8 @@ export interface GameState {
   newPersonalBest: boolean;
   /** True once this session's result has been written to the leaderboard — guards against double-saving. */
   sessionSaved: boolean;
+  /** True when the question bank failed to load; cleared on the next start attempt. */
+  loadError: boolean;
   guessSeq: number;
   /** Unique concept tags encountered this session, in first-seen order — the session's "syllabus". */
   conceptsSeen: string[];
@@ -190,11 +192,18 @@ export function createGameStore(
     if (cachedItems) return Promise.resolve(cachedItems);
     if (loadingPromise) return loadingPromise;
     if (typeof itemsProvider === 'function') {
-      loadingPromise = itemsProvider().then((loaded) => {
-        cachedItems = loaded;
-        loadingPromise = null;
-        return loaded;
-      });
+      loadingPromise = itemsProvider().then(
+        (loaded) => {
+          cachedItems = loaded;
+          loadingPromise = null;
+          return loaded;
+        },
+        (err: unknown) => {
+          // Forget the failed attempt so the next start retries the loader.
+          loadingPromise = null;
+          throw err;
+        }
+      );
       return loadingPromise;
     }
     cachedItems = itemsProvider;
@@ -218,6 +227,7 @@ export function createGameStore(
     missedQuestionIds: loadMissedQuestionIds(),
     newPersonalBest: false,
     sessionSaved: false,
+    loadError: false,
     guessSeq: 0,
     conceptsSeen: [],
     sessionId: '',
@@ -235,7 +245,9 @@ export function createGameStore(
 
     goToSelect: () => {
       recordAbandonedIfMidSession(get());
-      void ensureItems();
+      ensureItems().catch(() => {
+        // Surfaced to the player when they actually start a round.
+      });
       set({ screen: 'select' });
     },
 
@@ -277,10 +289,18 @@ export function createGameStore(
       };
 
       if (cachedItems) {
+        set({ loadError: false });
         setupDeckAndPlay(cachedItems);
       } else {
-        set({ screen: 'loading' });
-        void ensureItems().then(setupDeckAndPlay);
+        const returnScreen: Screen = state.screen === 'loading' ? 'attract' : state.screen;
+        set({ screen: 'loading', loadError: false });
+        ensureItems().then(
+          (loaded) => {
+            set({ loadError: false });
+            setupDeckAndPlay(loaded);
+          },
+          () => set({ screen: returnScreen, loadError: true })
+        );
       }
     },
 
@@ -317,10 +337,18 @@ export function createGameStore(
       };
 
       if (cachedItems) {
+        set({ loadError: false });
         setupPracticeAndPlay(cachedItems);
       } else {
-        set({ screen: 'loading' });
-        void ensureItems().then(setupPracticeAndPlay);
+        const returnScreen: Screen = state.screen === 'loading' ? 'attract' : state.screen;
+        set({ screen: 'loading', loadError: false });
+        ensureItems().then(
+          (loaded) => {
+            set({ loadError: false });
+            setupPracticeAndPlay(loaded);
+          },
+          () => set({ screen: returnScreen, loadError: true })
+        );
       }
     },
 
