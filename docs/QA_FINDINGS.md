@@ -25,16 +25,20 @@ Last audited: 2026-11-18 · Build `index-B7k7w-YH.js` (v1.0.0) + load-failure fi
 
 ## Automated coverage (runs in CI on every push and PR)
 
-- 225 unit tests (`npx vitest run`) — scoring, mastery, sessions, prefs, share privacy, content validation,
+- 253 unit tests (`npx vitest run`) — scoring, mastery, sessions, prefs, share privacy, content validation,
   store, components.
-- 5 Playwright tests (`npm run test:e2e`) — full playthrough, Field Guide focus trap and Esc/focus restore, keyboard
-  shortcuts, 320 px no-overflow, reduced motion.
+- 10 Playwright tests against the production build (`npm run test:e2e`) — full playthrough, Field Guide focus trap and
+  Esc/focus restore, keyboard shortcuts, 320 px no-overflow, reduced motion, corrupt saved data, a blocked question-bank
+  chunk, and real-time kiosk vs normal-visitor idle behavior.
 
 ## Defects found during audit
 
 | Defect | Found | Status |
 |---|---|---|
 | If the lazy question-bank chunk failed to load, the UI stayed on "Loading question bank…" forever, retry never re-called the loader, and the failure raised unhandled rejections. | 2026-11-18 | **Fixed** — failed attempts reset, a `loadError` state returns the player to the previous screen with a `role="alert"` message, retry re-invokes the loader. Regression tests in `src/store/loadFailure.test.ts` and `src/App.test.tsx`. |
+| Corrupt `localStorage` (non-object leaderboard entries, an object stored as a name, invalid mastery tiers) crashed the whole app with "Objects are not valid as a React child". | 2026-11-18 | **Fixed** — entries are sanitized on load (`sanitizeEntry`, `sanitizeMastery`); fuzz tests in `src/hardening.test.tsx` and `e2e/resilience.spec.ts`. |
+| My own `vite:preloadError` handler called `preventDefault()`, which made a failed chunk resolve to a module with no `ITEMS` and left the game stuck on the spinner (found by the production e2e test). | 2026-11-18 | **Fixed** — handler now only triggers a guarded one-time reload; an empty or missing bank is treated as a load failure; one failure path covers errors thrown while starting a round. |
+| The 45-second idle reset applied to every visitor, which would eject public players mid-round or mid-explanation. | 2026-11-18 | **Fixed** — now opt-in via `?kiosk=1`. **Stall operators must open the kiosk URL with that flag** (see README). |
 
 ## Content licensing note
 

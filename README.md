@@ -30,7 +30,7 @@ Accompanying each player is **Signal**, an observant pattern-reading persona who
 The game is engineered from the ground up for unattended kiosk reliability:
 - **Zero Network Reliance:** Runs 100% offline via local service worker caching and Web Audio tone synthesis once loaded.
 - **Fair Leaderboards:** Independent, segregated leaderboards for each session length (3, 5, 7, and 10 questions) ensure a short run never unfairly competes against a marathon session.
-- **Kiosk Self-Healing:** An automatic 45-second inactivity reset returns the app to the attract loop between visitors, while hardware-level double-click guards prevent erratic touch inputs.
+- **Kiosk Self-Healing:** In kiosk mode (`?kiosk=1`), an automatic 45-second inactivity reset returns the app to the attract loop between visitors, while hardware-level double-click guards prevent erratic touch inputs. Normal web visitors are never reset.
 - **Stall Export Tools:** Immediate one-click tab-separated `.txt` data exports for event coordinators and styled printable takeaway sheets for visitors.
 
 **Who it's for:** Exhibition attendees, students, AI practitioners exploring synthetic media forensic markers, and developers seeking a reference architecture for offline-first, state-machine-driven kiosk software.
@@ -73,7 +73,7 @@ The game is engineered from the ground up for unattended kiosk reliability:
 | **Segregated Leaderboards** | Dedicated ranking tables for 3, 5, 7, and 10-question sessions so short and long runs never conflict |
 | **Dedicated Analysis View** | In-depth performance diagnostics accessible via a toggle button on the `/leaderboard` screen |
 | **Offline Audio Engine** | Pure Web Audio API tone synthesis for chimes and alerts with zero external asset latency |
-| **Kiosk Watchdog** | 45-second idle detection loop that gracefully aborts abandoned games and resets to the attract screen |
+| **Kiosk Watchdog** | Opt-in (`?kiosk=1`) 45-second idle detection loop that gracefully aborts abandoned games and resets to the attract screen |
 | **Hardware Debounce Guard** | Rapid double-click protection ensuring physical touchscreen bounces do not submit double guesses |
 | **Export & Takeaway** | One-click tab-separated `.txt` leaderboard export and CSS print-optimized visitor scorecards |
 
@@ -219,10 +219,10 @@ Start the pre-built local preview server (no internet connection required):
 ```bash
 npm run preview
 ```
-Open Chrome, navigate to the local address (e.g. `http://localhost:4173`), and prepare kiosk mode:
+Open Chrome and navigate to the local address **with the kiosk flag**, e.g. `http://localhost:4173/?kiosk=1` (the flag is remembered for that tab, and is what turns the idle reset on). Then prepare kiosk mode:
 - **Go Fullscreen:** Click the **Fullscreen** button in the top-right corner (or press **`F`**). This hides browser tabs, bookmarks, and address bars.
 - **Sound Check:** Press **`M`** to verify audio chimes are enabled or muted as preferred for stall noise levels.
-- **Self-Healing:** If an attendee walks away mid-game, the app automatically resets to the attract screen after 45 seconds of idle time.
+- **Self-Healing:** With `?kiosk=1`, if an attendee walks away mid-game the app automatically resets to the attract screen after 45 seconds of idle time. On the public website (no flag) this reset is off, so a visitor reading an explanation is never kicked out.
 
 ### End of Day Data Retrieval
 1. Navigate to `/leaderboard` or click **Leaderboard** from the attract screen.
@@ -326,6 +326,15 @@ Everything is stored locally in the player's browser (`localStorage`); there is 
 - **Old records**: entries missing newer fields are read with safe defaults (`calibration ?? accuracy`, `conceptsMastered ?? 0`, `completed !== false`); clearing site data resets everything.
 
 The architecture is local-first so a future server-backed leaderboard can replace `src/leaderboard/leaderboard.ts` without touching the UI.
+
+## Reliability in Production
+
+- **No server to overload:** the game is a static site served from Vercel's CDN; each visitor's game runs entirely in their own browser, and progress lives in their own `localStorage`. More visitors means more CDN requests, not more load on any game server.
+- **Crash containment:** an error boundary replaces a would-be blank page with a Reload / Reset-saved-progress screen. Saved progress is never erased without a second, explicit confirmation.
+- **Corrupt or unavailable storage:** every stored value (leaderboard, mastery, sessions, preferences) is validated on load; malformed entries are dropped or reset to defaults instead of crashing a render. Private-browsing and quota errors are tolerated.
+- **Failed or stale downloads:** if the lazily loaded question bank cannot be fetched (flaky network, or a deploy that replaced the file), the player sees a retry message instead of an endless spinner, and the tab reloads itself once to pick up the new build.
+- **Deploy config (`vercel.json`):** SPA fallback for deep links such as `/leaderboard` (assets and the service worker are excluded, so a missing file is a real 404); hashed assets are cached immutably; `sw.js` is never cached, so updates reach returning visitors.
+- **Verified by:** unit fuzz tests of corrupt storage (`src/hardening.test.tsx`) and Playwright tests against the production build (`e2e/resilience.spec.ts`).
 
 ## Security & Reliability
 
