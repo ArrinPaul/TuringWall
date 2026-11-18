@@ -4,7 +4,7 @@
 
 ### An interactive kiosk Turing challenge and pattern-recognition game for the Daksh AIML stall
 
-_Can you tell whether a piece of writing or art is human-crafted or AI-generated? 540+ curated rounds, offline-first kiosk reliability, multi-tier gameplay, and separate session leaderboards._
+_Can you tell whether a piece of writing or art is human-crafted or AI-generated? 618 curated rounds, offline-first kiosk reliability, multi-tier gameplay, and separate session leaderboards._
 
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)
@@ -23,7 +23,7 @@ _Can you tell whether a piece of writing or art is human-crafted or AI-generated
 
 ## About
 
-**TuringWall** (Real or AI?) is an interactive, kiosk-hardened web application built for the Daksh AIML stall. Visitors are invited to step up and test their critical reading against a curated gauntlet of 541 text passages and visual artifacts: discerning real human literature, commit messages, forum discussions, and artwork from the outputs of frontier generative models (GPT-4o, Claude 3.5, Gemini 1.5, Midjourney, Stable Diffusion).
+**TuringWall** (Real or AI?) is an interactive, kiosk-hardened web application built for the Daksh AIML stall. Visitors are invited to step up and test their critical reading against a curated gauntlet of 618 text passages and visual artifacts: discerning real human literature, commit messages, forum discussions, and artwork from the outputs of frontier generative models (GPT-4o, Claude 3.5, Gemini 1.5, Midjourney, Stable Diffusion).
 
 Accompanying each player is **Signal**, an observant pattern-reading persona who provides instant feedback, highlights cognitive tells, and links rounds directly to an interactive 36-concept Field Guide.
 
@@ -66,7 +66,7 @@ The game is engineered from the ground up for unattended kiosk reliability:
 | :--- | :--- |
 | **Attract Screen** | High-contrast, dynamic attract loop with live session statistics and sample round preview |
 | **3-Step Setup Wizard** | Intuitive attendee onboarding: visitor name entry, difficulty tier selection, and question count |
-| **Curated Question Bank** | 541 thoroughly verified items spanning human literature, historical letters, code, and frontier AI models |
+| **Curated Question Bank** | 618 thoroughly verified items spanning human literature, historical letters, code, and frontier AI models |
 | **Difficulty Tiers** | Novice, Keen, Expert, and Master modes calibrated for distinct skill curves, plus a Mixed deck option |
 | **Signal Persona** | Real-time reactive avatar and commentary engine providing forensic insight after every guess |
 | **Field Guide** | 36-concept pedagogical glossary explaining stylistic, structural, and cognitive AI tells |
@@ -358,16 +358,27 @@ The architecture is local-first so a future server-backed leaderboard can replac
 
 ---
 
+## Known Limits
+
+- **Device-Local Leaderboards**: Game records and player scores are stored strictly in the client's `localStorage` (capped at 50 entries per session-length partition). Cross-device aggregation requires using the "Export .txt" feature to download results.
+- **Offline Image Pre-Caching**: Image assets (15 curated samples) are lazily cached by the service worker on first fetch. Playing completely offline with visual rounds requires loading the application once with network connectivity to warm the browser cache.
+- **Single-Signal Nuance**: As emphasized in Signal's feedback, no single heuristic conclusively proves human or synthetic origin. The 36 Field Guide patterns are forensic cognitive indicators, not deterministic detection algorithms.
+
+---
+
 ## Contributing
 
 Contributions to improve the question bank, refine difficulty calibration, or enhance kiosk features are welcome!
 
 1. Fork the repository and create a feature branch (`git checkout -b feat/new-items`).
 2. If adding items to `src/data/items.ts`, ensure every entry includes verified ground truth, an explanation, difficulty tier, and a valid concept tag.
-3. Run the complete test suite to ensure all 131 tests pass:
+3. Run the complete test suite to ensure all tests pass:
    ```bash
-   npm test -- --run
+   npx tsc -b
+   npx vitest run
+   npx oxlint
    npm run build
+   npx playwright test
    ```
 4. Submit a Pull Request with a clear description of your changes.
 

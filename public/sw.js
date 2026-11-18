@@ -4,7 +4,7 @@
 //  - Hashed build files under /assets/: cache-first (their names change per build).
 //  - Everything else (icons, manifest): stale-while-revalidate.
 // Bump CACHE_NAME to force-clear old caches.
-const CACHE_NAME = 'turingwall-v2';
+const CACHE_NAME = 'turingwall-v3';
 
 self.addEventListener('install', () => {
   self.skipWaiting();
