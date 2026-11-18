@@ -194,7 +194,7 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
           type="button"
           onClick={toggleFullscreen}
           aria-label={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
-          className="min-h-9 px-2 sm:px-3 py-1.5 sm:py-2 bg-panel border border-panel-line text-muted hover:text-paper transition-colors text-[10px] sm:text-xs font-mono uppercase tracking-wider flex items-center space-x-1.5 cursor-pointer"
+          className="min-h-9 px-2 sm:px-3 py-1.5 sm:py-2 bg-panel border border-control-line text-muted hover:text-paper transition-colors text-[10px] sm:text-xs font-mono uppercase tracking-wider flex items-center space-x-1.5 cursor-pointer"
           title="Toggle fullscreen (F)"
         >
           <span>{isFullscreen ? 'Exit' : 'Fullscreen'}</span>
@@ -204,7 +204,7 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
           type="button"
           onClick={handleToggleMute}
           aria-label={muted ? 'Unmute sound' : 'Mute sound'}
-          className="min-h-9 px-2 sm:px-3 py-1.5 sm:py-2 bg-panel border border-panel-line text-muted hover:text-paper transition-colors text-[10px] sm:text-xs font-mono uppercase tracking-wider flex items-center space-x-1.5 cursor-pointer"
+          className="min-h-9 px-2 sm:px-3 py-1.5 sm:py-2 bg-panel border border-control-line text-muted hover:text-paper transition-colors text-[10px] sm:text-xs font-mono uppercase tracking-wider flex items-center space-x-1.5 cursor-pointer"
           title="Toggle sound (M)"
         >
           <span>Sound {muted ? 'off' : 'on'}</span>
@@ -214,7 +214,7 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
           type="button"
           onClick={() => setIsSettingsOpen(true)}
           aria-label="Open settings"
-          className="min-h-9 px-2 sm:px-3 py-1.5 sm:py-2 bg-panel border border-panel-line text-muted hover:text-paper transition-colors text-[10px] sm:text-xs font-mono uppercase tracking-wider flex items-center space-x-1.5 cursor-pointer"
+          className="min-h-9 px-2 sm:px-3 py-1.5 sm:py-2 bg-panel border border-control-line text-muted hover:text-paper transition-colors text-[10px] sm:text-xs font-mono uppercase tracking-wider flex items-center space-x-1.5 cursor-pointer"
           title="Settings"
         >
           <span>Settings</span>

@@ -59,7 +59,7 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({
               className={`min-h-10 px-3 py-1.5 font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer shrink-0 ${
                 activeLength === len
                   ? 'bg-signal text-ink font-600'
-                  : 'bg-ink/50 text-muted hover:text-paper border border-panel-line'
+                  : 'bg-ink/50 text-muted hover:text-paper border border-control-line'
               }`}
             >
               {len} Questions
@@ -68,7 +68,7 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({
         </div>
 
         <div className="flex items-center gap-2">
-          <div className="flex items-center bg-ink border border-panel-line p-0.5 font-mono text-xs">
+          <div className="flex items-center bg-ink border border-control-line p-0.5 font-mono text-xs">
             <button
               type="button"
               onClick={() => setFilterMode('today')}
@@ -114,7 +114,7 @@ export const LeaderboardView: React.FC<LeaderboardViewProps> = ({
             className={`min-h-10 px-3 py-1 border transition-colors cursor-pointer uppercase ${
               sortView === tab.id
                 ? 'bg-signal text-ink border-signal font-600'
-                : 'bg-ink/60 border-panel-line text-muted hover:text-paper'
+                : 'bg-ink/60 border-control-line text-muted hover:text-paper'
             }`}
           >
             {tab.label}

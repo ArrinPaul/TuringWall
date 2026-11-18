@@ -319,11 +319,11 @@ export const PlayingScreen: React.FC<PlayingScreenProps> = ({
                 <button
                   type="button"
                   onClick={() => handleSelectPrediction('unsure')}
-                  className="px-4 py-2 bg-panel/80 hover:bg-panel border border-panel-line text-muted hover:text-paper text-xs sm:text-sm font-mono transition-colors flex items-center gap-2 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal"
+                  className="px-4 py-2 bg-panel/80 hover:bg-panel border border-control-line text-muted hover:text-paper text-xs sm:text-sm font-mono transition-colors flex items-center gap-2 cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal"
                   title="Preserves streak and avoids heavy penalties when evidence is ambiguous"
                 >
                   <span>Unsure / Low Signal</span>
-                  <span className="text-[10px] text-signal/80 bg-ink px-1.5 py-0.5 border border-panel-line">[U] Safe play</span>
+                  <span className="text-[10px] text-signal/80 bg-ink px-1.5 py-0.5 border border-control-line">[U] Safe play</span>
                 </button>
               </div>
             </motion.div>
@@ -379,7 +379,7 @@ export const PlayingScreen: React.FC<PlayingScreenProps> = ({
                       className={`py-2 px-2 text-xs sm:text-sm font-mono uppercase tracking-wider border transition-all cursor-pointer ${
                         confidence === level
                           ? 'bg-signal text-ink border-signal font-600 shadow'
-                          : 'bg-ink/60 border-panel-line text-muted hover:text-paper hover:border-signal/50'
+                          : 'bg-ink/60 border-control-line text-muted hover:text-paper hover:border-signal/50'
                       }`}
                     >
                       <span className="block font-500">{level}</span>
@@ -407,7 +407,7 @@ export const PlayingScreen: React.FC<PlayingScreenProps> = ({
                       className={`p-2.5 text-left text-xs font-mono border transition-all cursor-pointer ${
                         selectedTell === tell
                           ? 'bg-signal/20 border-signal text-signal font-500 shadow-sm'
-                          : 'bg-ink/50 border-panel-line text-paper/85 hover:border-signal/40 hover:bg-ink'
+                          : 'bg-ink/50 border-control-line text-paper/85 hover:border-signal/40 hover:bg-ink'
                       }`}
                     >
                       <div className="flex items-center justify-between">

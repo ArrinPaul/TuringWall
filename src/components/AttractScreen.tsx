@@ -119,7 +119,7 @@ export const AttractScreen: React.FC<AttractScreenProps> = ({
                     e.stopPropagation();
                     onStartDailyChallenge();
                   }}
-                  className="px-3.5 py-2 bg-panel hover:bg-panel-line border border-panel-line hover:border-signal/50 text-paper font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal"
+                  className="px-3.5 py-2 bg-panel hover:bg-panel-line border border-control-line hover:border-signal text-paper font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal"
                 >
                   <span className="text-signal font-600">★</span>
                   <span>Today’s challenge (5 rounds)</span>
@@ -133,7 +133,7 @@ export const AttractScreen: React.FC<AttractScreenProps> = ({
                     e.stopPropagation();
                     onPracticeWeakTells();
                   }}
-                  className="px-3.5 py-2 bg-panel hover:bg-panel-line border border-panel-line hover:border-signal/50 text-paper font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal"
+                  className="px-3.5 py-2 bg-panel hover:bg-panel-line border border-control-line hover:border-signal text-paper font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal"
                 >
                   <span className="text-signal font-600">⚡</span>
                   <span>Practice weak tells</span>
@@ -154,7 +154,7 @@ export const AttractScreen: React.FC<AttractScreenProps> = ({
                   e.stopPropagation();
                   setShowGuide(true);
                 }}
-                className="px-3.5 py-2 bg-panel hover:bg-panel-line border border-panel-line text-muted hover:text-paper font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal"
+                className="px-3.5 py-2 bg-panel hover:bg-panel-line border border-control-line hover:border-signal text-muted hover:text-paper font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal"
               >
                 Practice a tell &middot; Field guide ({conceptCount})
               </button>

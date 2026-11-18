@@ -170,7 +170,7 @@ export const FieldGuide: React.FC<FieldGuideProps> = ({
             type="button"
             onClick={onClose}
             aria-label="Close Field Guide"
-            className="px-4 py-2 bg-panel border border-panel-line text-muted hover:text-paper hover:border-signal transition-colors font-mono text-xs uppercase tracking-wider cursor-pointer shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal"
+            className="px-4 py-2 bg-panel border border-control-line text-muted hover:text-paper hover:border-signal transition-colors font-mono text-xs uppercase tracking-wider cursor-pointer shrink-0 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal"
           >
             Close [Esc]
           </button>
@@ -205,7 +205,7 @@ export const FieldGuide: React.FC<FieldGuideProps> = ({
                 className={`px-2.5 py-1 uppercase border transition-colors cursor-pointer ${
                   signalFilter === sig
                     ? 'bg-signal text-ink border-signal font-600'
-                    : 'bg-panel border-panel-line text-muted hover:text-paper'
+                    : 'bg-panel border-control-line text-muted hover:text-paper'
                 }`}
               >
                 {sig}
@@ -224,7 +224,7 @@ export const FieldGuide: React.FC<FieldGuideProps> = ({
                 className={`px-2.5 py-1 uppercase border transition-colors cursor-pointer ${
                   categoryFilter === cat
                     ? 'bg-signal text-ink border-signal font-600'
-                    : 'bg-panel border-panel-line text-muted hover:text-paper'
+                    : 'bg-panel border-control-line text-muted hover:text-paper'
                 }`}
               >
                 {cat}
@@ -243,7 +243,7 @@ export const FieldGuide: React.FC<FieldGuideProps> = ({
                 className={`px-2.5 py-1 uppercase border transition-colors cursor-pointer ${
                   masteryFilter === m
                     ? 'bg-signal text-ink border-signal font-600'
-                    : 'bg-panel border-panel-line text-muted hover:text-paper'
+                    : 'bg-panel border-control-line text-muted hover:text-paper'
                 }`}
               >
                 {m}
@@ -254,7 +254,7 @@ export const FieldGuide: React.FC<FieldGuideProps> = ({
               type="button"
               onClick={() => setGroupByChapter(!groupByChapter)}
               className={`ml-auto px-2.5 py-1 uppercase border transition-colors cursor-pointer ${
-                groupByChapter ? 'bg-signal/20 text-signal border-signal' : 'bg-panel border-panel-line text-muted'
+                groupByChapter ? 'bg-signal/20 text-signal border-signal' : 'bg-panel border-control-line text-muted'
               }`}
             >
               {groupByChapter ? 'Flat list' : 'Group chapters'}

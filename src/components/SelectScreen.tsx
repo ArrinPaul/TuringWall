@@ -130,7 +130,7 @@ export const SelectScreen: React.FC<SelectScreenProps> = ({
                     ? 'border-signal text-signal'
                     : i < step
                     ? 'border-good text-good'
-                    : 'border-panel-line text-muted'
+                    : 'border-control-line text-muted'
                 }`}
               >
                 {i < step ? '✓' : i + 1}
@@ -265,7 +265,7 @@ export const SelectScreen: React.FC<SelectScreenProps> = ({
                 <button
                   type="button"
                   onClick={() => onSelect('weak-tells')}
-                  className="px-4 py-2.5 bg-panel border border-panel-line hover:border-signal text-signal hover:text-paper font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal"
+                  className="px-4 py-2.5 bg-panel border border-control-line hover:border-signal text-signal hover:text-paper font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal"
                 >
                   <span>⚡ Practice Weak Tells (Personalized Deck)</span>
                 </button>
@@ -312,7 +312,7 @@ export const SelectScreen: React.FC<SelectScreenProps> = ({
                       data-testid={`rounds-${n}`}
                       onClick={() => handleLengthPick(n)}
                       whileTap={{ scale: 0.92 }}
-                      className="flex flex-col items-center justify-center min-h-24 px-3 py-4 border border-panel-line bg-panel hover:bg-panel-line/60 text-paper transition-colors cursor-pointer group focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal"
+                      className="flex flex-col items-center justify-center min-h-24 px-3 py-4 border border-control-line bg-panel hover:bg-panel-line/60 text-paper transition-colors cursor-pointer group focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal"
                     >
                       <span className="font-display text-3xl sm:text-4xl">{n}</span>
                       <span className="font-mono text-muted text-[10px] uppercase tracking-wider mt-1">

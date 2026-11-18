@@ -115,7 +115,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
               type="button"
               onClick={onClose}
               aria-label="Close settings"
-              className="px-3 py-1.5 min-h-10 border border-panel-line bg-panel hover:bg-panel-line text-muted hover:text-paper font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center space-x-1"
+              className="px-3 py-1.5 min-h-10 border border-control-line bg-panel hover:bg-panel-line text-muted hover:text-paper font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center space-x-1"
             >
               <span>Close</span>
               <span className="text-muted text-[10px]">[Esc]</span>
@@ -141,7 +141,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   className={`min-h-10 px-4 py-2 font-mono text-xs uppercase tracking-wider font-semibold border transition-colors cursor-pointer ${
                     prefs.sound
                       ? 'bg-signal text-ink border-signal'
-                      : 'bg-ink text-muted border-panel-line hover:text-paper'
+                      : 'bg-ink text-muted border-control-line hover:text-paper'
                   }`}
                 >
                   {prefs.sound ? 'Enabled' : 'Muted'}
@@ -171,7 +171,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                       className={`w-full text-left p-3 border transition-colors cursor-pointer min-h-10 flex flex-col justify-center ${
                         isSelected
                           ? 'border-signal bg-signal/10 text-paper'
-                          : 'border-panel-line bg-ink/60 hover:bg-ink text-muted hover:text-paper'
+                          : 'border-control-line bg-ink/60 hover:bg-ink text-muted hover:text-paper'
                       }`}
                     >
                       <div className="flex items-center justify-between">
@@ -211,7 +211,7 @@ export const SettingsPanel: React.FC<SettingsPanelProps> = ({
                   className={`min-h-10 px-4 py-2 font-mono text-xs uppercase tracking-wider font-semibold border transition-colors cursor-pointer ${
                     prefs.showNameOnLeaderboard
                       ? 'bg-signal text-ink border-signal'
-                      : 'bg-ink text-muted border-panel-line hover:text-paper'
+                      : 'bg-ink text-muted border-control-line hover:text-paper'
                   }`}
                 >
                   {prefs.showNameOnLeaderboard ? 'Visible' : 'Hidden'}

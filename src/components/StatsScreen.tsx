@@ -295,7 +295,7 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
           </div>
 
           <div className="flex items-center gap-2 flex-wrap">
-            <div className="flex items-center bg-panel border border-panel-line p-1 font-mono text-xs">
+            <div className="flex items-center bg-panel border border-control-line p-1 font-mono text-xs">
               <button
                 type="button"
                 onClick={() => setViewMode('leaderboard')}
@@ -325,7 +325,7 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
               <button
                 type="button"
                 onClick={handleShareResult}
-                className="px-3 py-2 bg-panel border border-panel-line text-signal hover:text-paper hover:border-signal transition-colors font-mono text-xs uppercase tracking-wider cursor-pointer min-h-10"
+                className="px-3 py-2 bg-panel border border-control-line text-signal hover:text-paper hover:border-signal transition-colors font-mono text-xs uppercase tracking-wider cursor-pointer min-h-10"
                 title="Copy private, non-identifying session summary"
               >
                 {copiedShare ? '✓ Copied' : 'Share Result'}
@@ -336,7 +336,7 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
               <button
                 type="button"
                 onClick={() => downloadLeaderboardAsText(board, activeLength)}
-                className="px-3 py-2 bg-panel border border-panel-line text-muted hover:text-paper transition-colors font-mono text-xs uppercase tracking-wider cursor-pointer min-h-10"
+                className="px-3 py-2 bg-panel border border-control-line text-muted hover:text-paper transition-colors font-mono text-xs uppercase tracking-wider cursor-pointer min-h-10"
                 title="Export leaderboard as .txt"
               >
                 Export .txt

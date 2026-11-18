@@ -58,7 +58,7 @@ export const AnalysisView: React.FC<AnalysisViewProps> = ({
         <button
           type="button"
           onClick={onBackToLeaderboard}
-          className="px-4 py-2 bg-ink border border-panel-line text-signal hover:text-paper hover:border-signal font-mono text-xs uppercase tracking-wider cursor-pointer transition-colors flex items-center gap-1.5"
+          className="px-4 py-2 bg-ink border border-control-line text-signal hover:text-paper hover:border-signal font-mono text-xs uppercase tracking-wider cursor-pointer transition-colors flex items-center gap-1.5"
         >
           <span>&larr;</span>
           <span>Back to Leaderboard [Esc]</span>

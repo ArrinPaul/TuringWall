@@ -358,7 +358,7 @@ export const RevealedPanel: React.FC<RevealedPanelProps> = ({
             disabled={navigating}
             onClick={handleShowStats}
             whileTap={{ scale: 0.94 }}
-            className="h-13 sm:h-14 bg-panel hover:bg-panel-line transition-colors text-paper font-body font-500 text-xs sm:text-sm border border-panel-line cursor-pointer disabled:opacity-50 flex items-center justify-center"
+            className="h-13 sm:h-14 bg-panel hover:bg-panel-line transition-colors text-paper font-body font-500 text-xs sm:text-sm border border-control-line cursor-pointer disabled:opacity-50 flex items-center justify-center"
           >
             Stats [S]
           </motion.button>
@@ -371,7 +371,7 @@ export const RevealedPanel: React.FC<RevealedPanelProps> = ({
             className={`h-13 sm:h-14 border transition-colors font-body font-500 text-xs sm:text-sm cursor-pointer disabled:opacity-50 flex items-center justify-center ${
               bookmarked
                 ? 'bg-signal/20 text-signal border-signal'
-                : 'bg-panel hover:bg-panel-line text-muted hover:text-paper border-panel-line'
+                : 'bg-panel hover:bg-panel-line text-muted hover:text-paper border-control-line'
             }`}
             title="Save this question to your review queue"
           >
@@ -384,7 +384,7 @@ export const RevealedPanel: React.FC<RevealedPanelProps> = ({
               disabled={navigating}
               onClick={() => onPracticeTell(item.concept)}
               whileTap={{ scale: 0.94 }}
-              className="h-13 sm:h-14 bg-panel hover:bg-panel-line transition-colors text-signal font-body font-500 text-xs sm:text-sm border border-panel-line cursor-pointer disabled:opacity-50 flex items-center justify-center"
+              className="h-13 sm:h-14 bg-panel hover:bg-panel-line transition-colors text-signal font-body font-500 text-xs sm:text-sm border border-control-line cursor-pointer disabled:opacity-50 flex items-center justify-center"
               title="Practice more questions tagged with this concept"
             >
               Practice Tell [P]
