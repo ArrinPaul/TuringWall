@@ -1,4 +1,4 @@
-import type { SessionMode } from '../data/types';
+import { DIFFICULTIES, type SessionMode } from '../data/types';
 
 /** The four session lengths a round can be played at — each gets its own, non-comparable board. */
 export const SESSION_LENGTHS = [3, 5, 7, 10] as const;
@@ -126,6 +126,43 @@ function isSessionLength(n: unknown): n is SessionLength {
   return typeof n === 'number' && (SESSION_LENGTHS as readonly number[]).includes(n);
 }
 
+function finiteNumber(value: unknown): number | null {
+  return typeof value === 'number' && Number.isFinite(value) ? value : null;
+}
+
+/**
+ * Turns one raw stored value into a safe LeaderboardEntry, or null if it can't be trusted.
+ * Stored data can be corrupt (manual edits, old versions, partial writes), and a single bad
+ * entry must never be able to crash a render.
+ */
+export function sanitizeEntry(raw: unknown, length: SessionLength): LeaderboardEntry | null {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return null;
+  const e = raw as Record<string, unknown>;
+  if (e.completed === false) return null;
+
+  const score = finiteNumber(e.score);
+  const accuracy = finiteNumber(e.accuracy);
+  const bestStreak = finiteNumber(e.bestStreak);
+  const timestamp = finiteNumber(e.timestamp);
+  if (score === null || accuracy === null || bestStreak === null || timestamp === null) return null;
+
+  const difficulty =
+    typeof e.difficulty === 'string' && (e.difficulty === 'mixed' || (DIFFICULTIES as string[]).includes(e.difficulty))
+      ? (e.difficulty as SessionMode)
+      : 'mixed';
+  const name = typeof e.name === 'string' && e.name.length > 0 ? e.name : 'Anonymous';
+
+  const entry: LeaderboardEntry = { name, difficulty, score, accuracy, bestStreak, timestamp, roundsTarget: length };
+  const calibration = finiteNumber(e.calibration);
+  const tellAccuracy = finiteNumber(e.tellAccuracy);
+  const conceptsMastered = finiteNumber(e.conceptsMastered);
+  if (calibration !== null) entry.calibration = calibration;
+  if (tellAccuracy !== null) entry.tellAccuracy = tellAccuracy;
+  if (conceptsMastered !== null) entry.conceptsMastered = conceptsMastered;
+  if (e.completed === true) entry.completed = true;
+  return entry;
+}
+
 function loadStore(): LeaderboardStore {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -136,7 +173,9 @@ function loadStore(): LeaderboardStore {
       for (const length of SESSION_LENGTHS) {
         const bucket = (parsed as Record<string, unknown>)[String(length)];
         if (Array.isArray(bucket)) {
-          store[length] = bucket.filter((e: LeaderboardEntry) => Boolean(e && e.completed !== false));
+          store[length] = bucket
+            .map((e: unknown) => sanitizeEntry(e, length))
+            .filter((e): e is LeaderboardEntry => e !== null);
         }
       }
     }

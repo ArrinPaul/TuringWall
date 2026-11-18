@@ -20,18 +20,42 @@ function defaultMastery(concept: string): ConceptMastery {
   };
 }
 
+const VALID_TIERS: readonly MasteryTier[] = ['new', 'practicing', 'familiar', 'shaky', 'mastered'];
+
+function count(value: unknown): number {
+  return typeof value === 'number' && Number.isFinite(value) && value >= 0 ? Math.floor(value) : 0;
+}
+
+function timestampOrNull(value: unknown): number | null {
+  return typeof value === 'number' && Number.isFinite(value) ? value : null;
+}
+
+/** Rebuilds one concept's record from untrusted stored data; bad fields fall back to defaults. */
+function sanitizeMastery(concept: string, raw: unknown): ConceptMastery {
+  if (!raw || typeof raw !== 'object' || Array.isArray(raw)) return defaultMastery(concept);
+  const r = raw as Record<string, unknown>;
+  return {
+    concept,
+    tier: VALID_TIERS.includes(r.tier as MasteryTier) ? (r.tier as MasteryTier) : 'new',
+    correctCount: count(r.correctCount),
+    incorrectCount: count(r.incorrectCount),
+    tellIdentifiedCount: count(r.tellIdentifiedCount),
+    lastPracticed: timestampOrNull(r.lastPracticed),
+    nextReview: timestampOrNull(r.nextReview),
+    consecutiveCorrect: count(r.consecutiveCorrect),
+  };
+}
+
 export function loadMastery(): MasteryMap {
   try {
     const raw = localStorage.getItem(MASTERY_STORAGE_KEY);
     const map: MasteryMap = {};
-    const existing = raw ? JSON.parse(raw) : {};
+    const parsed: unknown = raw ? JSON.parse(raw) : {};
+    const existing: Record<string, unknown> =
+      parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? (parsed as Record<string, unknown>) : {};
 
     for (const concept of allConcepts()) {
-      if (existing && existing[concept]) {
-        map[concept] = { ...defaultMastery(concept), ...existing[concept] };
-      } else {
-        map[concept] = defaultMastery(concept);
-      }
+      map[concept] = sanitizeMastery(concept, existing[concept]);
     }
     return map;
   } catch {
