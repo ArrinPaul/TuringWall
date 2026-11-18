@@ -3,6 +3,7 @@ import { AnimatePresence, MotionConfig } from 'framer-motion';
 import confetti from 'canvas-confetti';
 import { useGameStore } from './store/gameStore';
 import { useIdleReturn } from './hooks/idle';
+import { isKioskMode } from './hooks/kiosk';
 import { useFullscreen } from './hooks/fullscreen';
 import { playTone, isSoundMuted, toggleSoundMuted, setSoundMuted } from './audio/tone';
 import { loadPreferences, updatePreferences, type UserPreferences } from './prefs/prefs';
@@ -128,8 +129,10 @@ export const App: React.FC<AppProps> = ({ store = useGameStore }) => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [toggleFullscreen]);
 
-  // Kiosk auto-reset: Return to attract screen on 45s of user inactivity
-  useIdleReturn(screen !== 'attract', () => {
+  // Kiosk auto-reset (opt-in via ?kiosk=1): return to attract after 45s of inactivity.
+  // Off for normal visitors so reading an explanation never costs them their session.
+  const [kiosk] = useState(() => isKioskMode());
+  useIdleReturn(kiosk && screen !== 'attract', () => {
     returnToAttract();
   });
 

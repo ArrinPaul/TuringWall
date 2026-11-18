@@ -110,7 +110,7 @@ describe('App', () => {
     render(<App store={createGameStore(fixtureItems, () => 0)} />);
     fireEvent.click(screen.getByTestId('attract-root'));
     fireEvent.click(screen.getByText(/Continue/i));
-    const weakBtn = screen.getByText(/Practice Weak Tells \(Personalized Deck\)/i);
+    const weakBtn = screen.getByText(/Practice weak tells/i);
     fireEvent.click(weakBtn);
     expect(screen.getByTestId('playing-root')).toBeInTheDocument();
   });
@@ -137,9 +137,29 @@ describe('App', () => {
     expect(screen.getByText(/image unavailable/i)).toBeInTheDocument();
   });
 
-  describe('idle timeout', () => {
-    beforeEach(() => vi.useFakeTimers());
-    afterEach(() => vi.useRealTimers());
+  describe('idle timeout (kiosk mode only)', () => {
+    beforeEach(() => {
+      sessionStorage.clear();
+      window.history.pushState(null, '', '/?kiosk=1');
+      vi.useFakeTimers();
+    });
+    afterEach(() => {
+      vi.useRealTimers();
+      sessionStorage.clear();
+      window.history.pushState(null, '', '/');
+    });
+
+    it('does NOT reset a normal (non-kiosk) visitor, however long they read', () => {
+      sessionStorage.clear();
+      window.history.pushState(null, '', '/');
+      render(<App store={createGameStore(fixtureItems, () => 0)} />);
+      startEasyRound();
+      act(() => {
+        vi.advanceTimersByTime(10 * 60 * 1000);
+      });
+      expect(screen.queryByText(/real or ai/i)).not.toBeInTheDocument();
+      expect(screen.getByText('Human')).toBeInTheDocument();
+    });
 
     it('returns to attract after 45s of no interaction', () => {
       render(<App store={createGameStore(fixtureItems, () => 0)} />);
