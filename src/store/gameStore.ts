@@ -194,6 +194,10 @@ export function createGameStore(
     if (typeof itemsProvider === 'function') {
       loadingPromise = itemsProvider().then(
         (loaded) => {
+          // A chunk that "loads" without usable data is a failure too, never a silent success.
+          if (!Array.isArray(loaded) || loaded.length === 0) {
+            throw new Error('Question bank loaded empty');
+          }
           cachedItems = loaded;
           loadingPromise = null;
           return loaded;
@@ -294,13 +298,12 @@ export function createGameStore(
       } else {
         const returnScreen: Screen = state.screen === 'loading' ? 'attract' : state.screen;
         set({ screen: 'loading', loadError: false });
-        ensureItems().then(
-          (loaded) => {
+        ensureItems()
+          .then((loaded) => {
             set({ loadError: false });
             setupDeckAndPlay(loaded);
-          },
-          () => set({ screen: returnScreen, loadError: true })
-        );
+          })
+          .catch(() => set({ screen: returnScreen, loadError: true }));
       }
     },
 
@@ -342,13 +345,12 @@ export function createGameStore(
       } else {
         const returnScreen: Screen = state.screen === 'loading' ? 'attract' : state.screen;
         set({ screen: 'loading', loadError: false });
-        ensureItems().then(
-          (loaded) => {
+        ensureItems()
+          .then((loaded) => {
             set({ loadError: false });
             setupPracticeAndPlay(loaded);
-          },
-          () => set({ screen: returnScreen, loadError: true })
-        );
+          })
+          .catch(() => set({ screen: returnScreen, loadError: true }));
       }
     },
 

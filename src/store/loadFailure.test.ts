@@ -64,4 +64,23 @@ describe('question bank load failure', () => {
     await tick();
     expect(unhandled).toHaveLength(0);
   });
+
+  it('treats a loader that resolves to nothing as a failure, not a hang', async () => {
+    const store = createGameStore((() => Promise.resolve(undefined)) as never, () => 0);
+    store.getState().goToSelect();
+    store.getState().startRound('easy');
+    await tick();
+    expect(store.getState().screen).toBe('select');
+    expect(store.getState().loadError).toBe(true);
+    expect(unhandled).toHaveLength(0);
+  });
+
+  it('treats an empty question bank as a failure', async () => {
+    const store = createGameStore(() => Promise.resolve([]), () => 0);
+    store.getState().goToSelect();
+    store.getState().startRound('easy');
+    await tick();
+    expect(store.getState().screen).toBe('select');
+    expect(store.getState().loadError).toBe(true);
+  });
 });
