@@ -1,5 +1,7 @@
 # TuringWall — Implementation Plan
 
+> **Status (2026-11-18): superseded** by `docs/AGENT_BRIEF.md`, and now largely complete. Remaining work is tracked in `docs/QA_FINDINGS.md`.
+
 Status snapshot (after commit `9c84476`): 19 test files / 177 tests green, build and lint clean.
 This plan covers everything not yet done. Work top to bottom; every task is independently
 committable and reversible.

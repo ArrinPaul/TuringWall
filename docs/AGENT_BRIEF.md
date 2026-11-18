@@ -1,5 +1,7 @@
 # TuringWall — Agent Brief (self-contained)
 
+> **Status (2026-11-18): superseded.** Phases B–D and the v1.0.0 release are complete; see `docs/QA_FINDINGS.md` for the remaining manual checks. The sections below describe the project *before* that work (e.g. 54 enriched items, no CI) and are kept for history.
+
 You are an engineer joining the **TuringWall** project. This file is everything you need. Read all of
 sections 0–6 before touching code, then execute **one task** from section 8 (or the task you were assigned).
 Do not start tasks you were not assigned: other agents are working in parallel (see section 9).
