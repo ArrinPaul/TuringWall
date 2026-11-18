@@ -256,6 +256,7 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
 
   return (
     <motion.div
+      data-testid="stats-root"
       className="flex flex-col min-h-screen w-full bg-ink text-paper font-body p-4 sm:p-6 md:p-8 items-center select-none"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
