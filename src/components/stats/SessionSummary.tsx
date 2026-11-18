@@ -224,7 +224,7 @@ export const SessionSummary: React.FC<SessionSummaryProps> = ({
         {highConfidenceMisses.length > 0 && (
           <div className="mt-4 p-3 bg-bad-dim border border-bad/40 text-left">
             <span className="text-bad font-mono text-xs uppercase tracking-wider font-600 block mb-1">
-              ⚠ Calibration Review: High-Confidence Misses ({highConfidenceMisses.length})
+              Calibration review: high-confidence misses ({highConfidenceMisses.length})
             </span>
             <p className="text-xs text-muted leading-relaxed font-body mb-2">
               You answered with high confidence but were misled by ambiguous cues. Reviewing
@@ -273,7 +273,7 @@ export const SessionSummary: React.FC<SessionSummaryProps> = ({
                 onClick={() => onStartRound(nextTier)}
                 className="px-3.5 py-2 bg-signal text-ink font-mono text-xs uppercase font-600 hover:bg-signal-dim transition-colors cursor-pointer"
               >
-                Level Up: {nextTier} &rarr;
+                Try the {nextTier} tier &rarr;
               </button>
             )}
           </div>

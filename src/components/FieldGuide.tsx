@@ -9,6 +9,7 @@ import {
 } from '../character/fieldGuide';
 import { loadMastery, type MasteryMap } from '../learning/mastery';
 import type { MasteryTier } from '../learning/types';
+import { Icon } from './Icon';
 
 interface FieldGuideProps {
   onClose: () => void;
@@ -383,7 +384,7 @@ const ConceptCard: React.FC<ConceptCardProps> = ({
             <span className={`px-2 py-0.5 border uppercase ${badge.className}`}>
               {badge.label}
             </span>
-            <span className="text-muted text-sm">{expanded ? '▲' : '▼'}</span>
+            <Icon name="chevron" className={`text-muted text-base transition-transform ${expanded ? 'rotate-180' : ''}`} />
           </div>
         </div>
 

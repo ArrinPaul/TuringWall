@@ -6,6 +6,7 @@ import { getStreakLabel } from '../game/scoring';
 import { SignalAvatar } from './SignalAvatar';
 import type { SessionLength } from '../leaderboard/leaderboard';
 import type { ConfidenceLevel, PredictionChoice } from '../learning/types';
+import { Icon } from './Icon';
 
 interface PlayingScreenProps {
   item: Item;
@@ -251,7 +252,7 @@ export const PlayingScreen: React.FC<PlayingScreenProps> = ({
             className="min-h-10 text-[11px] font-mono text-muted hover:text-signal transition-colors flex items-center gap-1.5 cursor-pointer"
             aria-expanded={showClue}
           >
-            <span>{showClue ? '▲ Hide stall clue [C]' : '🔍 Need an investigative clue? [C]'}</span>
+            <span>{showClue ? 'Hide clue [C]' : 'Need a clue? [C]'}</span>
           </button>
           {showClue && (
             <motion.div
@@ -412,7 +413,7 @@ export const PlayingScreen: React.FC<PlayingScreenProps> = ({
                     >
                       <div className="flex items-center justify-between">
                         <span className="line-clamp-1">{tell}</span>
-                        {selectedTell === tell && <span className="text-signal text-[10px]">✓</span>}
+                        {selectedTell === tell && <Icon name="check" className="text-signal text-xs" />}
                       </div>
                     </button>
                   ))}

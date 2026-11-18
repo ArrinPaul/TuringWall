@@ -121,7 +121,6 @@ export const AttractScreen: React.FC<AttractScreenProps> = ({
                   }}
                   className="px-3.5 py-2 bg-panel hover:bg-panel-line border border-control-line hover:border-signal text-paper font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal"
                 >
-                  <span className="text-signal font-600">★</span>
                   <span>Today’s challenge (5 rounds)</span>
                 </button>
               )}
@@ -135,7 +134,6 @@ export const AttractScreen: React.FC<AttractScreenProps> = ({
                   }}
                   className="px-3.5 py-2 bg-panel hover:bg-panel-line border border-control-line hover:border-signal text-paper font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal"
                 >
-                  <span className="text-signal font-600">⚡</span>
                   <span>Practice weak tells</span>
                   {dueCount > 0 && (
                     <span

@@ -5,6 +5,7 @@ import type { PracticeMode } from '../learning/types';
 import { DIFFICULTY_POINTS } from '../game/scoring';
 import { ROUNDS_OPTIONS } from '../store/gameStore';
 import type { SessionLength } from '../leaderboard/leaderboard';
+import { Icon } from './Icon';
 
 interface SelectScreenProps {
   name: string;
@@ -133,7 +134,7 @@ export const SelectScreen: React.FC<SelectScreenProps> = ({
                     : 'border-control-line text-muted'
                 }`}
               >
-                {i < step ? '✓' : i + 1}
+                {i < step ? <Icon name="check" /> : i + 1}
               </span>
               <span className="hidden sm:inline">{label}</span>
             </span>
@@ -267,7 +268,7 @@ export const SelectScreen: React.FC<SelectScreenProps> = ({
                   onClick={() => onSelect('weak-tells')}
                   className="px-4 py-2.5 bg-panel border border-control-line hover:border-signal text-signal hover:text-paper font-mono text-xs uppercase tracking-wider transition-colors cursor-pointer flex items-center gap-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-signal"
                 >
-                  <span>⚡ Practice Weak Tells (Personalized Deck)</span>
+                  <span>Practice weak tells</span>
                 </button>
               </div>
 

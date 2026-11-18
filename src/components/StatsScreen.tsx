@@ -305,7 +305,7 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
                     : 'text-muted hover:text-paper'
                 }`}
               >
-                <span>🏆 Leaderboard</span>
+                <span>Leaderboard</span>
               </button>
               <button
                 type="button"
@@ -317,7 +317,7 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
                     : 'text-signal hover:text-paper hover:bg-signal/10'
                 }`}
               >
-                <span>📊 View Analysis</span>
+                <span>View analysis</span>
               </button>
             </div>
 
@@ -328,7 +328,7 @@ export const StatsScreen: React.FC<StatsScreenProps> = ({
                 className="px-3 py-2 bg-panel border border-control-line text-signal hover:text-paper hover:border-signal transition-colors font-mono text-xs uppercase tracking-wider cursor-pointer min-h-10"
                 title="Copy private, non-identifying session summary"
               >
-                {copiedShare ? '✓ Copied' : 'Share Result'}
+                {copiedShare ? 'Copied' : 'Share Result'}
               </button>
             )}
 

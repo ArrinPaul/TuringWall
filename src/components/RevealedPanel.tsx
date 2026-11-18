@@ -191,12 +191,12 @@ export const RevealedPanel: React.FC<RevealedPanelProps> = ({
             )}
             {tellIdentified && (
               <span className="text-signal bg-ink px-2 py-0.5 border border-signal/40">
-                ✓ Identified the tell (+1)
+                Identified the tell (+1)
               </span>
             )}
             {isHighConfMiss && (
               <span className="text-bad bg-ink px-2 py-0.5 border border-bad/40">
-                ⚠ High-confidence miss (calibrate uncertainty)
+                High-confidence miss: worth recalibrating
               </span>
             )}
           </div>
@@ -375,7 +375,7 @@ export const RevealedPanel: React.FC<RevealedPanelProps> = ({
             }`}
             title="Save this question to your review queue"
           >
-            {bookmarked ? '★ Saved [B]' : '☆ Save [B]'}
+            {bookmarked ? 'Saved [B]' : 'Save [B]'}
           </motion.button>
 
           {onPracticeTell && (
